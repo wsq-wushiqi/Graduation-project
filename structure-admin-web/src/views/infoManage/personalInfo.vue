@@ -280,7 +280,7 @@ export default {
   padding: 12px 0px 5px 10px;
 }
 .add-info-dialog .el-dialog__body {
-  background-color: rgb(212, 160, 141);
+  /* background-color: rgb(212, 160, 141); */
   padding-top: 10px;
   padding-bottom: 7px;
 }
