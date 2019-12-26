@@ -5,8 +5,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/saucxs/structure-admin.svg)](https://github.com/saucxs/structure-admin/network)
 [![GitHub issues](https://img.shields.io/github/issues/saucxs/structure-admin.svg)](https://github.com/saucxs/structure-admin/issues)
 
-structure-admin是一个后台管控系统的架子，技术栈：nodeJS+vue+vuex+mysql+redis，前端使用vue的element-ui的组件库，后端使用nodeJS的服务，数据库mysql，缓存使用的是redis
-，后端完全使用`nodeJS`，数据库使用`mysql`，基于`nodejs的thinkjs框架搭建的`，全栈开发。
+技术栈：nodeJS+vue+vuex+mysql+redis，前端使用vue的element-ui的组件库，后端使用nodeJS的服务，数据库mysql，缓存使用的是redis，后端完全使用`nodeJS`，数据库使用`mysql`，基于`nodejs的thinkjs框架搭建的`，全栈开发。
 支持：
 > + 1、vuex来实现状态管理
 > + 2、静态页面，引入后端服务（nodeJs）
@@ -14,9 +13,6 @@ structure-admin是一个后台管控系统的架子，技术栈：nodeJS+vue+vue
 > + 4、页面布局是上左右，左右布局使用的弹性和布局flex，左边定宽，右边计算宽度
 > + 5、左右的滚动条是相互独立的，去掉body上的滚动条
 
-如果喜欢`nodeJS`写的后端，支持大前端，支持全栈开发，请请`star`并`fork`项目。
-
-如有使用问题请留言。
 
 ### 一、技术栈
 > + ThinkJS（ Node端框架） [官方网站](https://thinkjs.org/)
@@ -33,7 +29,7 @@ structure-admin是一个后台管控系统的架子，技术栈：nodeJS+vue+vue
 
 
 ### 四、本地运行程序
-1、首先你的环境是nodejs，不会安装配置参考：[nodejs环境配置](http://www.mwcxs.top/page/420.html)
+1、首先你的环境是nodejs
 
 2、clone下来项目
 ````
@@ -47,7 +43,7 @@ npm install
 
 参考：[安装window下的redis，redis可视化管理工具（Redis Desktop Manager）安装，基础使用，实例化项目](http://www.mwcxs.top/page/421.html)
 
-5、安装mysql，这个就不赘述
+5、安装mysql
 
 6、修改nodejs的后端的配置文件adapter.js，config.js这两个文件中
 
@@ -63,7 +59,7 @@ exports.cache = {
         handle: redisCache,
         host: '127.0.0.1',
         port: 6379,
-        password: 'a123456'  //redis安装时候设置的秘密
+        password: 'root'  //redis安装时候设置的密码
     }
 };
 //
@@ -83,7 +79,7 @@ exports.model = {
     host: '127.0.0.1',   //本地数据库
     port: '3306',　　　　　//数据库端口
     user: 'root',    //数据库的用户名
-    password: '123456',    //数据库该用户名的密码
+    password: 'root',    //数据库该用户名的密码
     dateStrings: true
   }
 };
