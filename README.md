@@ -98,6 +98,11 @@ npm run dev
 npm start
  ````
 
+(3)到redis路径运行命令
+````
+redis-server redis.windows.conf
+````
+
 ### 说明
 + 周报系统是基于structure-admin后台管理框架下搭建，周报系统演示地址为：[系统网站平台](http://weekly.mwcxs.top)
 + 周报系统源码地址：[周报系统源码地址](https://github.com/saucxs/weekly)
