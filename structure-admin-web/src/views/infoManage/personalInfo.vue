@@ -43,7 +43,7 @@
           <span class="add-info-span">{{ name }}：</span>
           <el-input v-model="addInfoForm.name" class="add-info-item"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="dlgTitle === '录入信息'">
           <span class="add-info-span">用户名：</span>
           <el-input v-model="addInfoForm.username" class="add-info-item"></el-input>
         </el-form-item>
@@ -276,17 +276,17 @@ export default {
   /* color: aliceblue; */
 }
 .add-info-dialog .el-dialog__header {
-  background-color: coral;
+  /* background-color: coral; */
   padding: 12px 0px 5px 10px;
 }
 .add-info-dialog .el-dialog__body {
-  background-color: rgb(212, 160, 141);
+  /* background-color: rgb(212, 160, 141); */
   padding-top: 10px;
-  padding-bottom: 7px;
+  padding-bottom: 3px;
 }
 .add-info-dialog .el-dialog__footer {
-  background-color: rgb(126, 117, 114);
-  padding-bottom: 5px;
-  padding-top: 5px;
+  /* background-color: rgb(126, 117, 114); */
+  padding-bottom: 15px;
+  padding-top: 0px;
 }
 </style>
