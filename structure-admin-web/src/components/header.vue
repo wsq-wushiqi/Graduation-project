@@ -10,8 +10,14 @@
         <el-col :span="11">
           <el-row type="flex" justify="end">
             <el-dropdown>
-              <div class="header-user-name">{{userInfo.username}}<i class="el-icon-caret-bottom el-icon--right"></i></div>
+              <div class="header-user-name">
+                <img height="30px" align="center" src="../image/头像 女孩.png" alt="头像">
+                {{userInfo.username}}<i class="el-icon-caret-bottom el-icon--right"></i>
+              </div>
               <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>
+                  <a @click="signOut()">个人中心</a>
+                </el-dropdown-item>
                 <el-dropdown-item>
                   <a @click="signOut()">退出</a>
                 </el-dropdown-item>
