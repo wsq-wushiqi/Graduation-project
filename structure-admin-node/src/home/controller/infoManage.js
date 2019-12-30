@@ -12,17 +12,24 @@ module.exports = class extends Base {
     }
   }
   async addInfoAction() {
-    let {department, name, sex, age, email, username} = this.get();
+    let i_department = this.get('department')
+    let i_name = this.get('name')
+    let i_sex = this.get('sex')
+    let i_age = this.get('age')
+    let i_email = this.get('email')
+    let u_username = this.get('username')
+    let u_role = '普通员工'
+    let u_role_id = '10'
     let id = UUID.v1()
-    // let username = name
+    let i_id = id
+    let u_id = id
     const salt = 'structure';
-    let password = think.md5(salt + '123456');
-    let result = ''
+    let u_password = think.md5(salt + '123456');
     try {
-      let data3 = await this.model('user').where({username: username}).select()
+      let data3 = await this.model('user').where({u_username: u_username}).select()
       if (think.isEmpty(data3)) {
-        let data = await this.model('info').add({ id, department, name, username, sex, age, email });
-        let data2 = await this.model('user').add({ id, username, password })
+        let data = await this.model('info').add({ i_id, i_department, i_name, u_username, i_sex, i_age, i_email });
+        let data2 = await this.model('user').add({ u_id, u_username, u_password, u_role, u_role_id })
         console.log(data, data2);
         let res = await this.model('info').select()
         return this.success(res);
@@ -37,8 +44,8 @@ module.exports = class extends Base {
   async delInfoAction() {
     let id = this.post('id');
     try {
-      let data = await this.model('info').where({id: ['=', id]}).delete()
-      let data1 = await this.model('user').where({id: ['=', id]}).delete()
+      let data = await this.model('info').where({i_id: ['=', id]}).delete()
+      let data1 = await this.model('user').where({u_id: ['=', id]}).delete()
       console.log(data, data1);
       let res = await this.model('info').select()
       return this.success(res);
@@ -55,10 +62,8 @@ module.exports = class extends Base {
     let sex = this.post('sex');
     let email = this.post('email');
     try {
-      let data = await this.model('info').where({id: id}).update({department: department, age: age, name: name, sex: sex, email: email})
-      // let data1 = await this.model('user').where({id: id}).update({username: name})
+      let data = await this.model('info').where({i_id: id}).update({i_department: department, i_age: age, i_name: name, i_sex: sex, i_email: email})
       console.log(data, 'data');
-      console.log(data1, 'data1');
       let res = await this.model('info').select()
       return this.success(res);
     } catch(e) {
@@ -69,10 +74,20 @@ module.exports = class extends Base {
   async queryInfoAction() {
     let name = this.post('name');
     let department = this.post('department');
+    console.log(name+'1');
+    console.log(department+'2');
     try {
-      // let data = await this.model('info').where({id: id}).update({department: department, name: name, age: age, sex: sex, email: email})
-      // console.log(data, 'data');
-      let res = await this.model('info').where({name: name, department: department, _logic: 'OR'}).select()
+      let sql = {}
+      if (name === '' && department === '') {
+        sql = {}
+      } else if (name !== '' && department === '') {
+        sql = { i_name : ['like','%'+ name +'%'] }
+      }  else if (name === '' && department !== '') {
+        sql = { i_department: ['like','%'+ department +'%']}
+      } else {
+        sql = { i_name: ['like','%'+ name +'%'], i_department: ['like','%'+ department +'%']}
+      }
+      let res = await this.model('info').where(sql).select()
       return this.success(res);
     } catch(e) {
       console.log(e);
