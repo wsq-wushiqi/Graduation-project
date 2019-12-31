@@ -80,3 +80,33 @@ export const resetPwd = ({ commit }, params) => {
     return response
   })
 }
+// 添加教师信息
+export const addLectureInfo = ({ commit }, params) => {
+  return Api.addLectureInfo(params).then(response => {
+    return response
+  })
+}
+// 获取教师信息列表
+export const getLectureList = ({ commit }, params) => {
+  return Api.getLectureList(params).then(response => {
+    return response
+  })
+}
+// 修改教师信息
+export const updateLectureInfo = ({ commit }, params) => {
+  return Api.updateLectureInfo(params).then(response => {
+    return response
+  })
+}
+// 删除教师信息
+export const deleteInfo = ({ commit }, params) => {
+  return Api.deleteInfo(params).then(response => {
+    return response
+  })
+}
+// 查询教师信息
+export const queryLectureInfo = ({ commit }, params) => {
+  return Api.queryLectureInfo(params).then(response => {
+    return response
+  })
+}

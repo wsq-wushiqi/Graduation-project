@@ -9,16 +9,35 @@
       <el-container>
         <el-header class="operation-header" height="45px">
           <el-button size="mini" @click="add">录入</el-button>
+          <el-button size="mini" @click="update">修改</el-button>
+          <el-button size="mini" @click="dele">删除</el-button>
         </el-header>
-        <el-main>Main
+        <el-main>
+          <el-table
+          :data="tableData"
+          border
+          highlight-current-row
+          @row-click="rowClick">
+            <el-table-column label="选择" ><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
+            <el-table-column prop="l_department" label="部门"></el-table-column>
+            <el-table-column prop="l_name" label="姓名"></el-table-column>
+            <el-table-column prop="l_sex" label="性别"></el-table-column>
+            <el-table-column prop="u_username" label="用户名"></el-table-column>
+            <el-table-column prop="l_education" label="学历"></el-table-column>
+            <el-table-column prop="l_grade" label="评分"></el-table-column>
+          </el-table>
         </el-main>
       </el-container>
     </el-container>
-    <el-dialog :visible.sync="addDlgVisible" title="录入信息" width="400px">
+    <el-dialog :visible.sync="addDlgVisible" :title="addDlgTitle" width="400px" :close-on-click-modal="false">
       <el-form :model="addForm">
         <el-form-item>
           <span class="add-form-sapn">姓名：</span>
           <el-input v-model="addForm.l_name" class="add-form-input"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <span class="add-form-sapn">用户名：</span>
+          <el-input v-model="addForm.u_username" :disabled="addDlgTitle === '修改信息'" class="add-form-input"></el-input>
         </el-form-item>
         <el-form-item>
           <span class="add-form-sapn">性别：</span>
@@ -39,13 +58,14 @@
       </el-form>
       <div slot="footer">
         <el-button @click="addDlgVisible = false">取消</el-button>
-        <el-button>确定</el-button>
+        <el-button @click="doAdd">确定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -57,19 +77,133 @@ export default {
         l_sex: '',
         l_department: '',
         l_education: '',
-        l_grade: ''
-      }
+        l_grade: '',
+        u_username: ''
+      },
+      tableData: [],
+      tableRadio: [],
+      addDlgTitle: '录入信息'
     }
   },
   mounted() {
-
+    this.getTableData()
   },
   methods: {
+    ...mapActions([
+      'addLectureInfo',
+      'getLectureList',
+      'updateLectureInfo',
+      'deleteInfo',
+      'queryLectureInfo'
+    ]),
+    // 查询
     query: function() {
-      this.$message.success('查询')
+      // this.$message.success('查询')
+      let params = {
+        name: this.queryName,
+        department: this.queryDepartment
+      }
+      this.queryLectureInfo(params).then(res => {
+        if (res.errno === 0) {
+          this.tableData = res.data
+        } else {
+          this.$message.errmsg
+        }
+      }).catch(error => { this.$message.error(error) })
     },
+    // 打开录入信息对话框
     add: function() {
       this.addDlgVisible = true
+      this.addDlgTitle = '录入信息'
+    },
+    // 录入、修改对话框确定按钮
+    doAdd: function() {
+      if (this.addDlgTitle === '录入信息') {
+        let params = {
+          name: this.addForm.l_name,
+          department: this.addForm.l_department,
+          sex: this.addForm.l_sex,
+          username: this.addForm.u_username,
+          education: this.addForm.l_education
+        }
+        this.addLectureInfo(params).then(res => {
+          if (res.errno === 0) {
+            this.$message.success('添加成功')
+            this.getTableData()
+            this.addDlgVisible = false
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      } else {
+        const row = this.tableRadio
+        let params = {
+          l_id: row.l_id,
+          l_name: this.addForm.l_name,
+          l_department: this.addForm.l_department,
+          l_sex: this.addForm.l_sex,
+          l_education: this.addForm.l_education
+        }
+        this.updateLectureInfo(params).then(res => {
+          if (res.errno === 0) {
+            this.$message.success('修改成功')
+            this.addDlgVisible = false
+            this.getTableData()
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      }
+    },
+    // 获取表格数据
+    getTableData: function() {
+      this.getLectureList().then(res => {
+        if (res.errno === 0) {
+          this.tableData = res.data
+        } else {
+          this.$message.error(res.errmsg)
+        }
+      }).catch(error => { this.$message.error(error) })
+    },
+    // 选中表格数据
+    rowClick: function(item) {
+      this.tableRadio = item
+    },
+    // 打开修改信息对话框
+    update: function() {
+      const row = this.tableRadio
+      if (row === null || row.length === 0) {
+        this.$message.warning('请选择要修改的信息')
+      } else {
+        this.addDlgVisible = true
+        this.addDlgTitle = '修改信息'
+        this.addForm = Object.assign({}, row)
+      }
+    },
+    // 删除数据
+    dele: function() {
+      const row = this.tableRadio
+      if (row === null || row.length === 0) {
+        this.$message.warning('请选择要删除的数据')
+      } else {
+        this.$confirm('从操作不可恢复，确定要删除用户'+row.l_name+'吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // this.$message.success('删除')
+          this.deleteInfo({ id: row.l_id }).then(res => {
+            if (res.errno === 0) {
+              this.$message.success(res.data)
+              this.getTableData()
+            } else {
+              this.$message.error(res.errmsg)
+            }
+          }).catch(error => { this.$message.error(error) })
+        }).catch(() => {
+          this.$message.info('已取消')
+        })
+      }
     }
   }
 }
@@ -107,5 +241,20 @@ export default {
 .add-form-input {
   width: 60%;
   margin-left: 5px;
+}
+</style>
+<style>
+/* 固定表头高度 */
+.el-table__header tr,
+.el-table__header th {
+  padding: 0px;
+  height: 40px;
+}
+.el-table__body tr.current-row>td {
+  background-color: rgb(210,226,255);
+}
+.el-table tbody tr:hover>td {
+  background-color: rgb(232,240,255)!important;
+  /* color: aliceblue; */
 }
 </style>

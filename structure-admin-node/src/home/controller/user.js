@@ -6,7 +6,6 @@ module.exports = class extends Base {
         password = think.md5(salt + password);
         // console.log(password,'323333333333333333333333333333333')
         console.log(username);
-        
         try {
             let user = await this.model('user').where({u_username: username}).find(); // 拿输入的用户名去数据库查询
             console.log(user);

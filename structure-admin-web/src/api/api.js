@@ -85,6 +85,26 @@ export default {
   // 重置密码
   resetPwd: params => {
     return axios.post('/home/userInfo/resetPwd', params)
+  },
+  // 添加教师信息
+  addLectureInfo: params => {
+    return axios.post('/home/lecture/addLectureInfo', params)
+  },
+  // 获取教师信息列表
+  getLectureList: params => {
+    return axios.get('/home/lecture/getLectureList', params)
+  },
+  // 修改教师信息
+  updateLectureInfo: params => {
+    return axios.post('/home/lecture/updateLectureInfo', params)
+  },
+  // 删除教师信息
+  deleteInfo: params => {
+    return axios.post('/home/lecture/deleteInfo', params)
+  },
+  // 查询教师信息
+  queryLectureInfo: params => {
+    return axios.post('/home/lecture/queryLectureInfo', params)
   }
 
   /**
