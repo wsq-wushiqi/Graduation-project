@@ -45,20 +45,38 @@ export const addInfo = ({ commit }, params) => {
   })
 }
 // 删除信息
-export const delInfo =({ commit }, params) => {
+export const delInfo = ({ commit }, params) => {
   return Api.delInfo(params).then(response => {
     return response
   })
 }
 // 修改信息
-export const updateInfo =({ commit }, params) => {
+export const updateInfo = ({ commit }, params) => {
   return Api.updateInfo(params).then(response => {
     return response
   })
 }
 // 查询
-export const queryInfo =({ commit }, params) => {
+export const queryInfo = ({ commit }, params) => {
   return Api.queryInfo(params).then(response => {
+    return response
+  })
+}
+// 获取个人信息
+export const myUserInfo = ({ commit }, params) => {
+  return Api.myUserInfo(params).then(response => {
+    return response
+  })
+}
+// 修改密码
+export const changePwd = ({ commit }, params) => {
+  return Api.changePwd(params).then(response => {
+    return response
+  })
+}
+// 重置密码
+export const resetPwd = ({ commit }, params) => {
+  return Api.resetPwd(params).then(response => {
     return response
   })
 }
