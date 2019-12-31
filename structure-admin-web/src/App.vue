@@ -47,4 +47,17 @@
   a:visit {
     color:darkslategray;
   }
+  /* 固定表头高度 */
+  .el-table__header tr,
+  .el-table__header th {
+    padding: 0px;
+    height: 40px;
+  }
+  .el-table__body tr.current-row>td {
+    background-color: rgb(210,226,255);
+  }
+  .el-table tbody tr:hover>td {
+    background-color: rgb(232,240,255)!important;
+    /* color: aliceblue; */
+  }
 </style>
