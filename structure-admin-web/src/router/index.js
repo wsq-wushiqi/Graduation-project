@@ -36,12 +36,40 @@ export default new Router({
         },
         component: () => import("@/views/weeklyList/index")
       }, {
-        path: '/personalInfo',
-        name: 'personalInfo',
+        path: '/staffInfo',
+        name: 'staffInfo',
         meta: {
           key: '1-3'
         },
-        component: () => import("@/views/infoManage/personalInfo")
+        component: () => import("@/views/infoManage/staffInfo")
+      }, {
+        path: '/profile',
+        name: 'profile',
+        meta: {
+          key: '1-4'
+        },
+        component: () => import("@/views/infoManage/profile")
+      }, {
+        path: '/courseApplication',
+        name: 'courseApplication',
+        meta: {
+          key: '2-1'
+        },
+        component: () => import('@/views/trainManage/courseApplication')
+      }, {
+        path: '/userInfo',
+        name: 'userInfo',
+        meta: {
+          key: '2-2'
+        },
+        component: () => import('@/views/infoManage/userInfo')
+      }, {
+        path: '/lectureInfo',
+        name: 'lectureInfo',
+        meta: {
+          key: '2-3'
+        },
+        component: () => import('@/views/infoManage/lectureInfo')
       }]
     }
   ]
