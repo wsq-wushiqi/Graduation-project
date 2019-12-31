@@ -8,25 +8,68 @@
       text-color="rgb(28,41,89)"
       router = router
       active-text-color="rgb(28,41,89)">
-      <el-menu-item index="/writeWeekly">
+      <!-- <el-menu-item index="/writeWeekly">
         <i class="el-icon-menu"></i>
         <span slot="title">模块1</span>
-      </el-menu-item>
-        <el-menu-item index="/weeklyList">
-          <i class="el-icon-location"></i>
-          <span slot="title">模块2</span>
+      </el-menu-item> -->
+      <el-submenu index="0">
+        <template slot="title">
+          <i class="el-icon-edit"></i>
+          <span slot="title">培训管理</span>
+        </template>
+        <el-menu-item index="/courseApplication">
+          <i class="el-icon-edit"></i>
+          <span slot="title">课程申请</span>
         </el-menu-item>
-        <el-submenu index='1'>
-          <template slot="title">
-            <i class="el-icon-edit"></i>
-            <span slot="title">信息管理</span>
-          </template>
-          <el-menu-item index="/personalInfo">
-            <i class="el-icon-edit"></i>
-            <span slot="title">个人信息管理</span>
-          </el-menu-item>
-        </el-submenu>
-       
+        <el-menu-item index="01">
+          <i class="el-icon-edit"></i>
+          <span slot="title">课程审批</span>
+        </el-menu-item>
+        <el-menu-item index="02">
+          <i class="el-icon-edit"></i>
+          <span slot="title">制定培训计划</span>
+        </el-menu-item>
+        <el-menu-item index="03">
+          <i class="el-icon-edit"></i>
+          <span slot="title">个人培训计划</span>
+        </el-menu-item>
+      </el-submenu>
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-edit"></i>
+          <span slot="title">评教管理</span>
+        </template>
+        <el-menu-item index="11">
+          <i class="el-icon-edit"></i>
+          <span slot="title">学生评教</span>
+        </el-menu-item>
+        <el-menu-item index="12">
+          <i class="el-icon-edit"></i>
+          <span slot="title">评教查看</span>
+        </el-menu-item>
+        <el-menu-item index="13">
+          <i class="el-icon-edit"></i>
+          <span slot="title">考核管理</span>
+        </el-menu-item>
+      </el-submenu>
+      <el-submenu index='2'>
+        <template slot="title">
+          <i class="el-icon-edit"></i>
+          <span slot="title">信息管理</span>
+        </template>
+        <el-menu-item index="/userInfo">
+          <i class="el-icon-location"></i>
+          <span slot="title">个人资料</span>
+        </el-menu-item>
+        <el-menu-item index="/staffInfo">
+          <i class="el-icon-location"></i>
+          <span slot="title">用户信息管理</span>
+        </el-menu-item>
+        <el-menu-item index="/lectureInfo">
+          <i class="el-icon-edit"></i>
+          <span slot="title">教师信息管理</span>
+        </el-menu-item>
+      </el-submenu>
       <!--<el-submenu index="/aManage">-->
         <!--<template slot="title">-->
           <!--<i class="el-icon-location"></i>-->
@@ -75,28 +118,27 @@
     & .el-menu{
       width: 100%;
       border-right: none;
-      overflow: auto;
+      /* overflow: auto; */
     }
     & :hover {
     }
-
-
+    
   }
   
 </style>
 <style>
 .el-menu-item:hover{
-    outline: 0 !important;
-    /* color: #409EFF !important; */
-    background-color: rgb(232,240,255)!important;
+  outline: 0 !important;
+  /* color: #409EFF !important; */
+  background-color: rgb(232,240,255)!important;
 }
 .el-menu-item.is-active {
-    /* color: #fff !important; */
-    background: rgb(210,226,255) !important;
+  /* color: #fff !important; */
+  background: rgb(210,226,255) !important;
 }
 .el-submenu__title:focus, .el-submenu__title:hover{
-    outline: 0 !important;
-    /* color: #409EFF !important; */
-    background: none !important;
+  outline: 0 !important;
+  /* color: #409EFF !important; */
+  background: none !important;
 }
 </style>
