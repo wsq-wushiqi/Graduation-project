@@ -23,8 +23,7 @@ module.exports = class extends Base {
     let id = UUID.v1()
     let i_id = id
     let u_id = id
-    const salt = 'structure';
-    let u_password = think.md5(salt + '123456');
+    let u_password = think.md5('structure' + '123456');
     try {
       let data3 = await this.model('user').where({u_username: u_username}).select()
       if (think.isEmpty(data3)) {
