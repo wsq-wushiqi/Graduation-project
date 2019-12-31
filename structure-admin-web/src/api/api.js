@@ -73,6 +73,18 @@ export default {
   // 查询
   queryInfo: params => {
     return axios.post('/home/infoManage/queryInfo', params);
+  },
+  // 获取个人信息
+  myUserInfo: params => {
+    return axios.post('/home/userInfo/getUserInfo', params)
+  },
+  // 修改密码
+  changePwd: params => {
+    return axios.post('/home/userInfo/changePwd', params)
+  },
+  // 重置密码
+  resetPwd: params => {
+    return axios.post('/home/userInfo/resetPwd', params)
   }
 
   /**
