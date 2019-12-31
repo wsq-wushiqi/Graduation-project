@@ -8,10 +8,6 @@
       text-color="rgb(28,41,89)"
       router = router
       active-text-color="rgb(28,41,89)">
-      <!-- <el-menu-item index="/writeWeekly">
-        <i class="el-icon-menu"></i>
-        <span slot="title">模块1</span>
-      </el-menu-item> -->
       <el-submenu index="0">
         <template slot="title">
           <i class="el-icon-edit"></i>
@@ -66,20 +62,10 @@
           <span slot="title">用户信息管理</span>
         </el-menu-item>
         <el-menu-item index="/lectureInfo">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-location"></i>
           <span slot="title">教师信息管理</span>
         </el-menu-item>
       </el-submenu>
-      <!--<el-submenu index="/aManage">-->
-        <!--<template slot="title">-->
-          <!--<i class="el-icon-location"></i>-->
-          <!--<span slot="title">模块管理一</span>-->
-        <!--</template>-->
-        <!--<el-menu-item index="/aManage">-->
-          <!--<template slot="title">XXX管理</template>-->
-        <!--</el-menu-item>-->
-      <!--</el-submenu>-->
-    <!-- </el-menu> -->
     </el-menu>
   </div>
 </template>
@@ -103,7 +89,6 @@
       },
       labelChange: function() {
         console.log(this.label);
-        
       }
     }
   };
