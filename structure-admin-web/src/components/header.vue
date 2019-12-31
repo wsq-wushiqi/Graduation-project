@@ -12,14 +12,14 @@
             <el-dropdown>
               <div class="header-user-name">
                 <img height="30px" align="center" src="../image/头像 女孩.png" alt="头像">
-                {{userInfo.username}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                {{userInfo.u_username}}<i class="el-icon-caret-bottom el-icon--right"></i>
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                  <a @click="signOut()">个人中心</a>
+                  <router-link to="/profile">个人中心</router-link>
                 </el-dropdown-item>
-                <el-dropdown-item>
-                  <a @click="signOut()">退出</a>
+                <el-dropdown-item divided>
+                  <span style="display:block" @click="signOut()">退出登录</span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
