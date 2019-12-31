@@ -105,8 +105,19 @@ export default {
   // 查询教师信息
   queryLectureInfo: params => {
     return axios.post('/home/lecture/queryLectureInfo', params)
+  },
+  // 申请课程
+  applyCourse: params => {
+    return axios.post('/home/course/applyCourse', params)
+  },
+  // 获取课程列表
+  getCourseList: params => {
+    return axios.get('/home/course/getCourseList', params)
+  },
+  // 修改课程申请
+  updateCourse: params => {
+    return axios.post('/home/course/updateCourse', params)
   }
-
   /**
    * API demo
    *

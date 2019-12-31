@@ -110,3 +110,21 @@ export const queryLectureInfo = ({ commit }, params) => {
     return response
   })
 }
+// 申请课程
+export const applyCourse = ({ commit }, params) => {
+  return Api.applyCourse(params).then(response => {
+    return response
+  })
+}
+// 获取课程列表
+export const getCourseList = ({ commit }, params) => {
+  return Api.getCourseList(params).then(response => {
+    return response
+  })
+}
+// 修改课程申请
+export const updateCourse = ({ commit }, params) => {
+  return Api.updateCourse(params).then(response => {
+    return response
+  })
+}
