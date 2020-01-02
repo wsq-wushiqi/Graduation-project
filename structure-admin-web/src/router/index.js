@@ -70,6 +70,13 @@ export default new Router({
           key: '2-3'
         },
         component: () => import('@/views/infoManage/lectureInfo')
+      }, {
+        path:'/courseArrange',
+        name: 'courseArrange',
+        meta: {
+          key: '2-4'
+        },
+        component: () => import('@/views/trainManage/courseArrange')
       }]
     }
   ]

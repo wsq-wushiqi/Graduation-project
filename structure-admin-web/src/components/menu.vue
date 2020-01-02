@@ -17,13 +17,13 @@
           <i class="el-icon-edit"></i>
           <span slot="title">课程申请</span>
         </el-menu-item>
-        <el-menu-item index="01">
+        <el-menu-item index="/courseArrange">
           <i class="el-icon-edit"></i>
-          <span slot="title">课程审批</span>
+          <span slot="title">课程安排</span>
         </el-menu-item>
         <el-menu-item index="02">
           <i class="el-icon-edit"></i>
-          <span slot="title">制定培训计划</span>
+          <span slot="title">培训申请</span>
         </el-menu-item>
         <el-menu-item index="03">
           <i class="el-icon-edit"></i>
