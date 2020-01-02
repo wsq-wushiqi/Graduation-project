@@ -2,16 +2,18 @@
   <div>
     <el-container>
       <el-header class="query-header" height="45px">
-        <span>审核状态</span>
+        <span>审核状态：</span>
         <el-select v-model="auditStatus" size="small" class="query-select">
           <el-option v-for="(item, key) in auditStatusList" :key="key" :label="item.label" :value="item.value" />
         </el-select>
+        <el-button size="mini" @click="query">查询</el-button>
       </el-header>
       <el-container>
         <el-header class="operation-header" height="45px">
           <el-button size="mini" @click="apply">申请</el-button>
           <el-button size="mini" @click="update">修改</el-button>
           <el-button size="mini" @click="cancel">撤销</el-button>
+          <el-button size="mini" @click="examineDlg">审核</el-button>
         </el-header>
         <el-main>
           <el-table
@@ -26,7 +28,7 @@
             <el-table-column prop="c_hour" label="课时"></el-table-column>
             <el-table-column prop="l_name" label="申请人"></el-table-column>
             <el-table-column prop="c_status" label="审核状态" :formatter="statusFormatter"></el-table-column>
-            <el-table-column prop="c_option" label="审核意见"></el-table-column>
+            <el-table-column prop="c_opinion" label="审核意见"></el-table-column>
           </el-table>
         </el-main>
       </el-container>
@@ -49,6 +51,37 @@
       <div slot="footer">
         <el-button @click="applyDlgVisible = false">取消</el-button>
         <el-button @click="doApply">确定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog :visible.sync="examineVisible" title="课程审核" class="examine-dialog" width="400px">
+      <span class="examine-name">{{ courseName }}</span>
+      <el-form :model="examineForm">
+        <el-form-item class="examine-form-item">
+          <span class="examine-span">开课部门：</span><span>{{ examineForm.c_department}}</span>
+        </el-form-item>
+        <el-form-item class="examine-form-item">
+          <span class="examine-span">课程类别：</span><span>{{ examineForm.c_category}}</span>
+        </el-form-item>
+        <el-form-item class="examine-form-item">
+          <span class="examine-span">课时：</span><span>{{ examineForm.c_hour}}</span>
+        </el-form-item>
+        <el-form-item class="examine-form-item">
+          <span class="examine-span">申请人：</span><span>{{ examineForm.l_name}}</span>
+        </el-form-item>
+        <el-form-item class="examine-form-item">
+          <span class="examine-span">审核：</span>
+          <el-select v-model="examineForm.auditStatus">
+            <el-option v-for="(item, key) in auditStatusList" :key="key" :value="item.value" :label="item.label"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="examine-form-item">
+          <span class="examine-span">审核意见：</span>
+          <textarea v-model="examineForm.opinion" rows="5" class="examine-textarea"></textarea>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="examineVisible = false">取消</el-button>
+        <el-button @click="doExamine">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -79,10 +112,20 @@ export default {
         c_department: '',
       },
       formRule: {
-
+        
       },
       tableData: [],
-      tableRadio: []
+      tableRadio: [],
+      examineVisible: false,
+      courseName: '',
+      examineForm: {
+        c_category: '',
+        c_hour: 0.00,
+        c_department: '',
+        l_name: '',
+        auditStatus: '',
+        opinion: ''
+      }
     }
   },
   mounted() {
@@ -97,7 +140,9 @@ export default {
     ...mapActions([
       'applyCourse',
       'getCourseList',
-      'updateCourse'
+      'updateCourse',
+      'cancelApply',
+      'examine'
     ]),
     apply: function() {
       this.applyDlgVisible = true
@@ -190,35 +235,84 @@ export default {
       } else {
         if (row.u_username !== this.userInfo.u_username) {
           this.$message.error('非此课程的申请人，不可撤销！')
+        } else if (row.c_status === '2') {
+          this.$message.error('审核通过的课程不可撤销')
         } else {
           this.$confirm('此操作不可恢复，是否确定撤销课程'+ row.c_name +'申请？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.$message.success('撤销')
+            // this.$message.success('撤销')
+            this.cancelApply({id: row.c_id}).then(res => {
+              if (res.errno === 0) {
+                this.$message.success('课程' + row.c_name + '已成功撤销申请')
+                this.getTableData()
+              }
+            })
           }).catch(() => {
             this.$message.info('已取消')
           })
         }
       }
+    },
+    query: function() {
+      this.$message.success('查询')
+    },
+    examineDlg: function() {
+      const row = this.tableRadio
+      if (row === null || row.length === 0) {
+        this.$message.warning('请选择要审核和课程')
+      } else {
+        this.examineVisible = true
+        this.courseName = row.c_name
+        this.examineForm = Object.assign({}, row)
+      }
+      
+    },
+    doExamine: function() {
+      const row = this.tableRadio
+      console.log(this.examineForm.opinion);
+      
+      if (this.examineForm.auditStatus === undefined || this.examineForm.auditStatus === '' || this.examineForm.auditStatus === '1') {
+        this.$message.error('审核状态不正确')
+      } else if (this.examineForm.auditStatus === '3' && (this.examineForm.opinion === '' || this.examineForm.opinion === undefined)) {
+        this.$message.error('请输入不通过的审核意见')
+      } else {
+        // this.$message.success('通过')
+        console.log(this.examineForm.auditStatus);
+        
+        let params = {
+          id: row.c_id,
+          status: this.examineForm.auditStatus,
+          opinion: this.examineForm.opinion
+        }
+        this.examine(params).then(res => {
+          if (res.errno === 0) {
+            this.$message.success('审核成功')
+            this.examineVisible = false
+            this.getTableData()
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      }
+      // this.$message.success('审核')
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .query-header {
-  /* background-color: cadetblue; */
   line-height: 45px;
+  /* background-color: blueviolet; */
 }
 .operation-header {
   line-height: 45px;
   border-bottom: 1px solid rgb(210,226,255);
-  /* background-color: steelblue; */
 }
 .apply-form-span {
-  /* background-color: thistle; */
   display: inline-block;
   width: 20%;
   text-align: right;
@@ -226,5 +320,46 @@ export default {
 .apply-form-input {
   width: 60%;
   margin-left: 5px;
+}
+.examine-name {
+  /* background-color: thistle; */
+  margin-right: 50px;
+  /* padding-right: 50px; */
+  display: inline-block;
+  width: 300px;
+  font-size: 25px;
+  text-align: center;
+}
+.examine-span {
+  /* background-color: tan; */
+  display: inline-block;
+  width: 100px;
+  /* text-align: right; */
+  /* margin-right: 5px; */
+  /* margin-top: 0px; */
+  /* margin-bottom: 1px; */
+}
+.examine-textarea {
+  vertical-align: top;
+  border: 1px solid rgb(220,223,230);
+  border-radius: 4px;
+  width: 210px;
+  color: rgb(107, 109, 110);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  padding: 3px;
+}
+.examine-form-item {
+  /* background-color: tomato; */
+  margin-bottom: 5px;
+}
+</style>
+<style>
+.examine-dialog .el-dialog__header {
+  /* background-color: rgb(139, 180, 85); */
+  padding-bottom: 2px;
+}
+.examine-dialog .el-dialog__body {
+  /* background-color: rgb(85, 118, 180); */
+  padding: 0px 0px 0px 50px;
 }
 </style>

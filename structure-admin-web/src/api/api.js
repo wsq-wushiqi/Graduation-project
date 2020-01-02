@@ -117,6 +117,14 @@ export default {
   // 修改课程申请
   updateCourse: params => {
     return axios.post('/home/course/updateCourse', params)
+  },
+  // 撤销申请
+  cancelApply: params => {
+    return axios.post('/home/course/cancelApply', params)
+  },
+  // 课程审核
+  examine: params => {
+    return axios.post('/home/course/examine', params)
   }
   /**
    * API demo

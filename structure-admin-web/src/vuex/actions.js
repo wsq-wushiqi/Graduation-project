@@ -128,3 +128,15 @@ export const updateCourse = ({ commit }, params) => {
     return response
   })
 }
+// 撤销申请
+export const cancelApply = ({ commit }, params) => {
+  return Api.cancelApply(params).then(response => {
+    return response
+  })
+}
+// 课程审核
+export const examine = ({ commit }, params) => {
+  return Api.examine(params).then(response => {
+    return response
+  })
+}

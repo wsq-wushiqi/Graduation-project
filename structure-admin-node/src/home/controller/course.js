@@ -9,10 +9,11 @@ module.exports = class extends Base {
     let c_department = this.post('department')
     let c_id = UUID.v1()
     let c_status = '1'
+    // let c_opinion = '无'
     try {
       let name = await this.model('lecture').where({ u_username: this.user.u_username}).find()
       let l_name = name.l_name
-      let apply = await this.model('course').add({ c_id, c_name, c_category, c_hour, c_department, c_status, l_name})
+      let apply = await this.model('course').add({ c_id, c_name, c_category, c_hour, c_department, c_status, l_name, c_opinion})
       return this.success(apply)
     }
     catch(e) {
@@ -36,8 +37,10 @@ module.exports = class extends Base {
     let c_category = this.post('category')
     let c_hour = this.post('hour')
     let c_department = this.post('department')
+    let c_status = '1'
+    let c_opinion = '*重新申请'
     try {
-      let res = await this.model('course').where({ c_id }).update({ c_name, c_category, c_department, c_hour })
+      let res = await this.model('course').where({ c_id }).update({ c_name, c_category, c_department, c_hour, c_status, c_opinion })
       return this.success(res)
     }
     catch(e) {
@@ -48,11 +51,25 @@ module.exports = class extends Base {
   async cancelApplyAction() {
     let id = this.post('id')
     try {
-
+      let result = await this.model('course').where({c_id: id}).delete();
+      return this.success(result)
     }
     catch(e) {
       console.log(e);
-      
+      return this.fail('撤销失败')
+    }
+  }
+  async examineAction() {
+    let id = this.post('id')
+    let c_status = this.post('status')
+    let c_opinion = this.post('opinion')
+    try {
+      let result = await this.model('course').where({c_id: id}).update({c_status: c_status, c_opinion: c_opinion})
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('审核失败')
     }
   }
 }
