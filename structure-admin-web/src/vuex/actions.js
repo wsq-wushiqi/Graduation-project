@@ -140,3 +140,51 @@ export const examine = ({ commit }, params) => {
     return response
   })
 }
+// 获取课程安排表
+export const getArrangeList = ({ commit }, params) => {
+  return Api.getArrangeList(params).then(response => {
+    return response
+  })
+}
+// 添加课程详情
+export const addDetail = ({ commit }, params) => {
+  return Api.addDetail(params).then(response => {
+    return response
+  })
+}
+// 修改课程详情
+export const updateDetail = ({ commit }, params) => {
+  return Api.updateDetail(params).then(response => {
+    return response
+  })
+}
+// 添加参与人员
+export const addStu = ({ commit }, params) => {
+  return Api.addStu(params).then(response => {
+    return response
+  })
+}
+// 添加部门
+export const addDepartment = ({ commit }, params) => {
+  return Api.addDepartment(params).then(response => {
+    return response
+  })
+}
+// 获取部门列表
+export const getDepartmentList = ({ commit }, params) => {
+  return Api.getDepartmentList(params).then(response => {
+    return response
+  })
+}
+// 获取部门内的员工
+export const getStuList = ({ commit }, params) => {
+  return Api.getStuList(params).then(response => {
+    return response
+  })
+}
+// 获取参加培训的人员信息
+export const getStuInfo = ({ commit }, params) => {
+  return Api.getStuInfo(params).then(response => {
+    return response
+  })
+}

@@ -125,6 +125,38 @@ export default {
   // 课程审核
   examine: params => {
     return axios.post('/home/course/examine', params)
+  },
+  // 获取课程安排表
+  getArrangeList: params => {
+    return axios.get('/home/arrange/getArrangeList', params)
+  },
+  // 添加课程详情
+  addDetail: params => {
+    return axios.post('/home/arrange/addDetail', params)
+  },
+  // 修改课程详情
+  updateDetail: params => {
+    return axios.post('/home/arrange/updateDetail', params)
+  },
+  // 添加参与人员
+  addStu: params => {
+    return axios.post('/home/arrange/addStu', params)
+  },
+  // 添加部门
+  addDepartment: params => {
+    return axios.post('/home/department/addDepartment', params)
+  },
+  // 获取部门列表
+  getDepartmentList: params => {
+    return axios.get('/home/department/getDepartmentList', params)
+  },
+  // 获取部门内的员工
+  getStuList: params => {
+    return axios.post('/home/department/getStuList', params)
+  },
+  // 获取参加课程人员的详细信息
+  getStuInfo: params => {
+    return axios.post('/home/arrange/getStuInfo', params)
   }
   /**
    * API demo
