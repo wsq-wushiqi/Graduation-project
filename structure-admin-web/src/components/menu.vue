@@ -14,7 +14,7 @@
           <span slot="title">培训管理</span>
         </template>
         <el-menu-item index="/courseApplication">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-location"></i>
           <span slot="title">课程申请</span>
         </el-menu-item>
         <el-menu-item index="/courseArrange">
