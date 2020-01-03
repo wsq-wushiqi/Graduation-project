@@ -24,7 +24,7 @@
             <el-table-column label="选择"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
             <el-table-column prop="c_name" label="课程名称"></el-table-column>
             <el-table-column prop="c_category" label="类别"></el-table-column>
-            <el-table-column prop="c_department" label="开课部门"></el-table-column>
+            <el-table-column prop="d_name" label="开课部门"></el-table-column>
             <el-table-column prop="c_hour" label="课时"></el-table-column>
             <el-table-column prop="l_name" label="申请人"></el-table-column>
             <el-table-column prop="c_status" label="审核状态" :formatter="statusFormatter"></el-table-column>
@@ -45,7 +45,11 @@
           <span class="apply-form-span">学时：</span><el-input v-model="applyForm.c_hour" class="apply-form-input"></el-input>
         </el-form-item>
         <el-form-item prop="name">
-          <span class="apply-form-span">开课部门：</span><el-input v-model="applyForm.c_department" class="apply-form-input"></el-input>
+          <span class="apply-form-span">开课部门：</span>
+          <!-- <el-input v-model="applyForm.d_name" class="apply-form-input"></el-input> -->
+          <el-select v-model="applyForm.d_name" class="apply-form-input">
+            <el-option v-for="(item, key) in departmentList" :key="key" :value="item.d_id" :label="item.d_name"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -57,7 +61,7 @@
       <span class="examine-name">{{ courseName }}</span>
       <el-form :model="examineForm">
         <el-form-item class="examine-form-item">
-          <span class="examine-span">开课部门：</span><span>{{ examineForm.c_department}}</span>
+          <span class="examine-span">开课部门：</span><span>{{ examineForm.d_name}}</span>
         </el-form-item>
         <el-form-item class="examine-form-item">
           <span class="examine-span">课程类别：</span><span>{{ examineForm.c_category}}</span>
@@ -109,7 +113,7 @@ export default {
         c_name: '',
         c_category: '',
         c_hour: 0.00,
-        c_department: '',
+        d_name: '',
       },
       formRule: {
         
@@ -121,15 +125,17 @@ export default {
       examineForm: {
         c_category: '',
         c_hour: 0.00,
-        c_department: '',
+        d_name: '',
         l_name: '',
         auditStatus: '',
         opinion: ''
-      }
+      },
+      departmentList: []
     }
   },
   mounted() {
     this.getTableData()
+    this.getDepartment()
   },
   computed: {
     ...mapGetters([
@@ -142,7 +148,8 @@ export default {
       'getCourseList',
       'updateCourse',
       'cancelApply',
-      'examine'
+      'examine',
+      'getDepartmentList'
     ]),
     apply: function() {
       this.applyDlgVisible = true
@@ -155,7 +162,7 @@ export default {
           name: this.applyForm.c_name,
           category: this.applyForm.c_category,
           hour: this.applyForm.c_hour,
-          department: this.applyForm.c_department
+          department: this.applyForm.d_name
         }
         this.applyCourse(params).then(res => {
           if (res.errno === 0) {
@@ -172,7 +179,7 @@ export default {
         let params = {
           id: row.c_id,
           name: this.applyForm.c_name,
-          department: this.applyForm.c_department,
+          department: this.applyForm.d_name,
           category: this.applyForm.c_category,
           hour: this.applyForm.c_hour
         }
@@ -201,7 +208,11 @@ export default {
       this.tableRadio = item
     },
     update: function() {
+      
+      
       const row = this.tableRadio
+      console.log(row.u_username);
+      console.log(this.userInfo.u_username);
       if (row === null || row.length === 0) {
         this.$message.warning('请选择要修改的数据')
       } else {
@@ -238,7 +249,7 @@ export default {
         } else if (row.c_status === '2') {
           this.$message.error('审核通过的课程不可撤销')
         } else {
-          this.$confirm('此操作不可恢复，是否确定撤销课程'+ row.c_name +'申请？', '提示', {
+          this.$confirm('此操作不可恢复，是否确定撤销课程"'+ row.c_name +'"申请？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -246,7 +257,7 @@ export default {
             // this.$message.success('撤销')
             this.cancelApply({id: row.c_id}).then(res => {
               if (res.errno === 0) {
-                this.$message.success('课程' + row.c_name + '已成功撤销申请')
+                this.$message.success('课程"' + row.c_name + '"已成功撤销申请')
                 this.getTableData()
               }
             })
@@ -298,6 +309,18 @@ export default {
         }).catch(error => { this.$message.error(error) })
       }
       // this.$message.success('审核')
+    },
+    // 获取部门列表
+    getDepartment: function() {
+      this.getDepartmentList().then(res => {
+        if (res.errno === 0) {
+          this.departmentList = res.data
+          console.log(res.data);
+          
+        } else {
+          this.$message.error('获取部门列表失败')
+        }
+      }).catch(error => { this.$message.error(error) })
     }
   }
 }

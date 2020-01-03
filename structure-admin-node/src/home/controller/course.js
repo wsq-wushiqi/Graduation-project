@@ -6,14 +6,15 @@ module.exports = class extends Base {
     let c_name = this.post('name')
     let c_category = this.post('category')
     let c_hour = this.post('hour')
-    let c_department = this.post('department')
+    let d_id = this.post('department')
     let c_id = UUID.v1()
     let c_status = '1'
-    // let c_opinion = '无'
+    let c_opinion = ''
     try {
+      let department = await this.model('department').where({d_id}).find()
       let name = await this.model('lecture').where({ u_username: this.user.u_username}).find()
       let l_name = name.l_name
-      let apply = await this.model('course').add({ c_id, c_name, c_category, c_hour, c_department, c_status, l_name, c_opinion})
+      let apply = await this.model('course').add({ c_id, c_name,u_username: this.user.u_username, c_category, c_hour, d_id, c_status, l_name, c_opinion, d_name: department.d_name})
       return this.success(apply)
     }
     catch(e) {
@@ -36,11 +37,11 @@ module.exports = class extends Base {
     let c_name = this.post('name')
     let c_category = this.post('category')
     let c_hour = this.post('hour')
-    let c_department = this.post('department')
+    let d_name = this.post('department')
     let c_status = '1'
     let c_opinion = '*重新申请'
     try {
-      let res = await this.model('course').where({ c_id }).update({ c_name, c_category, c_department, c_hour, c_status, c_opinion })
+      let res = await this.model('course').where({ c_id }).update({ c_name, c_category, d_name, c_hour, c_status, c_opinion })
       return this.success(res)
     }
     catch(e) {

@@ -18,8 +18,8 @@
           border
           highlight-current-row
           @row-click="rowClick">
-            <el-table-column label="选择" ><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
-            <el-table-column prop="l_department" label="部门"></el-table-column>
+            <el-table-column label="选择" width="50px"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
+            <el-table-column prop="d_name" label="部门"></el-table-column>
             <el-table-column prop="l_name" label="姓名"></el-table-column>
             <el-table-column prop="l_sex" label="性别"></el-table-column>
             <el-table-column prop="u_username" label="用户名"></el-table-column>
@@ -45,7 +45,10 @@
         </el-form-item>
         <el-form-item>
           <span class="add-form-sapn">部门：</span>
-          <el-input v-model="addForm.l_department" class="add-form-input"></el-input>
+          <!-- <el-input v-model="addForm.d_name" class="add-form-input"></el-input> -->
+          <el-select v-model="addForm.d_name" class="add-form-input">
+            <el-option v-for="(item, key) in departmentList" :key="key" :value="item.d_id" :label="item.d_name"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <span class="add-form-sapn">学历：</span>
@@ -75,18 +78,20 @@ export default {
       addForm: {
         l_name: '',
         l_sex: '',
-        l_department: '',
+        d_name: '',
         l_education: '',
         l_grade: '',
         u_username: ''
       },
       tableData: [],
       tableRadio: [],
-      addDlgTitle: '录入信息'
+      addDlgTitle: '录入信息',
+      departmentList: []
     }
   },
   mounted() {
     this.getTableData()
+    this.getDepartment()
   },
   methods: {
     ...mapActions([
@@ -94,7 +99,8 @@ export default {
       'getLectureList',
       'updateLectureInfo',
       'deleteInfo',
-      'queryLectureInfo'
+      'queryLectureInfo',
+      'getDepartmentList'
     ]),
     // 查询
     query: function() {
@@ -115,13 +121,15 @@ export default {
     add: function() {
       this.addDlgVisible = true
       this.addDlgTitle = '录入信息'
+      this.addForm = Object.assign({}, null)
+      // this.getDepartment()
     },
     // 录入、修改对话框确定按钮
     doAdd: function() {
       if (this.addDlgTitle === '录入信息') {
         let params = {
           name: this.addForm.l_name,
-          department: this.addForm.l_department,
+          department: this.addForm.d_name,
           sex: this.addForm.l_sex,
           username: this.addForm.u_username,
           education: this.addForm.l_education
@@ -140,7 +148,7 @@ export default {
         let params = {
           l_id: row.l_id,
           l_name: this.addForm.l_name,
-          l_department: this.addForm.l_department,
+          d_name: this.addForm.d_name,
           l_sex: this.addForm.l_sex,
           l_education: this.addForm.l_education
         }
@@ -178,6 +186,7 @@ export default {
         this.addDlgVisible = true
         this.addDlgTitle = '修改信息'
         this.addForm = Object.assign({}, row)
+        // this.getDepartment()
       }
     },
     // 删除数据
@@ -204,6 +213,19 @@ export default {
           this.$message.info('已取消')
         })
       }
+    },
+    // 获取部门列表
+    getDepartment: function() {
+      console.log('11111111111111');
+      this.getDepartmentList().then(res => {
+        if (res.errno === 0) {
+          this.departmentList = res.data
+        } else {
+          this.$message.error('获取部门列表失败')
+        }
+        console.log(res);
+        
+      }).catch(error => { this.$message.error(error) })
     }
   }
 }

@@ -12,7 +12,7 @@ module.exports = class extends Base {
     }
   }
   async addInfoAction() {
-    let i_department = this.get('department')
+    let d_id = this.get('department')
     let i_name = this.get('name')
     let i_sex = this.get('sex')
     let i_age = this.get('age')
@@ -25,9 +25,10 @@ module.exports = class extends Base {
     let u_id = id
     let u_password = think.md5('structure' + '123456');
     try {
+      let d_name = await this.model('department').where({d_id}).find()
       let data3 = await this.model('user').where({u_username: u_username}).select()
       if (think.isEmpty(data3)) {
-        let data = await this.model('info').add({ i_id, i_department, i_name, u_username, i_sex, i_age, i_email });
+        let data = await this.model('info').add({ i_id, d_id, i_name, u_username, i_sex, i_age, i_email, d_name: d_name.d_name });
         let data2 = await this.model('user').add({ u_id, u_username, u_password, u_role, u_role_id })
         console.log(data, data2);
         let res = await this.model('info').select()
@@ -61,7 +62,8 @@ module.exports = class extends Base {
     let sex = this.post('sex');
     let email = this.post('email');
     try {
-      let data = await this.model('info').where({i_id: id}).update({i_department: department, i_age: age, i_name: name, i_sex: sex, i_email: email})
+      let d_name = await this.model('department').where({d_id: department}).find()
+      let data = await this.model('info').where({i_id: id}).update({d_id: department, i_age: age, i_name: name, i_sex: sex, i_email: email, d_name: d_name.d_name})
       console.log(data, 'data');
       let res = await this.model('info').select()
       return this.success(res);
@@ -82,9 +84,9 @@ module.exports = class extends Base {
       } else if (name !== '' && department === '') {
         sql = { i_name : ['like','%'+ name +'%'] }
       }  else if (name === '' && department !== '') {
-        sql = { i_department: ['like','%'+ department +'%']}
+        sql = { d_name: ['like','%'+ department +'%']}
       } else {
-        sql = { i_name: ['like','%'+ name +'%'], i_department: ['like','%'+ department +'%']}
+        sql = { i_name: ['like','%'+ name +'%'], d_name: ['like','%'+ department +'%']}
       }
       let res = await this.model('info').where(sql).select()
       return this.success(res);
