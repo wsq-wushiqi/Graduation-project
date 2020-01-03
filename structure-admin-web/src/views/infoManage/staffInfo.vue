@@ -14,6 +14,7 @@
             <el-button size="mini" @click="operateInfoDlg('update')">修改</el-button>
             <el-button size="mini" @click="reset">重置密码</el-button>
             <el-button size="mini" @click="outTab">导出数据</el-button>
+            <el-button size="mini" @click="addDepartmentVisible = true">添加部门</el-button>
           </el-header>
           <el-main class="table-main">
             <el-table
@@ -25,7 +26,7 @@
               @row-click="handleRowClick"
             >
               <el-table-column label="选择" width="50px" :align="tableAlign"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
-              <el-table-column prop="i_department" label="部门" :align="tableAlign"></el-table-column>
+              <el-table-column prop="d_name" label="部门" :align="tableAlign"></el-table-column>
               <el-table-column prop="i_name" label="姓名" :align="tableAlign"></el-table-column>
               <el-table-column prop="i_sex" label="性别" :align="tableAlign"></el-table-column>
               <el-table-column prop="i_age" label="年龄" :align="tableAlign"></el-table-column>
@@ -40,7 +41,10 @@
       <el-form ref="addInfoForm" :v-model="addInfoForm" :rules="formRule">
         <el-form-item>
           <span class="add-info-span">部门：</span>
-          <el-input v-model="addInfoForm.i_department" class="add-info-item"></el-input>
+          <!-- <el-input v-model="addInfoForm.d_name" class="add-info-item"></el-input> -->
+          <el-select v-model="addInfoForm.d_name" class="add-info-item">
+            <el-option v-for="(item, key) in departmentList" :key="key" :label="item.d_name" :value="item.d_id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <span class="add-info-span">{{ name }}：</span>
@@ -68,6 +72,21 @@
         <el-button @click="doAddInfo">确定</el-button>
       </div>
     </el-dialog>
+    <!-- 添加部门对话框 -->
+    <el-dialog :visible.sync="addDepartmentVisible" title="添加部门">
+      <el-form :model="addDepartmentForm">
+        <el-form-item>
+          <span>名称</span><el-input v-model="addDepartmentForm.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <span>经理</span><el-input v-model="addDepartmentForm.manager"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="addDepartmentVisible = false">取消</el-button>
+        <el-button @click="doAddDepartment">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -81,13 +100,14 @@ export default {
     return {
       addInfoDlg: false,
       addInfoForm: {
-        i_department: '',
+        d_name: '',
         i_name: '',
         i_sex: '',
         i_age: '',
         i_email: '',
         u_username: ''
       },
+      departmentList: [],
       formRule: {},
       tableData: [],
       tableRadio: [],
@@ -95,12 +115,18 @@ export default {
       queryName: '',
       queryDepartment: '',
       name: '姓名',
-      tableAlign: 'center'
+      tableAlign: 'center',
+      addDepartmentVisible: false,
+      addDepartmentForm: {
+        name: '',
+        manager: ''
+      }
       // updateInfoDlg: false
     }
   },
   mounted() {
     this.getTableData()
+    // this.getDepartment()
   },
   methods: {
     ...mapActions([
@@ -109,7 +135,9 @@ export default {
       "delInfo",
       "updateInfo",
       "queryInfo",
-      "resetPwd"
+      "resetPwd",
+      "addDepartment",
+      "getDepartmentList"
     ]),
     // 获取表格数据
     getTableData: function() {
@@ -144,13 +172,14 @@ export default {
           this.addInfoForm = Object.assign({}, row)
         }
       }
+      this.getDepartment()
     },
     // 新增/修改功能
     doAddInfo: function() {
       if (this.dlgTitle === '录入信息') {
         let params = {
           params: {
-            department: this.addInfoForm.i_department,
+            department: this.addInfoForm.d_name,
             name: this.addInfoForm.i_name,
             sex: this.addInfoForm.i_sex,
             age: this.addInfoForm.i_age,
@@ -170,7 +199,7 @@ export default {
       } else if (this.dlgTitle === '修改信息') {
         let params = {
           id: this.tableRadio.i_id,
-          department: this.addInfoForm.i_department,
+          department: this.addInfoForm.d_name,
           name: this.addInfoForm.i_name,
           sex: this.addInfoForm.i_sex,
           age: this.addInfoForm.i_age,
@@ -256,6 +285,28 @@ export default {
           this.tableData = res.data
         } else {
           this.$message.error(res.errmsg)
+        }
+      }).catch(error => { this.$message.error(error) })
+    },
+    // 添加部门
+    doAddDepartment: function() {
+      let params = {
+        name: this.addDepartmentForm.name,
+        manager: this.addDepartmentForm.manager
+      }
+      this.addDepartment(params).then(res => {
+        if (res.errno === 0) {
+          this.$message.success('添加成功')
+        }
+      })
+    },
+    // 获取部门列表
+    getDepartment: function() {
+      this.getDepartmentList().then(res => {
+        if (res.errno === 0) {
+          this.departmentList = res.data
+        } else {
+          this.$message.error('获取部门列表失败')
         }
       }).catch(error => { this.$message.error(error) })
     }
