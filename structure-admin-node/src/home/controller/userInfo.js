@@ -5,7 +5,11 @@ module.exports = class extends Base {
     try {
       let user = await this.model('user').where({u_username: username}).find(); // 拿输入的用户名去数据库查询
       let userId = user.u_id
-      let userInfo = await this.model('info').where({i_id: userId}).find()
+      let userInfo = []
+      userInfo = await this.model('info').where({i_id: userId}).find()
+      if (think.isEmpty(userInfo)) {
+        userInfo = await this.model('lecture').where({l_id: userId}).find()
+      }
       return this.success(userInfo);
     }
     catch(e) {
@@ -21,7 +25,8 @@ module.exports = class extends Base {
     oldPwd = think.md5(salt + oldPwd);
     let newPassword = think.md5(salt + newPwd)
     try {
-      let user = await this.model('user').where({u_id:u_id}).find()
+      let user = []
+      user = await this.model('user').where({u_id:u_id}).find()
       if (user.u_password !== oldPwd) {
         return this.fail('原密码不正确')
       } else {

@@ -10,7 +10,7 @@
           <img height="80px" align="center" src="../../image/头像 女孩.png" alt="头像">
           <el-button class="info-button" size="small" icon="el-icon-check" type="primary" plain @click="change">修改密码</el-button>
         </div>
-        <div class="info-div">
+        <div class="info-div" v-if="userForm.i_id !== undefined">
           <el-form>
             <el-form-item>
               <span>用户名：</span><span>{{ userForm.u_username }}</span>
@@ -22,7 +22,7 @@
               <span>性别：</span><span>{{ userForm.i_sex }}</span>
             </el-form-item>
             <el-form-item>
-              <span>部门：</span><span>{{ userForm.i_department }}</span>
+              <span>部门：</span><span>{{ userForm.d_name }}</span>
             </el-form-item>
             <!-- <el-form-item>
               <span>职位：</span>
@@ -35,7 +35,31 @@
             </el-form-item>
           </el-form>
         </div>
-        
+        <div v-else class="info-div">
+          <el-form>
+            <el-form-item>
+              <span>用户名：</span><span>{{ lecturerForm.u_username }}</span>
+            </el-form-item>
+            <el-form-item>
+              <span>姓名：</span><span>{{ lecturerForm.l_name}}</span>
+            </el-form-item>
+            <el-form-item>
+              <span>性别：</span><span>{{ lecturerForm.l_sex }}</span>
+            </el-form-item>
+            <el-form-item>
+              <span>部门：</span><span>{{ lecturerForm.d_name }}</span>
+            </el-form-item>
+            <!-- <el-form-item>
+              <span>职位：</span>
+            </el-form-item> -->
+            <!-- <el-form-item>
+              <span>电话：</span>
+            </el-form-item> -->
+            <el-form-item>
+              <span>学历：</span><span>{{ lecturerForm.l_education }}</span>
+            </el-form-item>
+          </el-form>
+        </div>
       </el-main>
     </el-container>
     <el-dialog :visible.sync="changeDlgVisible" title="修改密码">
@@ -82,10 +106,16 @@ export default {
     return {
       userForm: {
         i_age: '',
-        i_department: '',
+        d_name: '',
         i_email: '',
         i_name: '',
         i_sex: '',
+        u_username: ''
+      },
+      lecturerForm: {
+        d_name: '',
+        l_education: '',
+        l_name: '',
         u_username: ''
       },
       changeDlgVisible: false,
@@ -107,7 +137,12 @@ export default {
     }
     this.myUserInfo(params).then(res => {
       if (res.errno === 0) {
-        this.userForm = res.data
+        if (res.data.i_id === undefined) {
+          // console.log(this.lecturerForm);
+          this.lecturerForm = res.data
+        } else {
+          this.userForm = res.data
+        }
       }
     })
   },
@@ -120,14 +155,24 @@ export default {
       this.changeDlgVisible = true
     },
     doChange: function() {
-      let params = {
-        id: this.userForm.i_id,
-        oldPwd: this.changeForm.oldPwd,
-        newPwd: this.changeForm.confirmPwd
+      let params = {}
+      if (this.lecturerForm.l_id === undefined) {
+        params = {
+          id: this.userForm.i_id,
+          oldPwd: this.changeForm.oldPwd,
+          newPwd: this.changeForm.confirmPwd
+        }
+      } else {
+        params = {
+          id: this.lecturerForm.l_id,
+          oldPwd: this.changeForm.oldPwd,
+          newPwd: this.changeForm.confirmPwd
+        }
       }
       this.changePwd(params).then(res => {
         if (res.errno === 0) {
           this.$message.success('修改成功')
+          this.changeDlgVisible = false
         } else {
           this.$message.error(res.errmsg)
         }
