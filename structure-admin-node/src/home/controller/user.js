@@ -25,8 +25,10 @@ module.exports = class extends Base {
     }
     async queryuserAction() {
         try {
+            let userinfo = await this.model('info').where({ u_username: this.user.u_username }).find()
             this.user = {
-                u_username: this.user.u_username
+                u_username: this.user.u_username,
+                i_id: userinfo.i_id
                 // password: this.user.password
             }
             return this.success(this.user);
