@@ -20,7 +20,8 @@ module.exports = class extends Base {
           a_place: list2.a_place,
           a_lecturer: list2.a_lecturer,
           a_number: list2.a_number,
-          a_stu: list2.a_stu
+          a_stu: list2.a_stu,
+          a_max_number: list2.a_max_number
         })
       }
       return this.success(result)
@@ -36,9 +37,9 @@ module.exports = class extends Base {
     let a_time = this.post('time')
     let a_place = this.post('place')
     let a_lecturer = this.post('lecturer')
+    let a_max_number = this.post('max_number')
     try {
-      let result = await this.model('arrange').add({a_id, a_time, a_place, a_lecturer, c_id})
-      // let result = await this.join('structure_arrange ON structure_arrange.c_id=structure_course.c_id')
+      let result = await this.model('arrange').add({a_id, a_time, a_place, a_lecturer, c_id, a_max_number})
       return this.success(result)
     }
     catch(e) {
@@ -51,8 +52,9 @@ module.exports = class extends Base {
     let a_time = this.post('time')
     let a_place = this.post('place')
     let a_lecturer = this.post('lecturer')
+    let a_max_number = this.post('max_number')
     try {
-      let result = this.model('arrange').where({a_id}).update({a_time: a_time, a_lecturer: a_lecturer, a_place: a_place})
+      let result = this.model('arrange').where({a_id}).update({a_time: a_time, a_lecturer: a_lecturer, a_place: a_place, a_max_number})
       return this.success(result)
     }
     catch(e) {
@@ -86,6 +88,19 @@ module.exports = class extends Base {
     catch(e) {
       console.log(e);
       return this.fail('获取人员详情失败')
+    }
+  }
+  async applyToCourseAction() {
+    let a_id = this.post('a_id')
+    let a_stu = this.post('a_stu')
+    let a_number = this.post('a_number')
+    try {
+      let result = await this.model('arrange').where({a_id: a_id}).update({ a_stu, a_number })
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('加入课程失败')
     }
   }
 }

@@ -188,3 +188,9 @@ export const getStuInfo = ({ commit }, params) => {
     return response
   })
 }
+// 申请加入课程
+export const applyToCourse = ({ commit }, params) => {
+  return Api.applyToCourse(params).then(response => {
+    return response
+  })
+}

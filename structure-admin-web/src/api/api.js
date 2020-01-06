@@ -157,6 +157,10 @@ export default {
   // 获取参加课程人员的详细信息
   getStuInfo: params => {
     return axios.post('/home/arrange/getStuInfo', params)
+  },
+  // 申请加入课程
+  applyToCourse: params => {
+    return axios.post('/home/arrange/applyToCourse', params)
   }
   /**
    * API demo

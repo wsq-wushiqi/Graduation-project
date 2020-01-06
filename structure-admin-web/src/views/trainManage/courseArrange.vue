@@ -7,7 +7,6 @@
           <el-button size="mini" @click="detailDlg">编辑详情</el-button>
           <el-button size="mini" @click="addStuDlg">添加人员</el-button>
           <el-button size="mini" @click="apply">加入课程</el-button>
-          <!-- <el-button size="mini" @click="update">修改</el-button> -->
         </el-header>
         <el-main class="table-main">
           <el-table
@@ -53,6 +52,9 @@
         <el-form-item prop="a_lecturer">
           <span class="detail-span">主讲人：</span><el-input v-model="detailForm.a_lecturer" class="detail-input" size="small"></el-input>
         </el-form-item>
+        <el-form-item prop="a_max_number">
+          <span class="detail-span">限制人数：</span><el-input v-model="detailForm.a_max_number" type="number" class="detail-input" size="small"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button @click="cancel('detailForm');detailDlgVisible = false">取消</el-button>
@@ -92,14 +94,13 @@
         <el-table-column prop="i_sex" label="性别" width="60px"></el-table-column>
         <el-table-column prop="i_age" label="年龄" width="60px"></el-table-column>
         <el-table-column prop="i_email" label="邮箱" show-overflow-tooltip></el-table-column>
-        <!-- <el-table-column prop="i_department" label="部门"></el-table-column> -->
       </el-table>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -111,7 +112,8 @@ export default {
         a_time: '',
         a_place: '',
         a_number: 0,
-        a_lecturer: ''
+        a_lecturer: '',
+        a_max_number: 0
       },
       detailTitle: '添加课程详情',
       formRule: {
@@ -121,7 +123,6 @@ export default {
       },
       addStuVisible: false,
       stuData: [],
-      // departmentFilter: [],
       stuSlection: [],
       checkStuData: [],
       checkStuVisible: false,
@@ -136,8 +137,12 @@ export default {
   },
   mounted() {
     this.getTableData()
-    // this.getStuData()
     this.departmentList()
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   methods: {
     ...mapActions([
@@ -148,7 +153,8 @@ export default {
       'infoList',
       'getDepartmentList',
       'getStuList',
-      'getStuInfo'
+      'getStuInfo',
+      'applyToCourse',
     ]),
     // 获取表格
     getTableData: function() {
@@ -192,6 +198,7 @@ export default {
               time: this.detailForm.a_time,
               lecturer: this.detailForm.a_lecturer,
               place: this.detailForm.a_place,
+              max_number: this.detailForm.a_max_number
             }
             this.addDetail(params).then(res => {
               if (res.errno === 0) {
@@ -208,7 +215,8 @@ export default {
               id: row.a_id,
               lecturer: this.detailForm.a_lecturer,
               place: this.detailForm.a_place,
-              time: this.detailForm.a_time
+              time: this.detailForm.a_time,
+              max_number: this.detailForm.a_max_number
             }
             this.updateDetail(params).then(res => {
               if (res.errno === 0) {
@@ -291,13 +299,15 @@ export default {
       const row = this.tableRadio
       this.checkStuVisible = true
       this.courseName = item.c_name
-      this.getStuInfo({list: item.a_stu}).then(res => {
-        if (res.errno === 0) {
-          this.checkStuData = res.data
-        } else {
-          this.$message.error(res.errmsg)
-        }
-      }).catch(error => { this.$message.error(error) })
+      if (item.a_stu !== '') {
+        this.getStuInfo({list: item.a_stu}).then(res => {
+          if (res.errno === 0) {
+            this.checkStuData = res.data
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      }
     },
     // 获取部门列表
     departmentList: function() {
@@ -337,7 +347,45 @@ export default {
       const d_id = item.value
     },
     apply: function() {
-
+      const row = this.tableRadio
+      let flag = false
+      if (row === null || row.length === 0) {
+        this.$message.warning('请选择要加入的课程')
+        flag = false
+      } else {
+        let stuId = []
+        let i_id = this.userInfo.i_id
+        if (row.a_stu !== '') {
+          stuId = JSON.parse(row.a_stu)
+          for (let i=0; i<stuId.length; i++) {
+            if (stuId[i] === i_id) {
+              this.$message.error('申请失败，您已经加入此课程')
+              flag = false
+            } else {
+              stuId.push(i_id)
+              flag = true
+            }
+          }
+        } else {
+          stuId.push(i_id)
+          flag = true
+        }
+        if (flag) {
+          let params = {
+            a_id: row.a_id,
+            a_stu: JSON.stringify(stuId),
+            a_number: stuId.length
+          }
+          this.applyToCourse(params).then(res => {
+            if (res.errno === 0) {
+              this.$message.success('加入课程"' + row.c_name + '"成功')
+              this.getTableData()
+            } else {
+              this.$message.error(res.errmsg)
+            }
+          }).catch(error => { this.$message.error(error) })
+        }
+      }
     }
   }
 }
@@ -345,16 +393,13 @@ export default {
 
 <style scoped>
 .query-header {
-  /* background-color: thistle; */
   line-height: 45px;
 }
 .operation-header {
-  /* background-color: rgb(223, 141, 141); */
   line-height: 45px;
   border-bottom: 1px solid rgb(210,226,255);
 }
 .detail-title {
-  /* background-color: aquamarine; */
   display: inline-block;
   width: 100%;
   text-align: center;
@@ -365,19 +410,16 @@ export default {
   width: 50%;
 }
 .detail-span {
-  /* background-color: rgb(175, 144, 204); */
   display: inline-block;
   width: 80px;
   padding-left: 50px;
 }
 .table-text-button {
-  /* background-color: brown; */
   width: 100%;
   height: 100%;
   margin: 0px;
 }
 .add-stu-title {
-  /* background-color: rgb(162, 133, 199); */
   display: inline-block;
   width: 100%;
   text-align: center;
@@ -388,21 +430,18 @@ export default {
   overflow-y: scroll;
 }
 .check-title {
-  /* background-color: cornflowerblue; */
   width: 100%;
   display: inline-block;
   font-size: 25px;
   text-align: center;
 }
 .table-main {
-  /* background-color: cornflowerblue; */
   padding: 5px 10px;
   height: calc(100vh - 134px);
 }
 </style>
 <style>
 .detail-dialog .el-dialog__header {
-  /* background-color: rgb(187, 163, 131); */
   padding-bottom: 2px;
 }
 .detail-dialog .el-dialog__body {
@@ -410,19 +449,13 @@ export default {
   padding-bottom: 5px;
 }
 .detail-form .el-form-item__error {
-  /* background-color: chocolate; */
   margin-left: 133px;
 }
 .add-stu-dialog .el-dialog__header {
-  /* background-color: tomato; */
   padding-bottom: 2px;
 }
 .add-stu-dialog .el-dialog__body {
-  /* background-color: rgb(116, 174, 201); */
-  /* padding-bottom: 2px; */
-  /* padding-top: 1px; */
   height: calc(100vh - 270px);
-  /* overflow-y: scroll; */
   padding: 1px 35px 2px 35px;
 }
 .add-stu-tree .el-tree-node:focus>.el-tree-node__content {
@@ -432,11 +465,9 @@ export default {
   background-color: rgb(232,240,255);
 }
 .check-dialog .el-dialog__header {
-  /* background-color: thistle; */
   padding-bottom: 2px;
 }
 .check-dialog .el-dialog__body {
-  /* background-color: steelblue; */
   padding: 2px 10px 15px 10px;
   height: calc(100vh - 270px);
 }
