@@ -12,7 +12,7 @@
             <el-dropdown>
               <div class="header-user-name">
                 <img height="30px" align="center" src="../image/头像 女孩.png" alt="头像">
-                {{userInfo.u_username}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                {{username}}<i class="el-icon-caret-bottom el-icon--right"></i>
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
@@ -36,7 +36,7 @@
     name: 'Header',
     data() {
       return {
-
+        username: ''
       }
     },
      // beforeRouteEnter: (to, from, next) => {
@@ -48,6 +48,9 @@
       ...mapGetters([
         "userInfo"
       ])
+    },
+    mounted() {
+      this.username = this.userInfo.u_username
     },
      methods: {
        ...mapActions([
