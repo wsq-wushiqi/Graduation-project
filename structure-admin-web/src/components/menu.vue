@@ -18,14 +18,14 @@
           <span slot="title">课程申请</span>
         </el-menu-item>
         <el-menu-item index="/courseArrange">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-location"></i>
           <span slot="title">课程安排</span>
         </el-menu-item>
-        <el-menu-item index="02">
+        <!-- <el-menu-item index="02">
           <i class="el-icon-edit"></i>
           <span slot="title">培训申请</span>
-        </el-menu-item>
-        <el-menu-item index="03">
+        </el-menu-item> -->
+        <el-menu-item index="/personPlan">
           <i class="el-icon-edit"></i>
           <span slot="title">个人培训计划</span>
         </el-menu-item>

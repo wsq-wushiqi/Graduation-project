@@ -161,6 +161,10 @@ export default {
   // 申请加入课程
   applyToCourse: params => {
     return axios.post('/home/arrange/applyToCourse', params)
+  },
+  // 获取个人培训表
+  getPlanList: params => {
+    return axios.get('/home/personPlan/getPlanList', params)
   }
   /**
    * API demo

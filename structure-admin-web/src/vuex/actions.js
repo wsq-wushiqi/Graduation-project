@@ -194,3 +194,9 @@ export const applyToCourse = ({ commit }, params) => {
     return response
   })
 }
+// 获取个人培训表
+export const getPlanList = ({ commit }, params) => {
+  return Api.getPlanList(params).then(response => {
+    return response
+  })
+}

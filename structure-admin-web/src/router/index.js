@@ -77,6 +77,13 @@ export default new Router({
           key: '2-4'
         },
         component: () => import('@/views/trainManage/courseArrange')
+      }, {
+        path: '/personPlan',
+        name: 'personPlan',
+        meta: {
+          key: '2-5'
+        },
+        component: () => import('@/views/trainManage/personPlan')
       }]
     }
   ]
