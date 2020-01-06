@@ -6,24 +6,27 @@
         <el-header class="operation-header" height="45px">
           <el-button size="mini" @click="detailDlg">编辑详情</el-button>
           <el-button size="mini" @click="addStuDlg">添加人员</el-button>
+          <el-button size="mini" @click="apply">加入课程</el-button>
           <!-- <el-button size="mini" @click="update">修改</el-button> -->
         </el-header>
-        <el-main>
+        <el-main class="table-main">
           <el-table
           :data="tableData"
           border
           highlight-current-row
+          height="100%"
           @row-click="rowClick">
             <el-table-column label="选择" width="50px"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
             <el-table-column prop='c_name' label="课程名称" width="100px"></el-table-column>
             <el-table-column prop='l_name' label="申请人" width="70px"></el-table-column>
-            <el-table-column prop='a_time' label="上课时间" width="200px"></el-table-column>
+            <el-table-column prop='a_time' label="上课时间" width="200px" show-overflow-tooltip></el-table-column>
             <el-table-column prop='a_place' label="上课地点"></el-table-column>
-            <el-table-column prop='a_number' label="人数">
+            <el-table-column prop='a_number' label="已选人数">
               <template slot-scope="scope">
                 <el-button type="text" class="table-text-button" title="点击查看人员详情" @click="checkStu(scope.row)">{{scope.row.a_number}}</el-button>
               </template>
             </el-table-column>
+            <el-table-column prop="a_max_number" label="限制人数"></el-table-column>
             <el-table-column prop='a_lecturer' label="主讲人"></el-table-column>
           </el-table>
         </el-main>
@@ -72,7 +75,6 @@
           @node-click="stuNodeClick">
         </el-tree>
       </div>
-      
       <div slot="footer">
         <el-button @click="addStuVisible = false">取消</el-button>
         <el-button @click="doAdd">确定</el-button>
@@ -288,7 +290,7 @@ export default {
     checkStu: function(item) {
       const row = this.tableRadio
       this.checkStuVisible = true
-      this.courseName = row.c_name
+      this.courseName = item.c_name
       this.getStuInfo({list: item.a_stu}).then(res => {
         if (res.errno === 0) {
           this.checkStuData = res.data
@@ -333,6 +335,9 @@ export default {
     },
     stuNodeClick: function(item) {
       const d_id = item.value
+    },
+    apply: function() {
+
     }
   }
 }
@@ -388,6 +393,11 @@ export default {
   display: inline-block;
   font-size: 25px;
   text-align: center;
+}
+.table-main {
+  /* background-color: cornflowerblue; */
+  padding: 5px 10px;
+  height: calc(100vh - 134px);
 }
 </style>
 <style>
