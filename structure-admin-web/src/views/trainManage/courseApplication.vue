@@ -208,11 +208,7 @@ export default {
       this.tableRadio = item
     },
     update: function() {
-      
-      
       const row = this.tableRadio
-      console.log(row.u_username);
-      console.log(this.userInfo.u_username);
       if (row === null || row.length === 0) {
         this.$message.warning('请选择要修改的数据')
       } else {
@@ -254,7 +250,6 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            // this.$message.success('撤销')
             this.cancelApply({id: row.c_id}).then(res => {
               if (res.errno === 0) {
                 this.$message.success('课程"' + row.c_name + '"已成功撤销申请')
@@ -279,20 +274,14 @@ export default {
         this.courseName = row.c_name
         this.examineForm = Object.assign({}, row)
       }
-      
     },
     doExamine: function() {
       const row = this.tableRadio
-      console.log(this.examineForm.opinion);
-      
       if (this.examineForm.auditStatus === undefined || this.examineForm.auditStatus === '' || this.examineForm.auditStatus === '1') {
         this.$message.error('审核状态不正确')
       } else if (this.examineForm.auditStatus === '3' && (this.examineForm.opinion === '' || this.examineForm.opinion === undefined)) {
         this.$message.error('请输入不通过的审核意见')
       } else {
-        // this.$message.success('通过')
-        console.log(this.examineForm.auditStatus);
-        
         let params = {
           id: row.c_id,
           status: this.examineForm.auditStatus,
@@ -308,15 +297,12 @@ export default {
           }
         }).catch(error => { this.$message.error(error) })
       }
-      // this.$message.success('审核')
     },
     // 获取部门列表
     getDepartment: function() {
       this.getDepartmentList().then(res => {
         if (res.errno === 0) {
           this.departmentList = res.data
-          console.log(res.data);
-          
         } else {
           this.$message.error('获取部门列表失败')
         }
@@ -384,5 +370,10 @@ export default {
 .examine-dialog .el-dialog__body {
   /* background-color: rgb(85, 118, 180); */
   padding: 0px 0px 0px 50px;
+}
+.el-table__header tr,
+.el-table__header th {
+  padding: 0;
+  height: 40px;
 }
 </style>
