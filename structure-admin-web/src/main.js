@@ -20,9 +20,11 @@ Vue.use(ElementUI);
 /*路由处理*/
 router.beforeEach((to, from, next) => {
   let key = to.meta.key;
+  console.log(key);
+  
   if (key) {
     store.dispatch("getUserInfo", {}).then(response => {
-      if(JSON.stringify(response.data) === '{}'){
+      if(JSON.stringify(response.data ) === '{}' || response.data === unde){
         if (to.path !== '/login') {
           return next('/login');
         }
