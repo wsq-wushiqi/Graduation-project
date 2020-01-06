@@ -24,7 +24,7 @@ router.beforeEach((to, from, next) => {
   
   if (key) {
     store.dispatch("getUserInfo", {}).then(response => {
-      if(JSON.stringify(response.data ) === '{}' || response.data === unde){
+      if(JSON.stringify(response.data ) === '{}' || response.data === undefined){
         if (to.path !== '/login') {
           return next('/login');
         }
