@@ -63,7 +63,9 @@ module.exports = class extends Base {
     let email = this.post('email');
     try {
       let d_name = await this.model('department').where({d_id: department}).find()
-      let data = await this.model('info').where({i_id: id}).update({d_id: department, i_age: age, i_name: name, i_sex: sex, i_email: email, d_name: d_name.d_name})
+      console.log(d_name);
+      
+      let data = await this.model('info').where({i_id: id}).update({d_id: d_name.d_id, i_age: age, i_name: name, i_sex: sex, i_email: email, d_name: d_name.d_name})
       console.log(data, 'data');
       let res = await this.model('info').select()
       return this.success(res);

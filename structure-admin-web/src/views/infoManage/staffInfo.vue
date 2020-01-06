@@ -176,10 +176,18 @@ export default {
     },
     // 新增/修改功能
     doAddInfo: function() {
+      let d_name = ''
+      for (let i = 0; i < this.departmentList.length; i++) {
+        if (this.departmentList[i].d_name === this.addInfoForm.d_name) {
+          d_name = this.departmentList[i].d_id
+        } else {
+          d_name = this.addInfoForm.d_name
+        }
+      }
       if (this.dlgTitle === '录入信息') {
         let params = {
           params: {
-            department: this.addInfoForm.d_name,
+            department: d_name,
             name: this.addInfoForm.i_name,
             sex: this.addInfoForm.i_sex,
             age: this.addInfoForm.i_age,
