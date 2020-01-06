@@ -357,20 +357,21 @@ export default {
         let i_id = this.userInfo.i_id
         if (row.a_stu !== '') {
           stuId = JSON.parse(row.a_stu)
-          for (let i=0; i<stuId.length; i++) {
+          for (let i = 0; i < stuId.length; i++) {
             if (stuId[i] === i_id) {
               this.$message.error('申请失败，您已经加入此课程')
               flag = false
-            } else {
-              stuId.push(i_id)
+              break
+            }
+             else {
               flag = true
             }
           }
         } else {
-          stuId.push(i_id)
           flag = true
         }
         if (flag) {
+          stuId.push(i_id)
           let params = {
             a_id: row.a_id,
             a_stu: JSON.stringify(stuId),
