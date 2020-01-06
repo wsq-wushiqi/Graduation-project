@@ -5,7 +5,7 @@
         <el-card class="box-card" shadow="hover" v-for="(item, key) in listData" :key="key">
           <div slot="header" class="clearfix">
             <span class="card-title">{{ item.c_name }}</span>
-            <!-- <el-button type="text" class="card-button" @click="handleClick(buttonText, item.c_name)">{{ buttonText }}</el-button> -->
+            <el-button type="text" class="card-button" @click="addEvaluate(item)">添加评价</el-button>
           </div>
           <div>
             <el-form>
@@ -29,6 +29,7 @@
         </el-card>
       </el-main>
     </el-container>
+    <el-dialog :visible.sync="evaluateVisible"></el-dialog>
   </div>
 </template>
 
@@ -37,7 +38,8 @@ import { mapActions } from 'vuex'
 export default {
   data() {
     return {
-      listData: []
+      listData: [],
+      evaluateVisible: false
     }
   },
   mounted() {
@@ -51,11 +53,25 @@ export default {
       this.getPlanList().then(res => {
         if (res.errno === 0) {
           this.listData = res.data
-          console.log(res.data);
         } else {
           this.$message.error(res.errmsg)
         }
       }).catch(error => { this.$message.error(error) })
+    },
+    addEvaluate: function(item) {
+      console.log(item);
+      let date = new Date()
+      let nyear = date.getFullYear()
+      let nmonth = date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1
+      let nday = date.getDate()<10 ? "0"+date.getDate() : date.getDate()
+      let rowdate = item.a_time.split('-')
+      if (rowdate[0] < nyear || rowdate[1] < nmonth || rowdate[2].split(' ')[0] < nday) {
+        // console.log(item.c_name+'可以');
+        // this.evaluateVisible = true
+        this.$router.push('/addEvaluate')
+      } else {
+        this.$message.error('课程"' + item.c_name + '"未结束，不能评价')
+      }
     }
   }
 }

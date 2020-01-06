@@ -26,7 +26,7 @@
           <span slot="title">培训申请</span>
         </el-menu-item> -->
         <el-menu-item index="/personPlan">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-location"></i>
           <span slot="title">个人培训计划</span>
         </el-menu-item>
       </el-submenu>
@@ -35,7 +35,7 @@
           <i class="el-icon-edit"></i>
           <span slot="title">评教管理</span>
         </template>
-        <el-menu-item index="11">
+        <el-menu-item index="/addEvaluate">
           <i class="el-icon-edit"></i>
           <span slot="title">学生评教</span>
         </el-menu-item>

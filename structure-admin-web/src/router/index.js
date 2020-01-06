@@ -84,6 +84,13 @@ export default new Router({
           key: '2-5'
         },
         component: () => import('@/views/trainManage/personPlan')
+      }, {
+        path: '/addEvaluate',
+        name: 'addEvaluate',
+        meta: {
+          key: '2-6'
+        },
+        component: () => import('@/views/evaluateManage/addEvaluate')
       }]
     }
   ]
