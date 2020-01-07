@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
         next();
       }else{
         if (to.path == '/login') {
-          return next('/writeWeekly');
+          return next('/personPlan');
         }
         store.commit("USER_INFO", response.data);
         next();
