@@ -1,6 +1,7 @@
 <template>
   <div class="person-plan-container">
     <el-container>
+      <el-header height="50px" class="person-plan-header"><span>我的课程</span></el-header>
       <el-main class="person-plan-main">
         <el-card class="box-card" shadow="hover" v-for="(item, key) in listData" :key="key">
           <div slot="header" class="clearfix">
@@ -106,6 +107,11 @@ export default {
 }
 .back-2 {
   background-color: rgba(220, 210, 255, 0.199);
+}
+.person-plan-header {
+  /* background-color: thistle; */
+  line-height: 50px;
+  border-bottom: 1px solid rgb(210,226,255);
 }
 </style>
 <style>
