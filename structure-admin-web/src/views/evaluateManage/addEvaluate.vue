@@ -25,13 +25,97 @@
             </el-form>
           </div>
         </div>
-        <div>
+        <div class="course-div">
           <span>关于课程</span>
           <div>
-            <el-form-item>
-              <span>1.培训教材</span>
-              <el-rate v-model="teachingMaterial"></el-rate>
-            </el-form-item>
+            <el-form>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">1.培训教材:{{ courseForm.teachingMaterial }}分</span><el-rate v-model="courseForm.teachingMaterial" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <span class="course-form-span">4.课程针对性:{{ courseForm.pertinence }}分</span><el-rate v-model="courseForm.pertinence" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+              </el-form-item>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">2.培训形式:{{ courseForm.trainingMode }}分</span><el-rate v-model="courseForm.trainingMode" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <span class="course-form-span">5.课程内容实用性:{{ courseForm.practicality }}分</span><el-rate v-model="courseForm.practicality" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+              </el-form-item>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">3.课程内容充实性:{{ courseForm.contentEnrichment }}分</span><el-rate v-model="courseForm.contentEnrichment" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <span class="course-form-span">6.练习活动:{{ courseForm.practice }}分</span><el-rate v-model="courseForm.practice" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <div class="course-div">
+          <span>关于讲师</span>
+          <div>
+            <el-form>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">1.表达能力:{{ lecturerForm.expression }}分</span><el-rate v-model="lecturerForm.expression" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <span class="course-form-span">4.板书水平:{{ lecturerForm.blackboardWriting }}分</span><el-rate v-model="lecturerForm.blackboardWriting" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+              </el-form-item>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">2.感染力:{{ lecturerForm.infection }}分</span><el-rate v-model="lecturerForm.infection" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <span class="course-form-span">5.综合评价:{{ lecturerForm.comprehensive }}分</span><el-rate v-model="lecturerForm.comprehensive" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+              </el-form-item>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">3.理论水平:{{ lecturerForm.theoreticalLevel }}分</span><el-rate v-model="lecturerForm.theoreticalLevel" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <!-- <span class="course-form-span">6.练习活动:{{ lecturerForm.contentEnrichment }}分</span><el-rate v-model="lecturerForm.contentEnrichment" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate> -->
+                </div>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <div class="course-div">
+          <span>关于组织工作</span>
+          <div>
+            <el-form>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">1.场地安排:{{ organizeForm.place }}分</span><el-rate v-model="organizeForm.place" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <span class="course-form-span">4.其他安排:{{ organizeForm.other }}分</span><el-rate v-model="organizeForm.other" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+              </el-form-item>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">2.纪律要求:{{ organizeForm.discipline }}分</span><el-rate v-model="organizeForm.discipline" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <!-- <div class="course-form-item-left">
+                  <span class="course-form-span">5.综合评价:{{ lecturerForm.comprehensive }}分</span><el-rate v-model="lecturerForm.comprehensive" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div> -->
+              </el-form-item>
+              <el-form-item class="course-form-item">
+                <div class="course-form-item-left">
+                  <span class="course-form-span">3.食宿安排:{{ organizeForm.boardAndLodging}}分</span><el-rate v-model="organizeForm.boardAndLodging" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate>
+                </div>
+                <div class="course-form-item-left">
+                  <!-- <span class="course-form-span">6.练习活动:{{ lecturerForm.contentEnrichment }}分</span><el-rate v-model="lecturerForm.contentEnrichment" class="course-form-rate" :colors="colors" show-score allow-half @change="scoreChange"></el-rate> -->
+                </div>
+              </el-form-item>
+            </el-form>
           </div>
         </div>
       </el-main>
@@ -48,9 +132,28 @@ export default {
       courseList: [],
       courseMessage: [],
       detailVisible: false,
-      // addForm: {
-        teachingMaterial: ''
-      // }
+      courseForm: {
+        teachingMaterial: null, // 培训教材
+        trainingMode: null,    // 培训形式
+        contentEnrichment: null, // 课程内容充实性
+        pertinence: null, // 课程针对性
+        practicality: null, // 实用性
+        practice: null // 练习
+      },
+      lecturerForm: {
+        expression: null, // 表达能力
+        infection: null, // 感染力
+        theoreticalLevel: null, // 理论水平
+        blackboardWriting: null, // 板书水平
+        comprehensive: null // 综合评价
+      },
+      organizeForm: {
+        place: null, // 场地
+        discipline: null, // 纪律
+        boardAndLodging: null, // 食宿
+        other: null // 其他安排
+      },
+      colors: ['#99A9BF', '#F7BA2A', '#FF9900']
     }
   },
   mounted() {
@@ -78,6 +181,12 @@ export default {
           this.detailVisible = true
         }
       } 
+    },
+    scoreChange: function(score) {
+      // console.log(score);
+      console.log(this.courseForm.teachingMaterial);
+      
+      
     }
   }
 }
@@ -144,5 +253,46 @@ export default {
   /* background-color: tomato; */
   display: inline-block;
   width: 150px;
+}
+.course-form-item {
+  /* background-color: thistle; */
+  width: 100%;
+  float: left;
+  vertical-align: middle;
+  margin-bottom: 0px;
+}
+.course-form-span {
+  /* background-color: thistle; */
+  float: left;
+  width: 150px;
+  margin-right: 20px;
+  /* height: 40px; */
+  /* vertical-align: top; */
+  /* display: inline-block; */
+  /* width: 300px; */
+}
+.course-form-rate {
+  /* background-color: tomato; */
+  width: 370px;
+  /* height: 40px; */
+  margin-top: 10px;
+}
+.course-div {
+  /* background-color: coral; */
+  height: 160px;
+  margin-top: 5px;
+  border: 1px solid rgb(210,226,255);
+  padding: 3px 0px 0px 5px;
+}
+.course-form-item-left {
+  /* background-color: coral; */
+  width: 50%;
+  float: left;
+}
+</style>
+<style>
+.el-rate {
+  /* background-color: thistle; */
+  vertical-align: middle;
 }
 </style>
