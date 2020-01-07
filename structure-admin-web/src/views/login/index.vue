@@ -52,7 +52,7 @@
           this.login(param).then(res => {
             if(res.errno == 0 ){
               this.$message.success(res.errmsg|| '登陆成功');
-              this.$router.push({ path: '/writeWeekly' });
+              this.$router.push({ path: '/personPlan' });
             }else{
               this.$message.error(res.errmsg|| '服务开小差');
             }
