@@ -13,7 +13,15 @@
               <el-table-column label="意见/建议" prop="ce_advise"></el-table-column>
             </el-table>
           </el-tab-pane>
-          <el-tab-pane label="教师评价" class="course-tab-pane" name="lecturer">教师评价</el-tab-pane>
+          <el-tab-pane label="教师评价" class="course-tab-pane" name="lecturer">
+            <el-table :data="lecturerTable" border>
+              <el-table-column label="姓名" prop="l_name"></el-table-column>
+              <el-table-column label="部门" prop="d_name"></el-table-column>
+              <el-table-column label="学历" prop="l_education"></el-table-column>
+              <el-table-column label="评分" prop="le_fraction"></el-table-column>
+              <el-table-column label="学员评价" prop="le_advise"></el-table-column>
+            </el-table>
+          </el-tab-pane>
           <el-tab-pane label="其他评价" class="course-tab-pane" name="other">其他评价</el-tab-pane>
         </el-tabs>
       </el-main>
@@ -27,7 +35,8 @@ export default {
   data() {
     return {
       activeTab: 'course',
-      courseTable: []
+      courseTable: [],
+      lecturerTable: []
     }
   },
   mounted() {
@@ -35,15 +44,35 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getCourseEvaluate'
+      'getCourseEvaluate',
+      'getLecturerEvaluate',
+      'getOtherEvaluate'
     ]),
     tabClick: function() {
       console.log(this.activeTab);
       if (this.activeTab === 'course') {
         this.getCourseEvaluate().then(res => {
           if (res.errno === 0) {
-            console.log(res.data);
+            // console.log(res.data);
             this.courseTable = res.data
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      } else if (this.activeTab === 'lecturer') {
+        this.getLecturerEvaluate().then(res => {
+          if (res.errno === 0) {
+            // console.log(res.data);
+            this.lecturerTable = res.data
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      } else if (this.activeTab === 'other') {
+        this.getOtherEvaluate().then(res => {
+          if (res.errno === 0) {
+            console.log(res.data);
+            
           } else {
             this.$message.error(res.errmsg)
           }

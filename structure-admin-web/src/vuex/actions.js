@@ -218,3 +218,15 @@ export const getCourseEvaluate = ({ commit }, params) => {
     return response
   })
 }
+// 获取教师评价表
+export const getLecturerEvaluate = ({ commit }, params) => {
+  return Api.getLecturerEvaluate(params).then(response => {
+    return response
+  })
+}
+// 获取组织评价表
+export const getOtherEvaluate = ({ commit }, params) => {
+  return Api.getOtherEvaluate(params).then(response => {
+    return response
+  })
+}

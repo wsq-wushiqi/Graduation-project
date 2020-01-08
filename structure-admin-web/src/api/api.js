@@ -177,6 +177,14 @@ export default {
   // 获取课程评价表
   getCourseEvaluate: params => {
     return axios.get('/home/evaluate/getCourseEvaluate', params)
+  },
+  // 获取教师评价表
+  getLecturerEvaluate: params => {
+    return axios.get('/home/evaluate/getLecturerEvaluate', params)
+  },
+  // 获取组织评价表
+  getOtherEvaluate: params => {
+    return axios.get('/home/evaluate/getOtherEvaluate', params)
   }
   /**
    * API demo
