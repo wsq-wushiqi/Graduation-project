@@ -91,6 +91,13 @@ export default new Router({
           key: '2-6'
         },
         component: () => import('@/views/evaluateManage/addEvaluate')
+      }, {
+        path: '/checkEvaluate',
+        name: 'checkEvaluate',
+        meta: {
+          key: '2-7'
+        },
+        component: () => import('@/views/evaluateManage/checkEvaluate')
       }]
     }
   ]

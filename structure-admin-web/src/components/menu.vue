@@ -36,10 +36,10 @@
           <span slot="title">评教管理</span>
         </template>
         <el-menu-item index="/addEvaluate">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-location"></i>
           <span slot="title">学生评教</span>
         </el-menu-item>
-        <el-menu-item index="12">
+        <el-menu-item index="/checkEvaluate">
           <i class="el-icon-edit"></i>
           <span slot="title">评教查看</span>
         </el-menu-item>
