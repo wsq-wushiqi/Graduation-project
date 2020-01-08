@@ -282,6 +282,8 @@ export default {
         if (res.errno === 0) {
           this.$message.success('提交成功')
           this.commitSuccess = true
+          this.detailVisible = false
+          this.evaluateDetail = false
         } else {
           this.$message.error(res.errmsg)
         }
