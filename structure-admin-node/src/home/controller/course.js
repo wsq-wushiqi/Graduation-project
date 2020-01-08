@@ -12,9 +12,10 @@ module.exports = class extends Base {
     let c_opinion = ''
     try {
       let department = await this.model('department').where({d_id}).find()
-      let name = await this.model('lecture').where({ u_username: this.user.u_username}).find()
+      let name = await this.model('lecture').where({ u_username: this.user.u_username }).find()
       let l_name = name.l_name
-      let apply = await this.model('course').add({ c_id, c_name,u_username: this.user.u_username, c_category, c_hour, d_id, c_status, l_name, c_opinion, d_name: department.d_name})
+      let l_id = name.l_id
+      let apply = await this.model('course').add({ c_id, c_name,u_username: this.user.u_username, c_category, c_hour, d_id, c_status, l_name, c_opinion, d_name: department.d_name, l_id })
       return this.success(apply)
     }
     catch(e) {
