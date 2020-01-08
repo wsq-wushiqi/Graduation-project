@@ -200,3 +200,15 @@ export const getPlanList = ({ commit }, params) => {
     return response
   })
 }
+// 添加评价
+export const addEvaluate = ({ commit }, params) => {
+  return Api.addEvaluate(params).then(response => {
+    return response
+  })
+}
+// 检查是否已经添加评价
+export const checkEvaluate = ({ commit }, params) => {
+  return Api.checkEvaluate(params).then(response => {
+    return response
+  })
+}

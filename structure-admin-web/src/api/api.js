@@ -165,6 +165,14 @@ export default {
   // 获取个人培训表
   getPlanList: params => {
     return axios.get('/home/personPlan/getPlanList', params)
+  },
+  // 添加评价
+  addEvaluate: params => {
+    return axios.post('/home/evaluate/addEvaluate', params)
+  },
+  // 检查是否已经添加评价
+  checkEvaluate: params => {
+    return axios.post('/home/evaluate/checkEvaluate', params)
   }
   /**
    * API demo
