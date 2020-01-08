@@ -135,6 +135,10 @@
           <img src="../../image/error_cat.png" alt="出错啦。。" width="128px">
           <span class="alert-text-span">{{ alertText }}</span>
         </div>
+        <div v-show="commitSuccess" class="success-div">
+          <img src="../../image/commit-success.png" alt="提交成功啦~" width="80px" class="success-image">
+          <span class="commit-success-span">成功提交评价！！</span>
+        </div>
         <!-- <div v-show="evaluateDetail">
           <el-form>
             <el-form-item>
@@ -197,7 +201,8 @@ export default {
       organizeTotal: 0.00,
       colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
       evaluateDetail: false,
-      alertText: ''
+      alertText: '',
+      commitSuccess: false
       // detailForm: {
       //   course: 0.00,
       //   courseAdvise: '',
@@ -238,9 +243,11 @@ export default {
             if (res.errno === 0) {
               this.detailVisible = true
               this.evaluateDetail = false
+              this.commitSuccess = false
             } else {
               this.detailVisible = false
               this.evaluateDetail = true
+              this.commitSuccess = false
               this.alertText = '换一个吧，您已经评价过课程“'+this.courseMessage.c_name+'”啦~'
               // this.$message.info(res.errmsg)
             }
@@ -274,6 +281,7 @@ export default {
       this.addEvaluate(params).then(res => {
         if (res.errno === 0) {
           this.$message.success('提交成功')
+          this.commitSuccess = true
         } else {
           this.$message.error(res.errmsg)
         }
@@ -433,6 +441,28 @@ export default {
   /* margin-bottom: 50px; */
   /* text-align: start; */
   /* margin-bottom: 55px; */
+}
+.success-div {
+  /* background-color: cornflowerblue; */
+  height: 150px;
+  margin-top: 80px;
+  /* text-align: center; */
+  padding: 10px 20px;
+  border: 1px solid rgb(210,226,255);
+}
+.commit-success-span {
+  /* background-color: thistle; */
+  /* display: block; */
+  width: 150px;
+  /* margin-bottom: 50px; */
+  /* float: right; */
+  /* margin-top: 10px; */
+  margin-left: 10px;
+  color: rgb(74, 70, 138);
+}
+.success-image {
+  /* background-color: yellowgreen; */
+  vertical-align: middle;
 }
 </style>
 <style>
