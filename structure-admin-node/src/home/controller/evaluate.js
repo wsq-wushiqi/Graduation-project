@@ -83,4 +83,34 @@ module.exports = class extends Base {
       return this.fail('获取评价表失败')
     }
   }
+  async getCourseEvaluateAction() {
+    try {
+      let course = await this.model('course').select()
+      let evaluate = await this.model('course_evaluate').select()
+      let result = []
+      for (let i = 0; i < evaluate.length; i++) {
+        for (let j = 0; j < course.length; j++) {
+          if (evaluate[i].c_id === course[j].c_id) {
+            let c = course[j]
+            let e = evaluate[i]
+            console.log(c);
+            console.log(e);
+            result.push({
+              c_name: c.c_name,
+              c_hour: c.c_hour,
+              d_name: c.d_name,
+              l_name: c.l_name,
+              ce_fraction: e.ce_fraction,
+              ce_advise: e.ce_advise
+            })
+          }
+        }
+      }
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('获取课程评价列表失败')
+    }
+  }
 }

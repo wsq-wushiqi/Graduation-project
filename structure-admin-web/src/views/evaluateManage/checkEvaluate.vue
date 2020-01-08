@@ -3,10 +3,18 @@
     <el-container>
       <el-header height="45px" class="check-evaluate-header">Header</el-header>
       <el-main class="check-evaluate-main">
-        <el-tabs type="border-card">
-          <el-tab-pane label="课程评价" class="course-tab-pane">课程评价</el-tab-pane>
-          <el-tab-pane label="教师评价" class="course-tab-pane">教师评价</el-tab-pane>
-          <el-tab-pane label="其他评价" class="course-tab-pane">其他评价</el-tab-pane>
+        <el-tabs v-model="activeTab" type="border-card" @tab-click="tabClick">
+          <el-tab-pane label="课程评价" class="course-tab-pane" name="course">
+            <el-table :data="courseTable" border>
+              <el-table-column label="课程" prop="c_name"></el-table-column>
+              <el-table-column label="课时" prop="c_hour"></el-table-column>
+              <el-table-column label="开课部门" prop="d_name"></el-table-column>
+              <el-table-column label="评分" prop="ce_fraction"></el-table-column>
+              <el-table-column label="意见/建议" prop="ce_advise"></el-table-column>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="教师评价" class="course-tab-pane" name="lecturer">教师评价</el-tab-pane>
+          <el-tab-pane label="其他评价" class="course-tab-pane" name="other">其他评价</el-tab-pane>
         </el-tabs>
       </el-main>
     </el-container>
@@ -14,8 +22,35 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
-
+  data() {
+    return {
+      activeTab: 'course',
+      courseTable: []
+    }
+  },
+  mounted() {
+    this.tabClick()
+  },
+  methods: {
+    ...mapActions([
+      'getCourseEvaluate'
+    ]),
+    tabClick: function() {
+      console.log(this.activeTab);
+      if (this.activeTab === 'course') {
+        this.getCourseEvaluate().then(res => {
+          if (res.errno === 0) {
+            console.log(res.data);
+            this.courseTable = res.data
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      }
+    }
+  }
 }
 </script>
 

@@ -173,6 +173,10 @@ export default {
   // 检查是否已经添加评价
   checkEvaluate: params => {
     return axios.post('/home/evaluate/checkEvaluate', params)
+  },
+  // 获取课程评价表
+  getCourseEvaluate: params => {
+    return axios.get('/home/evaluate/getCourseEvaluate', params)
   }
   /**
    * API demo

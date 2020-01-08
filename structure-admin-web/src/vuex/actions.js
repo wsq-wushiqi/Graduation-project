@@ -212,3 +212,9 @@ export const checkEvaluate = ({ commit }, params) => {
     return response
   })
 }
+// 获取课程评价表
+export const getCourseEvaluate = ({ commit }, params) => {
+  return Api.getCourseEvaluate(params).then(response => {
+    return response
+  })
+}
