@@ -20,6 +20,8 @@ module.exports = class extends Base {
       for (let k = 0; k < data.length; k++) {
         let course = await this.model('course').where({c_id: data[k].c_id}).find()
         result.push({
+          c_id: course.c_id,
+          l_id: course.l_id,
           c_name: course.c_name,
           c_category: course.c_category,
           c_hour: course.c_hour,
