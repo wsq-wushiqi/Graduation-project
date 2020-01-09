@@ -21,10 +21,6 @@
           <i class="el-icon-location"></i>
           <span slot="title">课程安排</span>
         </el-menu-item>
-        <!-- <el-menu-item index="02">
-          <i class="el-icon-edit"></i>
-          <span slot="title">培训申请</span>
-        </el-menu-item> -->
         <el-menu-item index="/personPlan">
           <i class="el-icon-location"></i>
           <span slot="title">个人培训计划</span>
@@ -103,7 +99,6 @@
     & .el-menu{
       width: 100%;
       border-right: none;
-      /* overflow: auto; */
     }
     & :hover {
     }
@@ -114,16 +109,13 @@
 <style>
 .el-menu-item:hover{
   outline: 0 !important;
-  /* color: #409EFF !important; */
   background-color: rgb(232,240,255)!important;
 }
 .el-menu-item.is-active {
-  /* color: #fff !important; */
   background: rgb(210,226,255) !important;
 }
 .el-submenu__title:focus, .el-submenu__title:hover{
   outline: 0 !important;
-  /* color: #409EFF !important; */
   background: none !important;
 }
 </style>
