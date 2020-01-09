@@ -45,7 +45,6 @@
         </el-form-item>
         <el-form-item>
           <span class="add-form-sapn">部门：</span>
-          <!-- <el-input v-model="addForm.d_name" class="add-form-input"></el-input> -->
           <el-select v-model="addForm.d_name" class="add-form-input">
             <el-option v-for="(item, key) in departmentList" :key="key" :value="item.d_id" :label="item.d_name"></el-option>
           </el-select>
@@ -54,10 +53,6 @@
           <span class="add-form-sapn">学历：</span>
           <el-input v-model="addForm.l_education" class="add-form-input"></el-input>
         </el-form-item>
-        <!-- <el-form-item>
-          <span class="add-form-sapn">评分：</span>
-          <el-input v-model="addForm.l_grade"></el-input>
-        </el-form-item> -->
       </el-form>
       <div slot="footer">
         <el-button @click="addDlgVisible = false">取消</el-button>
@@ -104,7 +99,6 @@ export default {
     ]),
     // 查询
     query: function() {
-      // this.$message.success('查询')
       let params = {
         name: this.queryName,
         department: this.queryDepartment
@@ -122,7 +116,6 @@ export default {
       this.addDlgVisible = true
       this.addDlgTitle = '录入信息'
       this.addForm = Object.assign({}, null)
-      // this.getDepartment()
     },
     // 录入、修改对话框确定按钮
     doAdd: function() {
@@ -186,7 +179,6 @@ export default {
         this.addDlgVisible = true
         this.addDlgTitle = '修改信息'
         this.addForm = Object.assign({}, row)
-        // this.getDepartment()
       }
     },
     // 删除数据
@@ -200,7 +192,6 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          // this.$message.success('删除')
           this.deleteInfo({ id: row.l_id }).then(res => {
             if (res.errno === 0) {
               this.$message.success(res.data)
@@ -216,15 +207,12 @@ export default {
     },
     // 获取部门列表
     getDepartment: function() {
-      console.log('11111111111111');
       this.getDepartmentList().then(res => {
         if (res.errno === 0) {
           this.departmentList = res.data
         } else {
           this.$message.error('获取部门列表失败')
         }
-        console.log(res);
-        
       }).catch(error => { this.$message.error(error) })
     }
   }
@@ -236,11 +224,9 @@ export default {
   height: calc(100vh - 46px);
 }
 .query-header {
-  /* background-color: cadetblue; */
   line-height: 50px;
 }
 .query-span {
-  /* background-color: coral; */
   display: inline-block;
   width: 65px;
   line-height: 30px;
@@ -250,12 +236,10 @@ export default {
   margin-right: 20px;
 }
 .operation-header {
-  /* background-color: burlywood; */
   line-height: 45px;
   border-bottom: 1px solid rgb(210,226,255);
 }
 .add-form-sapn {
-  /* background-color: rgb(180, 141, 206); */
   display: inline-block;
   width: 18%;
   text-align: right;
@@ -277,6 +261,5 @@ export default {
 }
 .el-table tbody tr:hover>td {
   background-color: rgb(232,240,255)!important;
-  /* color: aliceblue; */
 }
 </style>
