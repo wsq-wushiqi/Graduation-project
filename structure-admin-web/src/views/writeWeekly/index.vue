@@ -10,7 +10,6 @@
     <p>
       <el-button type="primary" plain @click="submitWeekly">提交内容</el-button>
     </p>
-
     <el-input v-model="testData"/><el-button @click="ok"></el-button>
   </div>
 </template>
