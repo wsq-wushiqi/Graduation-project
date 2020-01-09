@@ -26,6 +26,8 @@ module.exports = class extends Base {
   async getCourseListAction() {
     try {
       let data = await this.model('course').select()
+      console.log(data);
+      
       return this.success(data)
     }
     catch(e) {
