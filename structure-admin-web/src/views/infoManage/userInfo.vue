@@ -24,12 +24,6 @@
             <el-form-item>
               <span>部门：</span><span>{{ userForm.d_name }}</span>
             </el-form-item>
-            <!-- <el-form-item>
-              <span>职位：</span>
-            </el-form-item> -->
-            <!-- <el-form-item>
-              <span>电话：</span>
-            </el-form-item> -->
             <el-form-item>
               <span>邮箱：</span><span>{{ userForm.i_email }}</span>
             </el-form-item>
@@ -49,12 +43,6 @@
             <el-form-item>
               <span>部门：</span><span>{{ lecturerForm.d_name }}</span>
             </el-form-item>
-            <!-- <el-form-item>
-              <span>职位：</span>
-            </el-form-item> -->
-            <!-- <el-form-item>
-              <span>电话：</span>
-            </el-form-item> -->
             <el-form-item>
               <span>学历：</span><span>{{ lecturerForm.l_education }}</span>
             </el-form-item>
@@ -138,7 +126,6 @@ export default {
     this.myUserInfo(params).then(res => {
       if (res.errno === 0) {
         if (res.data.i_id === undefined) {
-          // console.log(this.lecturerForm);
           this.lecturerForm = res.data
         } else {
           this.userForm = res.data
@@ -192,34 +179,25 @@ export default {
   height: calc(100vh - 46px);
 }
 .header-span {
-  /* background-color: coral; */
   display: inline-block;
   height: 43px;
   font-size: 27px;
   margin: 10px;
-  /* width: 90%; */
   text-align: center;
-
-  /* border-bottom: 1px solid rgb(210,226,255); */
 }
 .header-border {
-  /* background-color: darkcyan; */
   width: 90%;
   height: 10px;
   margin: 0px;
-  /* text-align: center; */
-  /* margin-left: 5%; */
   margin-left: 10px;
   border-top: 1px solid rgb(227, 230, 236);
 }
 .info-div {
-  /* background-color: burlywood; */
   width: 450px;
   float: left;
   margin-top: 40px;
 }
 .info-img {
-  /* display: inline-block; */
   width: 130px;
   float: left;
   padding: 10px;
@@ -227,6 +205,5 @@ export default {
 .info-button {
   margin-top: 20px;
   padding: 5px 10px;
-  /* text-align: center; */
 }
 </style>

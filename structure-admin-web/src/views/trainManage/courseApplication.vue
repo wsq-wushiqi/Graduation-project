@@ -46,7 +46,6 @@
         </el-form-item>
         <el-form-item prop="name">
           <span class="apply-form-span">开课部门：</span>
-          <!-- <el-input v-model="applyForm.d_name" class="apply-form-input"></el-input> -->
           <el-select v-model="applyForm.d_name" class="apply-form-input">
             <el-option v-for="(item, key) in departmentList" :key="key" :value="item.d_id" :label="item.d_name"></el-option>
           </el-select>
@@ -175,7 +174,6 @@ export default {
         }).catch(error => { this.$message.error(error) })
       } else {
         const row = this.tableRadio
-        // this.$message.success('修改')
         let params = {
           id: row.c_id,
           name: this.applyForm.c_name,
@@ -315,7 +313,6 @@ export default {
 <style scoped>
 .query-header {
   line-height: 45px;
-  /* background-color: blueviolet; */
 }
 .operation-header {
   line-height: 45px;
@@ -331,22 +328,15 @@ export default {
   margin-left: 5px;
 }
 .examine-name {
-  /* background-color: thistle; */
   margin-right: 50px;
-  /* padding-right: 50px; */
   display: inline-block;
   width: 300px;
   font-size: 25px;
   text-align: center;
 }
 .examine-span {
-  /* background-color: tan; */
   display: inline-block;
   width: 100px;
-  /* text-align: right; */
-  /* margin-right: 5px; */
-  /* margin-top: 0px; */
-  /* margin-bottom: 1px; */
 }
 .examine-textarea {
   vertical-align: top;
@@ -358,17 +348,14 @@ export default {
   padding: 3px;
 }
 .examine-form-item {
-  /* background-color: tomato; */
   margin-bottom: 5px;
 }
 </style>
 <style>
 .examine-dialog .el-dialog__header {
-  /* background-color: rgb(139, 180, 85); */
   padding-bottom: 2px;
 }
 .examine-dialog .el-dialog__body {
-  /* background-color: rgb(85, 118, 180); */
   padding: 0px 0px 0px 50px;
 }
 .el-table__header tr,

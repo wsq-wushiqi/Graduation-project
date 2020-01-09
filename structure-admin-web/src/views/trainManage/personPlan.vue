@@ -60,15 +60,12 @@ export default {
       }).catch(error => { this.$message.error(error) })
     },
     addEvaluate: function(item) {
-      console.log(item);
       let date = new Date()
       let nyear = date.getFullYear()
       let nmonth = date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1
       let nday = date.getDate()<10 ? "0"+date.getDate() : date.getDate()
       let rowdate = item.a_time.split('-')
       if (rowdate[0] < nyear || rowdate[1] < nmonth || rowdate[2].split(' ')[0] < nday) {
-        // console.log(item.c_name+'可以');
-        // this.evaluateVisible = true
         this.$router.push('/addEvaluate')
       } else {
         this.$message.error('课程"' + item.c_name + '"未结束，不能评价')
@@ -80,17 +77,13 @@ export default {
 
 <style scoped>
 .person-plan-container {
-  /* background-color: rgb(95, 151, 97); */
   height: calc(100vh - 46px);
   overflow-y: scroll;
 }
 .person-plan-main {
-  /* background-color: coral; */
   height: 100%;
-  /* padding: 10px; */
 }
 .card-form-item {
-  /* background-color: thistle; */
   margin-bottom: 5px;
 }
 .card-button {
@@ -98,7 +91,6 @@ export default {
   float: right;
 }
 .card-form-title {
-  /* background-color: thistle; */
   display: inline-block;
   width: 80px;
 }
@@ -109,7 +101,6 @@ export default {
   background-color: rgba(220, 210, 255, 0.199);
 }
 .person-plan-header {
-  /* background-color: thistle; */
   line-height: 50px;
   border-bottom: 1px solid rgb(210,226,255);
 }
@@ -117,7 +108,6 @@ export default {
 <style>
 .card-title {
   display: inline-block;
-  /* background-color: tomato; */
   width: 300px;
   font-size: 25px;
 }
@@ -139,10 +129,8 @@ export default {
   border: 1px solid rgb(210,226,255);
 }
 .box-card .el-card__header {
-  /* background-color: yellow; */
   padding: 5px 20px;
   border-bottom: 1px solid rgb(210,226,255);
-  /* background-color: rgb(210,226,255) */
 }
 .box-card .el-card__body {
   padding: 10px 70px;

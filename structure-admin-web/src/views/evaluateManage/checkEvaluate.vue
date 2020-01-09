@@ -112,32 +112,25 @@ export default {
 <style scoped>
 .check-evaluate-container {
   height: calc(100vh - 46px);
-  /* background-color: yellowgreen; */
 }
 .check-evaluate-header {
-  /* background-color: yellowgreen; */
   border-bottom: 1px solid rgb(210,226,255);
   line-height: 45px;
 }
 .check-evaluate-main {
   height: calc(100vh - 91px);
   padding: 10px;
-  /* background-color: rgb(125, 151, 173); */
 }
 .course-tab-pane {
-  /* background-color: coral; */
-  /* height: 100%; */
   height: calc(100vh - 182px);
   overflow-y: scroll;
 }
 .advise-ul {
   list-style: none;
-  /* background-color: thistle; */
   margin: 0px;
   padding: 0px 40px;
 }
 .advise-title {
-  /* background-color: rgb(151, 114, 57); */
   display: inline-block;
   width: 100%;
   line-height: 30px;
@@ -145,7 +138,6 @@ export default {
   text-align: center;
 }
 .advise-li {
-  /* background-color: coral; */
   margin-bottom: 2px;
   height: 25px;
   line-height: 25px;
@@ -157,19 +149,15 @@ export default {
   background-color: rgb(232,240,255);
 }
 .el-tabs :hover {
-  /* background-color: rgb(232,240,255); */
   color: rgb(120, 111, 167)!important;
 }
 .el-tabs__item.is-active {
-  /* background-color: yellowgreen!important; */
   color: rgb(73, 64, 112)!important;
 }
 .advise-dialog .el-dialog__header {
-  /* background-color: coral; */
   padding: 15px 0px 0px 15px;
 }
 .advise-dialog .el-dialog__body {
-  /* background-color: darkkhaki; */
   padding: 5px 10px 5px 10px;
   height: 300px;
 }

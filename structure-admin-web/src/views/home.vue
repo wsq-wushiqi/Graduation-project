@@ -95,7 +95,6 @@
       overflow-y: hidden;
   & .content{
       height: 100%;
-      /* padding: 20px 40px; */
       background-color: #fff;
     }
   }

@@ -41,7 +41,6 @@
       <el-form ref="addInfoForm" :v-model="addInfoForm" :rules="formRule">
         <el-form-item>
           <span class="add-info-span">部门：</span>
-          <!-- <el-input v-model="addInfoForm.d_name" class="add-info-item"></el-input> -->
           <el-select v-model="addInfoForm.d_name" class="add-info-item">
             <el-option v-for="(item, key) in departmentList" :key="key" :label="item.d_name" :value="item.d_id"></el-option>
           </el-select>
@@ -121,12 +120,10 @@ export default {
         name: '',
         manager: ''
       }
-      // updateInfoDlg: false
     }
   },
   mounted() {
     this.getTableData()
-    // this.getDepartment()
   },
   methods: {
     ...mapActions([
@@ -327,21 +324,16 @@ export default {
   height: calc(100vh - 46px);
 }
 .query-header {
-  /* background-color: cadetblue; */
   line-height: 50px;
 }
 .page-main {
-  /* background-color: thistle; */
   height: calc(100vh - 96px);
   padding: 0px;
 }
 .operation-header {
-  /* background-color: tan; */
   line-height: 45px;
 }
 .table-main {
-  /* background-color: coral; */
-  /* height: 100%; */
   height: calc(100vh - 141px);
   border-top: 1px solid rgb(210,226,255);
   padding: 5px;
@@ -350,7 +342,6 @@ export default {
   width: 60%;
 }
 .query-span {
-  /* background-color: coral; */
   display: inline-block;
   width: 65px;
   line-height: 30px;
@@ -360,7 +351,6 @@ export default {
   margin-right: 20px;
 }
 .add-info-span {
-  /* background-color: cornflowerblue; */
   display: inline-block;
   width: 25%;
   text-align: right;
@@ -378,19 +368,15 @@ export default {
 }
 .el-table tbody tr:hover>td {
   background-color: rgb(232,240,255)!important;
-  /* color: aliceblue; */
 }
 .add-info-dialog .el-dialog__header {
-  /* background-color: coral; */
   padding: 12px 0px 5px 10px;
 }
 .add-info-dialog .el-dialog__body {
-  /* background-color: rgb(212, 160, 141); */
   padding-top: 10px;
   padding-bottom: 3px;
 }
 .add-info-dialog .el-dialog__footer {
-  /* background-color: rgb(126, 117, 114); */
   padding-bottom: 15px;
   padding-top: 0px;
 }

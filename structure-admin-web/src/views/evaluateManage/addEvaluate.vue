@@ -139,22 +139,6 @@
           <img src="../../image/commit-success.png" alt="提交成功啦~" width="80px" class="success-image">
           <span class="commit-success-span">成功提交评价！！</span>
         </div>
-        <!-- <div v-show="evaluateDetail">
-          <el-form>
-            <el-form-item>
-              <span>关于课程：<span>{{ detailForm.course }}</span>分</span>
-              <span>意见和建议：<span>{{ detailForm.courseAdvise }}</span></span>
-            </el-form-item>
-            <el-form-item>
-              <span>关于讲师：<span>{{ detailForm.lecturer }}</span>分</span>
-              <span>意见和建议：<span>{{ detailForm.lecturerAdvise }}</span></span>
-            </el-form-item>
-            <el-form-item>
-              <span>关于组织工作：<span>{{ detailForm.organize }}</span>分</span>
-              <span>意见和建议：<span>{{ detailForm.organizeAdvise }}</span></span>
-            </el-form-item>
-          </el-form>
-        </div> -->
       </el-main>
     </el-container>
   </div>
@@ -176,7 +160,6 @@ export default {
         pertinence: null, // 课程针对性
         practicality: null, // 实用性
         practice: null, // 练习
-        // total: 0 // 总体
         advise: '' // 意见和建议
       },
       courseTotal: 0.00,
@@ -187,7 +170,6 @@ export default {
         blackboardWriting: null, // 板书水平
         comprehensive: null, // 综合评价
         advise: '' // 意见和建议
-        // total: 0 // 总体
       },
       lecturerTotal: 0.00,
       organizeForm: {
@@ -196,21 +178,12 @@ export default {
         boardAndLodging: null, // 食宿
         other: null, // 其他安排
         advise: '' // 意见和建议
-        // total: 0 // 总体
       },
       organizeTotal: 0.00,
       colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
       evaluateDetail: false,
       alertText: '',
       commitSuccess: false
-      // detailForm: {
-      //   course: 0.00,
-      //   courseAdvise: '',
-      //   lecturer: 0.00,
-      //   lecturerAdvise: '',
-      //   organize: 0.00,
-      //   organizeAdvise: ''
-      // }
     }
   },
   mounted() {
@@ -249,7 +222,6 @@ export default {
               this.evaluateDetail = true
               this.commitSuccess = false
               this.alertText = '换一个吧，您已经评价过课程“'+this.courseMessage.c_name+'”啦~'
-              // this.$message.info(res.errmsg)
             }
           }).catch(error => { this.$message.error(error) })
         }
@@ -426,44 +398,27 @@ export default {
   text-align: center;
 }
 .alert-text-div {
-  /* background-color: thistle; */
   margin-top: 20px;
   height: 150px;
   border: 1px solid rgb(210,226,255);
   padding: 10px 0px 10px 20px;
   color: rgb(74, 70, 138);
-  /* text-align: start; */
-  /* text-align: center; */
-  /* vertical-align: middle; */
 }
 .alert-text-span {
   margin-left: 10px;
-  /* background-color: tomato; */
-  /* display: inline-block; */
-  /* margin-bottom: 50px; */
-  /* text-align: start; */
-  /* margin-bottom: 55px; */
 }
 .success-div {
-  /* background-color: cornflowerblue; */
   height: 150px;
   margin-top: 80px;
-  /* text-align: center; */
   padding: 10px 20px;
   border: 1px solid rgb(210,226,255);
 }
 .commit-success-span {
-  /* background-color: thistle; */
-  /* display: block; */
   width: 150px;
-  /* margin-bottom: 50px; */
-  /* float: right; */
-  /* margin-top: 10px; */
   margin-left: 10px;
   color: rgb(74, 70, 138);
 }
 .success-image {
-  /* background-color: yellowgreen; */
   vertical-align: middle;
 }
 </style>
