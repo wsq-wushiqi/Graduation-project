@@ -15,6 +15,7 @@ module.exports = class extends Base {
     let boardAndLodging = this.post('boardAndLodging') // 食宿
     let other = this.post('other') // 其他
     try {
+      
       let u = await this.model('info').where({ i_id: i_id }).getField('i_name')
       let c1 = await this.model('course_evaluate').where({ c_id: c_id }).find()
       let l1 = await this.model('lecturer_evaluate').where({ l_id: l_id }).find()
@@ -29,7 +30,9 @@ module.exports = class extends Base {
       } else {
         let score = (c1.ce_fraction + Number(ce_fraction))/2
         advise = c1.ce_advise+','+u+':'+ce_advise
-        ids = c1.ids + ',' + i_id
+        console.log(c1);
+        
+        ids = c1.ce_ids + ',' + i_id
         let c3 = await this.model('course_evaluate').where({ c_id: c_id}).update({ ce_fraction: score, ce_advise: advise, ce_ids: ids })
         console.log(c3);
       }
@@ -58,6 +61,10 @@ module.exports = class extends Base {
         advise = o1.oe_advise+','+u+':'+oe_advise
         let o3 = await this.model('other_evaluate').where({ c_id: c_id, l_id: l_id}).update({ oe_fraction: score, oe_advise: advise, place: splace, discipline: sdiscipline, boardAndLodging: sboardAndLodging, other: sother})
         console.log(o3);
+      }
+      let lid = await this.model('lecture').select()
+      for (let i = 0; i < lid.length; i++) {
+        let lname = await this.model('course').where({ l_id: lid[i].l_id }).update({ l_name: lid[i].l_name})
       }
       return this.success('提交成功')
     }
