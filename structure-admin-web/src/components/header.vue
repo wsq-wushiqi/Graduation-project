@@ -39,11 +39,6 @@
         username: ''
       }
     },
-     // beforeRouteEnter: (to, from, next) => {
-     //   next(vm => {
-     //     vm.getUserInfo();
-     //   });
-     // },
     computed: {
       ...mapGetters([
         "userInfo"
@@ -75,14 +70,12 @@
   color: #fff;
   font-size: 14px;
   background: #3a79ff;
-  /* background-color: rgb(28,41,89); */
   height: 46px;
   line-height: 46px;
   font-weight: 700;
   box-shadow: 0 2px 10px 0 rgb(0, 0, 0, 0.4);
   & .header-box{
     width: 100%;
-    /* width: 1360px; */
     margin: 0 auto;
     background-color: rgb(85,118,189);
   }
