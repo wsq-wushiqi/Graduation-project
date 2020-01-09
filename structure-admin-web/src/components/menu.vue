@@ -40,8 +40,12 @@
           <span slot="title">评教查看</span>
         </el-menu-item>
         <el-menu-item index="/examine">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-location"></i>
           <span slot="title">考核管理</span>
+        </el-menu-item>
+        <el-menu-item index="/checkResult">
+          <i class="el-icon-edit"></i>
+          <span slot="title">成绩查看</span>
         </el-menu-item>
       </el-submenu>
       <el-submenu index='2'>

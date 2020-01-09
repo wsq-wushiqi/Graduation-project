@@ -105,6 +105,13 @@ export default new Router({
           key: '2-8'
         },
         component: () => import('@/views/evaluateManage/examine')
+      }, {
+        path: '/checkResult',
+        name: 'checkResult',
+        meta: {
+          key: '2-9'
+        },
+        component: () => import('@/views/evaluateManage/checkResult')
       }]
     }
   ]
