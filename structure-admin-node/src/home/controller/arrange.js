@@ -4,6 +4,8 @@ module.exports = class extends Base {
   async getArrangeListAction() {
     try {
       let list1 = await this.model('course').where({c_status: '2'}).select()
+      console.log(list1);
+      
       let result = []
       for (let i=0; i<list1.length; i++) {
         let c_id = list1[i].c_id
