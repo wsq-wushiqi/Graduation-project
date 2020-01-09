@@ -230,3 +230,21 @@ export const getOtherEvaluate = ({ commit }, params) => {
     return response
   })
 }
+// (讲师)获取我的课程表
+export const getMyCourse = ({ commit }, params) => {
+  return Api.getMyCourse(params).then(response => {
+    return response
+  })
+}
+// 获取课程对应的学生信息
+export const getCourseStu = ({ commit }, params) => {
+  return Api.getCourseStu(params).then(response => {
+    return response
+  })
+}
+// 添加学生成绩
+export const editStuGeade = ({ commit }, params) => {
+  return Api.editStuGeade(params).then(response => {
+    return response
+  })
+}

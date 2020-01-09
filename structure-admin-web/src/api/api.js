@@ -185,6 +185,18 @@ export default {
   // 获取组织评价表
   getOtherEvaluate: params => {
     return axios.get('/home/evaluate/getOtherEvaluate', params)
+  },
+  // (讲师)获取我的课程表
+  getMyCourse: params => {
+    return axios.get('/home/examine/getMyCourse', params)
+  },
+  // 获取课程对应的学生信息
+  getCourseStu: params => {
+    return axios.post('/home/examine/getCourseStu', params)
+  },
+  // 添加学生成绩
+  editStuGeade: params => {
+    return axios.post('/home/examine/editStuGeade', params)
   }
   /**
    * API demo
