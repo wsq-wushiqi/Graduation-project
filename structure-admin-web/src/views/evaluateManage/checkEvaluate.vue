@@ -1,7 +1,7 @@
 <template>
   <div class="check-evaluate-container">
     <el-container>
-      <el-header height="45px" class="check-evaluate-header">Header</el-header>
+      <!-- <el-header height="45px" class="check-evaluate-header">Header</el-header> -->
       <el-main class="check-evaluate-main">
         <el-tabs v-model="activeTab" type="border-card" @tab-click="tabClick">
           <el-tab-pane label="课程评价" class="course-tab-pane" name="course">
