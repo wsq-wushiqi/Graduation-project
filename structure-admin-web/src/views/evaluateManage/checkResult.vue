@@ -1,7 +1,10 @@
 <template>
   <div class="check-result-container">
     <el-container>
-      <el-header height="45px" class="check-result-header">Header</el-header>
+      <el-header height="45px" class="check-result-header">
+        <span class="query-span">课程名称：</span><el-input v-model="queryCourseName" class="query-input" size="small" clearable @clear="query"></el-input>
+        <el-button type="primary" plain size="small" @click="query">查询</el-button>
+      </el-header>
       <el-main class="check-result-main">
         <el-table
         :data="tableData"
@@ -45,7 +48,9 @@ export default {
   data() {
     return {
       tableData: [],
-      center: 'center'
+      center: 'center',
+      queryCourseName: '',
+      queryLecturer: ''
     }
   },
   mounted() {
@@ -63,6 +68,22 @@ export default {
           this.$message.error(res.errmsg)
         }
       }).catch(error => { this.$message.error(error) })
+    },
+    query: function() {
+      const courseName = this.queryCourseName
+      if (courseName) {
+        return this.tableData.filter(data => { // 遍历表格数据
+          return Object.keys(data).some(key => { // 遍历key
+            let list = []
+            if (String(data[key]).toLowerCase().indexOf(courseName) > -1) { // 未找到符合项下标为-1，找到了为0
+              list.push(data)
+              this.tableData = list
+            }
+          })
+        })
+      } else {
+        this.getTableData() // 如果没有输入条件就显示所有数据
+      }
     }
   }
 }
@@ -73,7 +94,7 @@ export default {
   height: calc(100vh - 46px);
 }
 .check-result-header {
-  line-height: 45px;
+  padding-top: 5px;
   border: 1px solid rgb(232,240,255);
 }
 .check-result-main {
@@ -82,6 +103,14 @@ export default {
 }
 .bad-number {
   color: rgb(206, 49, 49);
+}
+.query-span {
+  display: inline-block;
+  width: 90px;
+}
+.query-input {
+  width: 200px;
+  margin-right: 20px;
 }
 </style>
 <style>
