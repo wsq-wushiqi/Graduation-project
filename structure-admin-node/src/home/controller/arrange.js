@@ -4,8 +4,6 @@ module.exports = class extends Base {
   async getArrangeListAction() {
     try {
       let list1 = await this.model('course').where({c_status: '2'}).select()
-      console.log(list1);
-      
       let result = []
       for (let i=0; i<list1.length; i++) {
         let c_id = list1[i].c_id
@@ -103,6 +101,28 @@ module.exports = class extends Base {
     catch(e) {
       console.log(e);
       return this.fail('加入课程失败')
+    }
+  }
+  async getArrangeCourseListAction() {
+    try {
+      let cid = await this.model('arrange').getField('c_id')
+      let cname = await this.model('course').select()
+      let result = []
+      for (let i = 0; i < cid.length; i++) {
+        for (let j = 0; j < cname.length; j++) {
+          if (cid[i] === cname[j].c_id) {
+            result.push({
+              c_id: cname[j].c_id,
+              c_name: cname[j].c_name
+            })
+          }
+        }
+      }
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('获取课程列表失败')
     }
   }
 }

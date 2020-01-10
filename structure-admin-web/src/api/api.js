@@ -201,6 +201,10 @@ export default {
   // 获取成绩表
   getCheckResult: params => {
     return axios.get('/home/examine/getCheckResult', params)
+  },
+  // 获取客户才能安排表搜索栏的课程列表
+  getArrangeCourseList: params => {
+    return axios.get('/home/arrange/getArrangeCourseList', params)
   }
   /**
    * API demo

@@ -1,7 +1,13 @@
 <template>
   <div>
     <el-container>
-      <el-header class="query-header" height="45px">Header</el-header>
+      <el-header class="query-header" height="45px">
+        <span>课程名称：</span>
+        <el-select v-model="queryCourseName" size="small" clearable @clear="query">
+          <el-option v-for="(item, key) in courseList" :key="key" :label="item.c_name" :value="item.c_name"></el-option>
+        </el-select>
+        <el-button size="small" type="primary" plain @click="query">查询</el-button>
+      </el-header>
       <el-container>
         <el-header class="operation-header" height="45px">
           <el-button size="mini" @click="detailDlg">编辑详情</el-button>
@@ -132,12 +138,15 @@ export default {
         children: 'child',
         label:'label'
       },
-      defaultCheck: []
+      defaultCheck: [],
+      courseList: [],
+      queryCourseName: ''
     }
   },
   mounted() {
     this.getTableData()
     this.departmentList()
+    this.getCourseList()
   },
   computed: {
     ...mapGetters([
@@ -155,6 +164,7 @@ export default {
       'getStuList',
       'getStuInfo',
       'applyToCourse',
+      'getArrangeCourseList'
     ]),
     // 获取表格
     getTableData: function() {
@@ -387,6 +397,38 @@ export default {
           }).catch(error => { this.$message.error(error) })
         }
       }
+    },
+    // 获取课程列表
+    getCourseList: function() {
+      this.getArrangeCourseList().then(res => {
+        if (res.errno === 0) {
+          this.courseList = res.data
+        } else {
+          console.log(res.errmsg)
+        }
+      }).catch(error => { console.log('获取课程列表失败') })
+    },
+    // 查询
+    query: function() {
+      // let params = {
+      //   c_id: this.queryCourseName
+      // }
+      const courseName = this.queryCourseName
+      if (courseName) {
+        return this.tableData.filter(data => {
+          return Object.keys(data).some(key => {
+            let list = []
+            if (String(data[key]).toLowerCase().indexOf(courseName) > -1) {
+              list.push(data)
+              this.tableData = list
+            }
+          })
+        })
+      } else {
+        this.getTableData()
+      }
+      // console.log(params);
+      
     }
   }
 }

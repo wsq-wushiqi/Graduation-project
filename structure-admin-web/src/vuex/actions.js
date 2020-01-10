@@ -253,4 +253,10 @@ export const getCheckResult = ({ commit }, params) => {
   return Api.getCheckResult(params).then(response => {
     return response
   })
-} 
+}
+// 获取课程安排页面搜索栏的课程列表
+export const getArrangeCourseList = ({ commit }, params) => {
+  return Api.getArrangeCourseList(params).then(response => {
+    return response
+  })
+}
