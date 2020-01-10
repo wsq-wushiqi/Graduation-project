@@ -71,4 +71,31 @@ module.exports = class extends Base {
       return this.fail('编辑成绩出错')
     }
   }
+  async getCheckResultAction() {
+    try {
+      let info = await this.model('info').where({ u_username: this.user.u_username}).find()
+      let grade = await this.model('performance').where({ i_id: info.i_id }).select()
+      let result = []
+      for (let i=0; i<grade.length; i++) {
+        let course = await this.model('course').where({ c_id: grade[i].c_id }).find()
+        let arrange = await this.model('arrange').where({ c_id: grade[i].c_id }).find()
+        result.push({
+          c_name: course.c_name,
+          c_hour: course.c_hour,
+          a_time: arrange.a_time,
+          a_lecturer: arrange.a_lecturer,
+          enthusiasm: grade[i].enthusiasm,
+          answer: grade[i].answer,
+          examine: grade[i].examine,
+          p_grade: grade[i].p_grade,
+          p_pass: grade[i].p_pass
+        })
+      }
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('获取成绩表失败')
+    }
+  }
 }

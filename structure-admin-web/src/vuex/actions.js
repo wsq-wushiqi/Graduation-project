@@ -248,3 +248,9 @@ export const editStuGeade = ({ commit }, params) => {
     return response
   })
 }
+// 获取成绩表
+export const getCheckResult = ({ commit }, params) => {
+  return Api.getCheckResult(params).then(response => {
+    return response
+  })
+} 

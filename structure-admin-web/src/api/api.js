@@ -197,6 +197,10 @@ export default {
   // 添加学生成绩
   editStuGeade: params => {
     return axios.post('/home/examine/editStuGeade', params)
+  },
+  // 获取成绩表
+  getCheckResult: params => {
+    return axios.get('/home/examine/getCheckResult', params)
   }
   /**
    * API demo
