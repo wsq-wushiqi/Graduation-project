@@ -260,3 +260,21 @@ export const getArrangeCourseList = ({ commit }, params) => {
     return response
   })
 }
+// 获取普通员工列表
+export const getStuInfoList = ({ commit }, params) => {
+  return Api.getStuInfoList(params).then(response => {
+    return response
+  })
+}
+// 获取讲师列表
+export const getLecturerList = ({ commit }, params) => {
+  return Api.getLecturerList(params).then(response => {
+    return response
+  })
+}
+// 获取经理列表
+export const getManageList = ({ commit }, params) => {
+  return Api.getManageList(params).then(response => {
+    return response
+  })
+}

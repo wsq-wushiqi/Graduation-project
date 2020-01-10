@@ -205,6 +205,18 @@ export default {
   // 获取客户才能安排表搜索栏的课程列表
   getArrangeCourseList: params => {
     return axios.get('/home/arrange/getArrangeCourseList', params)
+  },
+  // 获取普通员工列表
+  getStuInfoList: params => {
+    return axios.get('/home/privilege/getStuInfoList', params)
+  },
+  // 获取讲师列表
+  getLecturerList: params => {
+    return axios.get('/home/privilege/getLecturerList', params)
+  },
+  // 获取经理列表
+  getManageList: params => {
+    return axios.get('/home/privilege/getManageList', params)
   }
   /**
    * API demo
