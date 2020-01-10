@@ -65,6 +65,10 @@
           <i class="el-icon-location"></i>
           <span slot="title">教师信息管理</span>
         </el-menu-item>
+        <el-menu-item index="/privilegeManage">
+          <i class="el-icon-edit"></i>
+          <span slot="title">权限管理</span>
+        </el-menu-item>
       </el-submenu>
     </el-menu>
   </div>

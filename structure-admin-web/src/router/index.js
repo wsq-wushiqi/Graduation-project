@@ -112,6 +112,13 @@ export default new Router({
           key: '2-9'
         },
         component: () => import('@/views/evaluateManage/checkResult')
+      }, {
+        path: '/privilegeManage',
+        name: 'privilegeManage',
+        meta: {
+          key: '2-10'
+        },
+        component: () => import('@/views/infoManage/privilegeManage')
       }]
     }
   ]
