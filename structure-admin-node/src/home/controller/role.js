@@ -21,7 +21,29 @@ function translateDataToTree(data) {
 module.exports = class extends Base {
   async getMenuListAction() {
     try {
-      let data = await this.model('menu').select()
+      let rid = JSON.parse(this.user.r_id)
+      let menu = []
+      for (let i = 0; i < rid.length; i++) {
+        let mid = await this.model('role  ').where({ r_id: rid[i] }).find()
+        menu.push(mid.r_authority)
+      }
+      let menus = JSON.parse(menu)
+      let list = []
+      for (let i=0; i<menus.length; i++) {
+        for (let j=0; j<menus[i].length; j++) {
+          list.push(menus[i][j])
+        }
+      }
+      list = Array.from(new Set(list))
+      let menuList = await this.model('menu').select()
+      let data = []
+      for (let i=0; i<list.length; i++) {
+        for (let j=0; j<menuList.length; j++) {
+          if (list[i] === menuList[j].m_n_id) {
+            data.push(menuList[j])
+          }
+        }
+      }
       let result = translateDataToTree(data)
       return this.success(result)
     }

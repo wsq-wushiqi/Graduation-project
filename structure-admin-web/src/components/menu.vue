@@ -124,8 +124,6 @@ import { mapActions } from 'vuex';
         this.getMenuList().then(res => {
           if(res.errno === 0) {
             this.menuList = res.data
-            console.log(this.menuList);
-            
           } else {
             this.$message.error(res.data)
           }
