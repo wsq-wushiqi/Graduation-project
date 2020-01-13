@@ -8,10 +8,7 @@ module.exports = class extends Base {
         console.log(username);
         try {
             let user = await this.model('user').where({u_username: username}).find(); // 拿输入的用户名去数据库查询
-            console.log(user);
-            
             if(user.u_password && user.u_password == password) {
-                // login success
                 await this.session('userInfo',user);
                 return this.success("登陆成功");
             } else {
@@ -26,11 +23,6 @@ module.exports = class extends Base {
     async queryuserAction() {
         try {
             let userinfo = await this.model('info').where({ u_username: this.user.u_username }).find()
-            this.user = {
-                u_username: this.user.u_username,
-                i_id: userinfo.i_id
-                // password: this.user.password
-            }
             return this.success(this.user);
         } catch(e) {
             console.log(e);
@@ -45,5 +37,14 @@ module.exports = class extends Base {
             return this.fail(`登出失败${e}`)
         }
     }
-
+    async getUserListAction() {
+        try {
+            let result = await this.model('user').select()
+            return this.success(result)
+        }
+        catch(e) {
+            console.log(e);
+            return this.fail('获取用户列表失败')
+        }
+    }
 }

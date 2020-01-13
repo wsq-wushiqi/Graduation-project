@@ -1,16 +1,11 @@
 const Base = require('./base');
+const UUID = require('node-uuid')
 module.exports = class extends Base {
   async getUserInfoAction() {
     let username = this.post('username')
     try {
       let user = await this.model('user').where({u_username: username}).find(); // 拿输入的用户名去数据库查询
-      let userId = user.u_id
-      let userInfo = []
-      userInfo = await this.model('info').where({i_id: userId}).find()
-      if (think.isEmpty(userInfo)) {
-        userInfo = await this.model('lecture').where({l_id: userId}).find()
-      }
-      return this.success(userInfo);
+      return this.success(user);
     }
     catch(e) {
       console.log(e);
@@ -51,6 +46,26 @@ module.exports = class extends Base {
       console.log(e);
       return this.fail('重置密码失败')
       
+    }
+  }
+  async addUserAction() {
+    let {u_name, u_username, u_education, u_sex, u_email, r_id, d_id} = this.post()
+    let u_id = UUID.v1()
+    const salt = 'structure'
+    let u_password = think.md5(salt + '123456')
+    try {
+      let check = await this.model('user').where({ u_username }).find()
+      if (think.isEmpty(check)) {
+        let result = await this.model('user').add({u_id, u_username, u_password, r_id, d_id, u_name, u_email, u_sex, u_education})
+        console.log(result)
+        return this.success(result)
+      } else {
+        return this.fail('用户名已经存在')
+      }
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('添加用户失败')
     }
   }
 }

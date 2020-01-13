@@ -206,18 +206,6 @@ export default {
   getArrangeCourseList: params => {
     return axios.get('/home/arrange/getArrangeCourseList', params)
   },
-  // 获取普通员工列表
-  getStuInfoList: params => {
-    return axios.get('/home/privilege/getStuInfoList', params)
-  },
-  // 获取讲师列表
-  getLecturerList: params => {
-    return axios.get('/home/privilege/getLecturerList', params)
-  },
-  // 获取经理列表
-  getManageList: params => {
-    return axios.get('/home/privilege/getManageList', params)
-  },
   // 获取菜单列表
   getMenuList: params => {
     return axios.get('/home/role/getMenuList', params)
@@ -233,6 +221,14 @@ export default {
   // 修改角色
   updateRole: params => {
     return axios.post('/home/role/updateRole', params)
+  },
+  // 获取用户列表
+  getUserList: params => {
+    return axios.get('/home/user/getUserList', params)
+  },
+  // 添加用户
+  addUser: params => {
+    return axios.post('/home/userInfo/addUser', params)
   }
   /**
    * API demo

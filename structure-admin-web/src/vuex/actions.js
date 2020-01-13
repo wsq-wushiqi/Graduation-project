@@ -260,24 +260,6 @@ export const getArrangeCourseList = ({ commit }, params) => {
     return response
   })
 }
-// 获取普通员工列表
-export const getStuInfoList = ({ commit }, params) => {
-  return Api.getStuInfoList(params).then(response => {
-    return response
-  })
-}
-// 获取讲师列表
-export const getLecturerList = ({ commit }, params) => {
-  return Api.getLecturerList(params).then(response => {
-    return response
-  })
-}
-// 获取经理列表
-export const getManageList = ({ commit }, params) => {
-  return Api.getManageList(params).then(response => {
-    return response
-  })
-}
 // 获取菜单列表
 export const getMenuList = ({ commit }, params) => {
   return Api.getMenuList(params).then(response => {
@@ -299,6 +281,18 @@ export const getRoleList = ({ commit }, params) => {
 // 修改角色
 export const updateRole = ({ commit }, params) => {
   return Api.updateRole(params).then(response => {
+    return response
+  })
+}
+// 获取用户列表
+export const getUserList = ({ commit }, params) => {
+  return Api.getUserList(params).then(response => {
+    return response
+  })
+}
+// 添加用户
+export const addUser = ({ commit }, params) => {
+  return Api.addUser(params).then(response => {
     return response
   })
 }
