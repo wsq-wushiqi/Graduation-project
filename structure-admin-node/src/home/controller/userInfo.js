@@ -2,10 +2,35 @@ const Base = require('./base');
 const UUID = require('node-uuid')
 module.exports = class extends Base {
   async getUserInfoAction() {
-    let username = this.post('username')
     try {
-      let user = await this.model('user').where({u_username: username}).find(); // 拿输入的用户名去数据库查询
-      return this.success(user);
+      let user = await this.model('user').where({u_username: this.user.u_username}).find(); // 获取当前用户的信息
+      let d_name = await this.model('department').where({ d_id: user.d_id }).getField('d_name') // 获取部门名称
+      let r_id = JSON.parse(this.user.r_id)
+      let rname = []
+      for (let i=0; i<r_id.length; i++) {
+        let data = await this.model('role').where({ r_id: r_id[i] }).find() // 获取角色名称
+        rname.push(data.r_name)
+      }
+      let r_name = ''
+      for (let i=0; i<rname.length; i++) {
+        if (i === 0) {
+          r_name = rname[i]
+        } else {
+          r_name = r_name + ',' + rname[i]
+        }
+      }
+      let result = []
+      result.push({
+        u_name: user.u_name,
+        u_username: user.u_username,
+        d_name: d_name[0],
+        r_name: r_name,
+        u_education: user.u_education,
+        u_email: user.u_email,
+        u_sex: user.u_sex,
+        u_id: user.u_id
+      })
+      return this.success(result);
     }
     catch(e) {
       console.log(e);

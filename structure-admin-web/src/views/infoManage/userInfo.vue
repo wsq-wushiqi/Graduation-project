@@ -10,7 +10,7 @@
           <img height="80px" align="center" src="../../image/头像 女孩.png" alt="头像">
           <el-button class="info-button" size="small" icon="el-icon-check" type="primary" plain @click="change">修改密码</el-button>
         </div>
-        <div class="info-div" v-if="userForm.i_id !== undefined">
+        <div class="info-div">
           <el-form>
             <el-form-item>
               <span>用户名：</span><span>{{ userForm.u_username }}</span>
@@ -26,25 +26,6 @@
             </el-form-item>
             <el-form-item>
               <span>邮箱：</span><span>{{ userForm.i_email }}</span>
-            </el-form-item>
-          </el-form>
-        </div>
-        <div v-else class="info-div">
-          <el-form>
-            <el-form-item>
-              <span>用户名：</span><span>{{ lecturerForm.u_username }}</span>
-            </el-form-item>
-            <el-form-item>
-              <span>姓名：</span><span>{{ lecturerForm.l_name}}</span>
-            </el-form-item>
-            <el-form-item>
-              <span>性别：</span><span>{{ lecturerForm.l_sex }}</span>
-            </el-form-item>
-            <el-form-item>
-              <span>部门：</span><span>{{ lecturerForm.d_name }}</span>
-            </el-form-item>
-            <el-form-item>
-              <span>学历：</span><span>{{ lecturerForm.l_education }}</span>
             </el-form-item>
           </el-form>
         </div>
@@ -93,19 +74,22 @@ export default {
     }
     return {
       userForm: {
-        i_age: '',
+        // i_age: '',
         d_name: '',
-        i_email: '',
-        i_name: '',
-        i_sex: '',
+        r_name: '',
+        u_education: '',
+        u_email: '',
+        u_id: '',
+        u_name: '',
+        u_sex: '',
         u_username: ''
       },
-      lecturerForm: {
-        d_name: '',
-        l_education: '',
-        l_name: '',
-        u_username: ''
-      },
+      // lecturerForm: {
+      //   d_name: '',
+      //   l_education: '',
+      //   l_name: '',
+      //   u_username: ''
+      // },
       changeDlgVisible: false,
       changeForm: {
         oldPwd: '',
@@ -120,18 +104,25 @@ export default {
     }
   },
   mounted() {
-    const params = {
-      username: this.userInfo.u_username
-    }
-    this.myUserInfo(params).then(res => {
+    // const params = {
+    //   username: this.userInfo.u_username
+    // }
+    this.myUserInfo().then(res => {
       if (res.errno === 0) {
-        if (res.data.i_id === undefined) {
-          this.lecturerForm = res.data
-        } else {
+        // if (res.data.i_id === undefined) {
+        //   this.lecturerForm = res.data
+        // } else {
           this.userForm = res.data
-        }
+          console.log(this.userForm);
+          
+          console.log(res.data);
+          
+        // }
       }
     })
+    // this.userForm = this.userInfo
+    // console.log();
+    
   },
   methods: {
     ...mapActions([
