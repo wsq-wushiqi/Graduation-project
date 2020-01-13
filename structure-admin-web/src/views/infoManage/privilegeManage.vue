@@ -8,6 +8,7 @@
         </el-header>
         <el-main class="privilege-manage-main">
           <el-tabs v-model="activeTab" tab-position="left" type="border-card" @tab-click="tabClick">
+            <el-tab-pane name="all" label="全部"></el-tab-pane>
             <el-tab-pane v-for="(item, key) in roleList" :key="key" :name="item.value" :label="item.label" class="privilege-tab-pane">
               <el-table :data="tableData">
                 <el-table-column prop="u_username" label="用户名"></el-table-column>
