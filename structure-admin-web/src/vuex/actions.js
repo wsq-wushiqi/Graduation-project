@@ -278,3 +278,27 @@ export const getManageList = ({ commit }, params) => {
     return response
   })
 }
+// 获取菜单列表
+export const getMenuList = ({ commit }, params) => {
+  return Api.getMenuList(params).then(response => {
+    return response
+  })
+}
+// 添加用户
+export const addRole = ({ commit }, params) => {
+  return Api.addRole(params).then(response => {
+    return response
+  })
+}
+// 获取角色列表
+export const getRoleList = ({ commit }, params) => {
+  return Api.getRoleList(params).then(response => {
+    return response
+  })
+}
+// 修改角色
+export const updateRole = ({ commit }, params) => {
+  return Api.updateRole(params).then(response => {
+    return response
+  })
+}

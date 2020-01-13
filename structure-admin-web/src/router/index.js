@@ -119,6 +119,13 @@ export default new Router({
           key: '2-10'
         },
         component: () => import('@/views/infoManage/privilegeManage')
+      }, {
+        path: '/roleManage',
+        name: 'roleManage',
+        meta: {
+          key: '3-1'
+        },
+        component: () => import('@/views/infoManage/roleManage')
       }]
     }
   ]

@@ -217,6 +217,22 @@ export default {
   // 获取经理列表
   getManageList: params => {
     return axios.get('/home/privilege/getManageList', params)
+  },
+  // 获取菜单列表
+  getMenuList: params => {
+    return axios.get('/home/role/getMenuList', params)
+  },
+  // 添加用户
+  addRole: params => {
+    return axios.post('/home/role/addRole', params)
+  },
+  // 获取角色列表
+  getRoleList: params => {
+    return axios.get('/home/role/getRoleList', params)
+  },
+  // 修改角色
+  updateRole: params => {
+    return axios.post('/home/role/updateRole', params)
   }
   /**
    * API demo
