@@ -8,7 +8,21 @@
       text-color="rgb(28,41,89)"
       router = router
       active-text-color="rgb(28,41,89)">
-      <el-submenu index="0">
+      <template v-for="(item, key) in menuList">
+        <el-submenu :key="key" v-if="item.children.length!==0" :index="item.m_url">
+          <template slot="title">
+            <i :class="item.m_icon"></i>
+            <span>{{ item.m_name }}</span>
+          </template>
+          <el-menu-item v-for="(val, index) in item.children" :index="val.m_url" :key="index">
+            <template slot="title">
+              <i :class="val.m_icon"></i>
+              <span>{{ val.m_name }}</span>
+            </template>
+          </el-menu-item>
+        </el-submenu>
+      </template>
+      <!-- <el-submenu index="0">
         <template slot="title">
           <i class="el-icon-edit"></i>
           <span slot="title">培训管理</span>
@@ -67,24 +81,36 @@
         </el-menu-item>
         <el-menu-item index="/privilegeManage">
           <i class="el-icon-edit"></i>
-          <span slot="title">权限管理</span>
+          <span slot="title">用户管理</span>
         </el-menu-item>
-      </el-submenu>
+        <el-menu-item index="/roleManage">
+          <i class="el-icon-edit"></i>
+          <span slot="title">角色管理</span>
+        </el-menu-item>
+      </el-submenu> -->
     </el-menu>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
   export default {
     name: "asideItem",
     data(){
       return{
         router: true,
         isCollapse: true,
-        label: false
+        label: false,
+        menuList: []
       }
     },
+    mounted() {
+      this.getMenu()
+    },
     methods: {
+      ...mapActions([
+        'getMenuList'
+      ]),
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -93,6 +119,17 @@
       },
       labelChange: function() {
         console.log(this.label);
+      },
+      getMenu: function() {
+        this.getMenuList().then(res => {
+          if(res.errno === 0) {
+            this.menuList = res.data
+            console.log(this.menuList);
+            
+          } else {
+            this.$message.error(res.data)
+          }
+        }).catch(error => { this.$message.error(error) })
       }
     }
   };
