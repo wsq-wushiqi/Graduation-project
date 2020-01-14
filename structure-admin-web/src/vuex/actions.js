@@ -32,33 +32,9 @@ export const test = ({ commit }, params) => {
     return response;
   })
 }
-// 获取员工信息表格
-export const infoList =({ commit }, params) => {
-  return Api.infoList(params).then(response => {
-    return response
-  })
-}
-// 添加员工信息
-export const addInfo = ({ commit }, params) => {
-  return Api.addInfo(params).then(response => {
-    return response
-  })
-}
 // 删除信息
 export const delInfo = ({ commit }, params) => {
   return Api.delInfo(params).then(response => {
-    return response
-  })
-}
-// 修改信息
-export const updateInfo = ({ commit }, params) => {
-  return Api.updateInfo(params).then(response => {
-    return response
-  })
-}
-// 查询
-export const queryInfo = ({ commit }, params) => {
-  return Api.queryInfo(params).then(response => {
     return response
   })
 }
@@ -77,36 +53,6 @@ export const changePwd = ({ commit }, params) => {
 // 重置密码
 export const resetPwd = ({ commit }, params) => {
   return Api.resetPwd(params).then(response => {
-    return response
-  })
-}
-// 添加教师信息
-export const addLectureInfo = ({ commit }, params) => {
-  return Api.addLectureInfo(params).then(response => {
-    return response
-  })
-}
-// 获取教师信息列表
-export const getLectureList = ({ commit }, params) => {
-  return Api.getLectureList(params).then(response => {
-    return response
-  })
-}
-// 修改教师信息
-export const updateLectureInfo = ({ commit }, params) => {
-  return Api.updateLectureInfo(params).then(response => {
-    return response
-  })
-}
-// 删除教师信息
-export const deleteInfo = ({ commit }, params) => {
-  return Api.deleteInfo(params).then(response => {
-    return response
-  })
-}
-// 查询教师信息
-export const queryLectureInfo = ({ commit }, params) => {
-  return Api.queryLectureInfo(params).then(response => {
     return response
   })
 }
@@ -152,12 +98,6 @@ export const addDetail = ({ commit }, params) => {
     return response
   })
 }
-// 修改课程详情
-export const updateDetail = ({ commit }, params) => {
-  return Api.updateDetail(params).then(response => {
-    return response
-  })
-}
 // 添加参与人员
 export const addStu = ({ commit }, params) => {
   return Api.addStu(params).then(response => {
@@ -195,8 +135,8 @@ export const applyToCourse = ({ commit }, params) => {
   })
 }
 // 获取个人培训表
-export const getPlanList = ({ commit }, params) => {
-  return Api.getPlanList(params).then(response => {
+export const getStuPlanList = ({ commit }, params) => {
+  return Api.getStuPlanList(params).then(response => {
     return response
   })
 }
@@ -254,12 +194,6 @@ export const getCheckResult = ({ commit }, params) => {
     return response
   })
 }
-// 获取课程安排页面搜索栏的课程列表
-export const getArrangeCourseList = ({ commit }, params) => {
-  return Api.getArrangeCourseList(params).then(response => {
-    return response
-  })
-}
 // 获取菜单列表
 export const getMenuList = ({ commit }, params) => {
   return Api.getMenuList(params).then(response => {
@@ -293,6 +227,24 @@ export const getUserList = ({ commit }, params) => {
 // 添加用户
 export const addUser = ({ commit }, params) => {
   return Api.addUser(params).then(response => {
+    return response
+  })
+}
+// 修改用户信息
+export const updateUser = ({ commit }, params) => {
+  return Api.updateUser(params).then(response => {
+    return response
+  })
+}
+// 删除用户
+export const deleteUser = ({ commit }, params) => {
+  return Api.deleteUser(params).then(response => {
+    return response
+  })
+}
+// 获取所有菜单
+export const getTotalMenu = ({ commit }, params) => {
+  return Api.getTotalMenu(params).then(response => {
     return response
   })
 }

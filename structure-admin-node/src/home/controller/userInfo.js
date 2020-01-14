@@ -1,6 +1,7 @@
 const Base = require('./base');
 const UUID = require('node-uuid')
 module.exports = class extends Base {
+  // 获取个人信息
   async getUserInfoAction() {
     try {
       let user = await this.model('user').where({u_username: this.user.u_username}).find(); // 获取当前用户的信息
@@ -34,9 +35,10 @@ module.exports = class extends Base {
     }
     catch(e) {
       console.log(e);
-      return this.fail("获取用户信息失败")
+      return this.fail("获取个人信息失败")
     }
   }
+  // 修改密码
   async changePwdAction() {
     let u_id = this.post('id')
     let oldPwd = this.post('oldPwd')
@@ -59,8 +61,9 @@ module.exports = class extends Base {
       return this.fail("修改失败")
     }
   }
+  // 重置密码
   async resetPwdAction() {
-    let u_id = this.post('id')
+    let u_id = this.post('u_id')
     const salt = 'structure';
     let password = think.md5(salt + '123456');
     try {
@@ -70,9 +73,9 @@ module.exports = class extends Base {
     catch(e) {
       console.log(e);
       return this.fail('重置密码失败')
-      
     }
   }
+  // 新增用户
   async addUserAction() {
     let {u_name, u_username, u_education, u_sex, u_email, r_id, d_id} = this.post()
     let u_id = UUID.v1()
@@ -82,7 +85,6 @@ module.exports = class extends Base {
       let check = await this.model('user').where({ u_username }).find()
       if (think.isEmpty(check)) {
         let result = await this.model('user').add({u_id, u_username, u_password, r_id, d_id, u_name, u_email, u_sex, u_education})
-        console.log(result)
         return this.success(result)
       } else {
         return this.fail('用户名已经存在')
@@ -91,6 +93,30 @@ module.exports = class extends Base {
     catch(e) {
       console.log(e);
       return this.fail('添加用户失败')
+    }
+  }
+  // 修改用户信息
+  async updateUserAction() {
+    let { u_id, u_name, u_education, u_sex, u_email, d_id, r_id } = this.post()
+    try {
+      let result = await this.model('user').where({ u_id }).update({ u_name, u_education, u_sex, u_email, d_id, r_id })
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('修改用户信息失败')
+    }
+  }
+  // 删除用户
+  async deleteUserAction() {
+    let u_id = this.post('u_id')
+    try {
+      let result = await this.model('user').where({ u_id }).delete()
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('删除用户失败')
     }
   }
 }

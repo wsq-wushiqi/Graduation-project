@@ -1,38 +1,30 @@
 const Base = require('./base')
 module.exports = class extends Base {
-  async getPlanListAction() {
+  // 获取学生的个人培训计划
+  async getStuPlanListAction() {
     let data = []
     try {
-      let i_id = await this.model('info').where({u_username: this.user.u_username}).getField('i_id')
-      let stu = await this.model('arrange').select()
-      let iid = i_id[0]
+      let stu = await this.model('course').select()
       for (let i = 0; i < stu.length; i++) {
-        let stuid = JSON.parse(stu[i].a_stu)
+        let stuid = JSON.parse(stu[i].c_stu)
         if (stuid !== null) {
           for (let j = 0; j < stuid.length; j++) {
-            if (stuid[j] === iid) {
-              data.push(stu[i])
+            if (stuid[j] === this.user.u_id) {
+              let lecturer = await this.model('user').where({ u_id: stu[i].c_lecturer_id }).find()
+              data.push({
+                c_name: stu[i].c_name,
+                c_category: stu[i].c_category,
+                c_date: stu[i].c_date,
+                c_hour: stu[i].c_hour,
+                c_place: stu[i].c_place,
+                c_lecturer_id: stu[i].c_lecturer_id,
+                c_lecturer_name: lecturer.u_name,
+              })
             }
           }
         }
       }
-      let result = []
-      for (let k = 0; k < data.length; k++) {
-        let course = await this.model('course').where({c_id: data[k].c_id}).find()
-        result.push({
-          c_id: course.c_id,
-          l_id: course.l_id,
-          c_name: course.c_name,
-          c_category: course.c_category,
-          c_hour: course.c_hour,
-          a_lecturer: data[k].a_lecturer,
-          a_number: data[k].a_number,
-          a_max_number: data[k].a_max_number,
-          a_place: data[k].a_place,
-          a_time: data[k].a_time
-        })
-      }
-      return this.success(result)
+      return this.success(data)
     }
     catch(e) {
       console.log(e);

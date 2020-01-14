@@ -11,10 +11,10 @@
           <div>
             <el-form>
               <el-form-item class="card-form-item back-1">
-                <span class="card-form-title">上课时间：</span><span>{{ item.a_time }}</span>
+                <span class="card-form-title">上课时间：</span><span>{{ item.c_date }}</span>
               </el-form-item>
               <el-form-item class="card-form-item back-2">
-                <span class="card-form-title">地点：</span><span>{{ item.a_place }}</span>
+                <span class="card-form-title">地点：</span><span>{{ item.c_place }}</span>
               </el-form-item>
               <el-form-item class="card-form-item back-1">
                 <span class="card-form-title">课时：</span><span>{{ item.c_hour }}</span>
@@ -23,7 +23,7 @@
                 <span class="card-form-title">课程类别：</span><span>{{ item.c_category }}</span>
               </el-form-item>
               <el-form-item class="card-form-item back-1">
-                <span class="card-form-title">主讲人：</span><span>{{ item.a_lecturer }}</span>
+                <span class="card-form-title">主讲人：</span><span>{{ item.c_lecturer_name }}</span>
               </el-form-item>
             </el-form>
           </div>
@@ -48,12 +48,14 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getPlanList'
+      'getStuPlanList'
     ]),
     getData: function() {
-      this.getPlanList().then(res => {
+      this.getStuPlanList().then(res => {
         if (res.errno === 0) {
           this.listData = res.data
+          console.log(res.data);
+          
         } else {
           this.$message.error(res.errmsg)
         }

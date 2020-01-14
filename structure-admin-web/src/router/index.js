@@ -32,98 +32,109 @@ export default new Router({
         path: '/weeklyList',
         name: 'weeklyList',
         meta: {
-          key: '1-2'
+          key: '7-2'
         },
         component: () => import("@/views/weeklyList/index")
-      }, {
-        path: '/staffInfo',
-        name: 'staffInfo',
-        meta: {
-          key: '1-3'
-        },
-        component: () => import("@/views/infoManage/staffInfo")
-      }, {
+      },
+      //  {
+      //   path: '/staffInfo',
+      //   name: 'staffInfo',
+      //   meta: {
+      //     key: '1-3'
+      //   },
+      //   component: () => import("@/views/infoManage/staffInfo")
+      // },
+       {
         path: '/profile',
         name: 'profile',
         meta: {
-          key: '1-4'
+          key: '7-4'
         },
         component: () => import("@/views/infoManage/profile")
       }, {
         path: '/courseApplication',
         name: 'courseApplication',
         meta: {
-          key: '2-1'
+          key: '1-1'
         },
         component: () => import('@/views/trainManage/courseApplication')
-      }, {
-        path: '/userInfo',
-        name: 'userInfo',
-        meta: {
-          key: '2-2'
-        },
-        component: () => import('@/views/infoManage/userInfo')
-      }, {
-        path: '/lectureInfo',
-        name: 'lectureInfo',
-        meta: {
-          key: '2-3'
-        },
-        component: () => import('@/views/infoManage/lectureInfo')
-      }, {
+      },  
+      // {
+      //   path: '/lectureInfo',
+      //   name: 'lectureInfo',
+      //   meta: {
+      //     key: '2-3'
+      //   },
+      //   component: () => import('@/views/infoManage/lectureInfo')
+      // },
+       {
         path:'/courseArrange',
         name: 'courseArrange',
         meta: {
-          key: '2-4'
+          key: '1-2'
         },
         component: () => import('@/views/trainManage/courseArrange')
       }, {
         path: '/personPlan',
         name: 'personPlan',
         meta: {
-          key: '2-5'
+          key: '1-3'
         },
         component: () => import('@/views/trainManage/personPlan')
+      }, {
+        path: '/lecturerPlan',
+        name: 'lecturerPlan',
+        meta: {
+          key: '1-4'
+        },
+        component: () => import('@/views/trainManage/lecturerPlan')
       }, {
         path: '/addEvaluate',
         name: 'addEvaluate',
         meta: {
-          key: '2-6'
+          key: '2-1'
         },
         component: () => import('@/views/evaluateManage/addEvaluate')
       }, {
         path: '/checkEvaluate',
         name: 'checkEvaluate',
         meta: {
-          key: '2-7'
+          key: '2-2'
         },
         component: () => import('@/views/evaluateManage/checkEvaluate')
       }, {
         path: '/examine',
         name: 'examine',
         meta: {
-          key: '2-8'
+          key: '2-3'
         },
         component: () => import('@/views/evaluateManage/examine')
       }, {
         path: '/checkResult',
         name: 'checkResult',
         meta: {
-          key: '2-9'
+          key: '2-4'
         },
         component: () => import('@/views/evaluateManage/checkResult')
       }, {
+        path: '/userInfo',
+        name: 'userInfo',
+        meta: {
+          key: '3-1'
+        },
+        component: () => import('@/views/infoManage/userInfo')
+      },{
         path: '/privilegeManage',
         name: 'privilegeManage',
         meta: {
-          key: '2-10'
+          key: '3-2'
         },
         component: () => import('@/views/infoManage/privilegeManage')
       }, {
         path: '/roleManage',
         name: 'roleManage',
         meta: {
-          key: '3-1'
+          key: '3-3'
         },
         component: () => import('@/views/infoManage/roleManage')
       }]

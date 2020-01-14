@@ -5,27 +5,29 @@
       <el-container>
         <el-header height="45px" class="page-header">
           <el-button size="mini" @click="add">添加</el-button>
+          <el-button size="mini" @click="update">修改</el-button>
+          <el-button size="mini" @click="drop">删除</el-button>
+          <el-button size="mini" @click="reset">重置密码</el-button>
+          <el-button size="mini" @click="outTab">导出数据</el-button>
         </el-header>
         <el-main class="privilege-manage-main">
-          <el-tabs v-model="activeTab" tab-position="left" type="border-card" @tab-click="tabClick">
-            <el-tab-pane name="all" label="全部">
-              <el-table :data="tableData">
-                <el-table-column prop="u_name" label="姓名"></el-table-column>
-                <el-table-column prop="u_username" label="用户名"></el-table-column>
-                <el-table-column prop="u_education" label="学历"></el-table-column>
-                <el-table-column prop="u_sex" label="性别"></el-table-column>
-                <el-table-column prop="u_email" label="邮箱"></el-table-column>
-                <el-table-column prop="r_id" label="身份" :formatter="roleFormat"></el-table-column>
-              </el-table>
-            </el-tab-pane>
-            <el-tab-pane v-for="(item, key) in roleList" :key="key" :name="item.value" :label="item.label" class="privilege-tab-pane">
-              <el-table :data="tableData">
-                <el-table-column prop="u_name" label="姓名"></el-table-column>
-                <el-table-column prop="u_username" label="用户名"></el-table-column>
-                <el-table-column prop="u_education" label="学历"></el-table-column>
-                <el-table-column prop="u_sex" label="性别"></el-table-column>
-                <el-table-column prop="u_email" label="邮箱"></el-table-column>
-                <el-table-column prop="u_phone" label="电话"></el-table-column>
+          <el-tabs v-model="activeTab" type="border-card" @tab-click="tabClick">
+            <el-tab-pane v-for="(item, key) in leftRoleList" :key="key" :name="item.r_id" :label="item.r_name" class="main-tab-pane">
+              <el-table
+              id="out-table"
+              :data="tableData"
+              border
+              highlight-current-row
+              @row-click="rowClick">
+                <el-table-column label="选择" width="50"><template slot-scope="scope" :align="center"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
+                <el-table-column type="index" label="序号" :align="center"></el-table-column>
+                <el-table-column prop="u_name" label="姓名" :align="center"></el-table-column>
+                <el-table-column prop="u_username" label="用户名" :align="center"></el-table-column>
+                <el-table-column prop="d_id" label="部门" :formatter="departmentFormat" :align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="u_education" label="学历" width="80" :align="center"></el-table-column>
+                <el-table-column prop="u_sex" label="性别" width="50" :align="center"></el-table-column>
+                <el-table-column prop="u_email" label="邮箱" show-overflow-tooltip :align="center"></el-table-column>
+                <el-table-column prop="r_id" label="身份" :formatter="roleFormat" :align="center"></el-table-column>
               </el-table>
             </el-tab-pane>
           </el-tabs>
@@ -33,34 +35,32 @@
       </el-container>
     </el-container>
     <el-dialog :visible.sync="addUserDlgVisible" :title="addUserDlgTitle" :close-on-click-modal="false" class="add-user-dialog" width="370px">
-      <el-form :mdoel="addForm">
-        <el-form-item class="add-user-form-item">
+      <el-form :mdoel="addForm" ref="addForm" :rules="formRule">
+        <el-form-item class="add-user-form-item" prop="u_name">
           <span class="add-user-form-span">姓名：</span><el-input v-model="addForm.u_name" class="add-user-form-input" :size="small"></el-input>
         </el-form-item>
-        <el-form-item class="add-user-form-item">
-          <span class="add-user-form-span">用户名：</span><el-input v-model="addForm.u_username" class="add-user-form-input" :size="small"></el-input>
+        <el-form-item class="add-user-form-item" prop="u_username">
+          <span class="add-user-form-span">用户名：</span><el-input v-model="addForm.u_username" :disabled="usernameDisable" class="add-user-form-input" :size="small"></el-input>
         </el-form-item>
-        <el-form-item class="add-user-form-item">
+        <el-form-item class="add-user-form-item" prop="u_education">
           <span class="add-user-form-span">学历：</span><el-input v-model="addForm.u_education" class="add-user-form-input" :size="small"></el-input>
         </el-form-item>
-        <el-form-item class="add-user-form-item">
+        <el-form-item class="add-user-form-item" prop="u_sex">
           <span class="add-user-form-span">性别：</span>
           <el-select v-model="addForm.u_sex" class="add-user-form-input" :size="small">
             <el-option v-for="(item, key) in sexList" :key="key" :value="item.value" :label="item.label"></el-option>
           </el-select>
-          <!-- <el-input v-model="addForm.u_sex" class="add-user-form-input" :size="small"></el-input> -->
         </el-form-item>
-        <el-form-item class="add-user-form-item">
+        <el-form-item class="add-user-form-item" prop="u_email">
           <span class="add-user-form-span">邮箱：</span><el-input v-model="addForm.u_email" class="add-user-form-input" :size="small"></el-input>
         </el-form-item>
-        <el-form-item class="add-user-form-item">
+        <el-form-item class="add-user-form-item" prop="d_id">
           <span class="add-user-form-span">部门：</span>
           <el-select v-model="addForm.d_id" class="add-user-form-input" :size="small">
             <el-option v-for="(item, key) in departmentList" :key="key" :value="item.d_id" :label="item.d_name"></el-option>
           </el-select>
-          <!-- <el-input v-model="addForm.d_id" class="add-user-form-input" :size="small"></el-input> -->
         </el-form-item>
-        <el-form-item class="add-user-form-item">
+        <el-form-item class="add-user-form-item" prop="r_id">
           <span class="add-user-form-span">身份：</span>
           <el-select v-model="addForm.r_id" multiple class="add-user-form-input" :size="small">
             <el-option v-for="(item, key) in roleList" :key="key" :value="item.r_id" :label="item.r_name" value-key="item.value"></el-option>
@@ -77,6 +77,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
+
 export default {
   data() {
     return {
@@ -100,13 +103,18 @@ export default {
         value: '男'
       }, {
         value: '女'
-      }]
+      }],
+      tableRadio: [],
+      leftRoleList: [],
+      formRule: {},
+      usernameDisable: false,
+      center: 'center'
     }
   },
   mounted() {
-    // this.getStuList()
-    this.getTableData()
+    this.getTableData('all')
     this.getRole()
+    this.getDepartment()
   },
   computed: {
     ...mapGetters([
@@ -115,26 +123,32 @@ export default {
   },
   methods: {
     ...mapActions([
-      // 'getStuInfoList',
-      // 'getLecturerList',
-      // 'getManageList',
       'getUserList', // 获取用户列表
       'getRoleList', // 获取角色列表
       'getDepartmentList', // 获取部门列表
-      'addUser' // 添加用户
+      'addUser', // 添加用户
+      'updateUser', // 修改用户信息
+      'deleteUser', // 删除用户
+      'resetPwd' // 重置密码
     ]),
+    // 获取角色列表
     getRole: function() {
       this.getRoleList().then(res => {
         if (res.errno === 0) {
           this.roleList = res.data
-          console.log(this.roleList);
-          console.log(this.userInfo);
-          
+          this.leftRoleList.push({
+            r_name: '全部',
+            r_id: 'all'
+          })
+          for(let i = 0; i < res.data.length; i++) {
+            this.leftRoleList.push(res.data[i])
+          }
         } else {
           this.$message.error(res.errmsg)
         }
       }).catch(error => { this.$message.error(error) })
     },
+    // 获取部门列表
     getDepartment: function() {
       this.getDepartmentList().then(res => {
         if (res.errno === 0) {
@@ -144,80 +158,64 @@ export default {
         }
       }).catch(error => { this.$message.error(error) })
     },
+    // 打开添加用户对话框
     add: function() {
       this.addUserDlgVisible = true
       this.addUserDlgTitle = '添加用户'
-      
       this.getDepartment()
+      this.addForm = Object.assign({}, null)
+      this.usernameDisable = false
     },
+    // 添加
     doAddUser: function() {
-      console.log(this.addForm.role);
-      let params = {
-        u_name: this.addForm.u_name,
-        u_username: this.addForm.u_username,
-        u_education: this.addForm.u_education,
-        u_sex: this.addForm.u_sex,
-        u_email: this.addForm.u_email,
-        d_id: this.addForm.d_id,
-        r_id: JSON.stringify(this.addForm.r_id)
-      }
-      this.addUser(params).then(res => {
-        if (res.errno === 0) {
-          this.$message.success('添加成功')
-          this.getTableData()
-          this.addUserDlgVisible = false
-        } else {
-          this.$message.error(res.errmsg)
+      if (this.addUserDlgTitle === '添加用户') {
+        let params = {
+          u_name: this.addForm.u_name,
+          u_username: this.addForm.u_username,
+          u_education: this.addForm.u_education,
+          u_sex: this.addForm.u_sex,
+          u_email: this.addForm.u_email,
+          d_id: this.addForm.d_id,
+          r_id: JSON.stringify(this.addForm.r_id)
         }
-      }).catch(error => { this.$message.error(error) })
-      console.log(params);
+        this.addUser(params).then(res => {
+          if (res.errno === 0) {
+            this.$message.success('添加成功')
+            this.getTableData(this.activeTab)
+            this.addUserDlgVisible = false
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      } else if (this.addUserDlgTitle === '修改用户信息') {
+        let params = {
+          u_id: this.tableRadio.u_id,
+          u_name: this.addForm.u_name,
+          u_education: this.addForm.u_education,
+          u_sex: this.addForm.u_sex,
+          u_email: this.addForm.u_email,
+          d_id: this.addForm.d_id,
+          r_id: JSON.stringify(this.addForm.r_id)
+        }
+        this.updateUser(params).then(res => {
+          if (res.errno === 0) {
+            this.$message.success('修改用户信息成功')
+            this.addUserDlgVisible = false
+            this.getTableData(this.activeTab)
+          } else {
+            this.$messages.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      }
       
     },
-    // getStuList: function() {
-    //   this.getStuInfoList().then(res => {
-    //     if (res.errno === 0) {
-    //       this.tableData = res.data
-    //     } else {
-    //       this.$message.error(res.errmsg)
-    //     }
-    //   }).catch(error => { this.$message.error(error) })
-    // },
-    // getLectureList: function() {
-    //   this.getLecturerList().then(res => {
-    //     if (res.errno === 0) {
-    //       this.tableData = res.data
-    //     } else {
-    //       this.$message.error(res.data)
-    //     }
-    //   }).catch(error => { this.$message.error(error) })
-    // },
-    // getManagerList: function() {
-    //   this.getManageList().then(res => {
-    //     console.log(res.data);
-    //     if (res.errno === 0) {
-    //       this.tableData = res.data
-    //       console.log(res.data);
-          
-    //     } else {
-    //       this.$messages.error(res.errmsg)
-    //     }
-    //   }).catch(error => { this.$message.error(error) })
-    // },
+    // 根据身份获取表格数据
     tabClick: function(tab) {
-      console.log(tab.name);
-      
-      // if (tab.name === '10') {
-      //   this.getStuList()
-      // } else if (tab.name === '20') {
-      //   this.getLectureList()
-      // } else if (tab.name === '30') {
-      //   this.getManagerList()
-      // } else if (tab.name === '50') {
-      //   this.$message.info('管理员')
-      // }
+      this.getTableData(tab.name)
     },
-    getTableData: function() {
-      this.getUserList().then(res => {
+    // 获取表格数据
+    getTableData: function(id) {
+      this.getUserList({ r_id: id }).then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
         } else {
@@ -225,6 +223,7 @@ export default {
         }
       }).catch(error => { this.$message.error(error) })
     },
+    // 身份格式化显示
     roleFormat: function(row, column) {
       let r_id = JSON.parse(row.r_id)
       let data = []
@@ -244,6 +243,88 @@ export default {
         }
       }
       return res
+    },
+    // 部门格式化显示
+    departmentFormat: function(row, column) {
+      for (let i = 0; i < this.departmentList.length; i++) {
+        if (row.d_id === this.departmentList[i].d_id) {
+          return this.departmentList[i].d_name
+        }
+      }
+    },
+    // 表格选中行
+    rowClick: function(item) {
+      this.tableRadio = item
+    },
+    // 导出表格数据
+    outTab () {
+      let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      try {
+          FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'sheetjs.xlsx')
+      } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+      return wbout
+    },
+    // 打开修改对话框
+    update: function() {
+      const row = this.tableRadio
+      if (row.length === 0) {
+        this.$message.warning('请选择要修改的数据')
+      } else {
+        this.addUserDlgTitle = '修改用户信息'
+        this.addUserDlgVisible = true
+        this.addForm = Object.assign({}, row)
+        this.addForm.r_id = JSON.parse(row.r_id)
+        this.usernameDisable = true
+      }
+    },
+    // 删除用户
+    drop: function() {
+      const row = this.tableRadio
+      if (row.length === 0) {
+        this.$message.warning('请选择要删除的数据')
+      } else {
+        this.$confirm('<div>此操作不可恢复!</div>确定要删除用户"' + row.u_name + '"吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          dangerouslyUseHTMLString: true
+        }).then(() => {
+          this.deleteUser({ u_id: row.u_id }).then(res => {
+            if (res.errno === 0) {
+              this.$message.success('成功删除用户"' + row.u_name + '"!')
+              this.getTableData(this.activeTab)
+            } else {
+              this.$message.error(res.errmsg)
+            }
+          }).catch(error => { this.$message.error(error) })
+        }).catch(() => {
+          this.$message.info('已取消')
+        })
+      }
+    },
+    // 重置密码
+    reset: function() {
+      const row = this.tableRadio
+      if (row === null || row.length === 0) {
+        this.$message.warning('请选择要重置密码的用户')
+      } else {
+        this.$confirm('此操作不可恢复，是否继续？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.resetPwd({ u_id: row.u_id }).then(res => {
+            if (res.errno === 0) {
+              this.$message.success('重置密码成功, 初始密码为123456')
+            } else {
+              this.$message.error(res.errmsg)
+            }
+          }).catch(error => { this.$message.error(error) })
+        }).catch(() => {
+          this.$message.info('已取消')
+        })
+      }
     }
   }
 }
@@ -251,17 +332,15 @@ export default {
 
 <style scoped>
 .privilege-manage-container {
-  /* background-color: rgb(55, 93, 126); */
   height: calc(100vh - 46px);
 }
 .privilege-manage-header {
   line-height: 45px;
-  /* border-bottom: 1px solid rgb(232,240,255); */
 }
 .privilege-manage-main {
-  /* background-color: thistle; */
   height: calc(100vh - 136px);
   padding: 10px;
+  overflow: hidden;
 }
 .page-header {
   line-height: 45px;
@@ -271,8 +350,6 @@ export default {
   margin-bottom: 7px;
 }
 .add-user-form-span {
-  /* background-color: cadetblue; */
-  /* display: inline-block; */
   width: 85px;
   float: left;
 }
@@ -280,43 +357,30 @@ export default {
   width: 200px;
 }
 .add-user-form-role-select {
-  /* background-color: yellowgreen; */
   width: 200px;
   float: left;
-  /* margin: 0px; */
-  /* position: relative; */
-  /* position: absolute; */
 }
 .role-select-item {
-  /* background-color: cadetblue; */
   width: 90px;
   margin: 0px 5px 0px 0px;
-  /* position: absolute; */
-
 }
-.privilege-tab-pane {
-  /* background-color: thistle; */
-  /* height: 100%; */
-  height: calc(100vh - 189px);
+.main-tab-pane {
+  background-color: rgb(141, 165, 117);
 }
 </style>
 <style>
 .add-user-dialog .el-dialog__header {
-  /* background-color: coral; */
   padding: 10px 25px 5px 25px;
 }
 .add-user-dialog .el-dialog__body {
-  /* background-color: coral; */
   padding: 10px 25px;
 }
 .add-user-dialog .el-dialog__footer {
-  /* background-color: coral; */
-  /* padding: 10px 25px; */
   padding-top: 0px;
 }
-.el-tabs--left .el-tabs__nav.is-left, .el-tabs--left .el-tabs__nav.is-right, .el-tabs--right .el-tabs__nav.is-left, .el-tabs--right .el-tabs__nav.is-right {
-  /* height: 100%!important; */
-  height: calc(100vh - 159px);
-  overflow-y: auto;
+.el-tabs--border-card>.el-tabs__content {
+  padding: 10px;
+  overflow: auto;
+  height: calc(100vh - 217px);
 }
 </style>

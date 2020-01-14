@@ -37,9 +37,24 @@ module.exports = class extends Base {
             return this.fail(`登出失败${e}`)
         }
     }
+    // 获取用户列表
     async getUserListAction() {
+        let r_id = this.post('r_id')
         try {
-            let result = await this.model('user').select()
+            let result = []
+            if (r_id === 'all') {
+                result = await this.model('user').select()
+            } else {
+                let data = await this.model('user').select()
+                for (let i=0; i<data.length; i++) {
+                    let rid = JSON.parse(data[i].r_id)
+                    for (let j=0; j<rid.length; j++) {
+                        if (r_id === rid[j]) {
+                            result.push(data[i])
+                        }
+                    }
+                }
+            }
             return this.success(result)
         }
         catch(e) {

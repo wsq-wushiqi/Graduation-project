@@ -54,26 +54,6 @@ export default {
   test: params => {
     return axios.get("/home/weekly/test", params);
   },
-  // 获取员工信息表
-  infoList: params => {
-    return axios.get("/home/infoManage/infoList", params);
-  },
-  // 新增员工信息
-  addInfo: params => {
-    return axios.get("/home/infoManage/addInfo", params);
-  },
-  // 删除信息
-  delInfo: params => {
-    return axios.post('/home/infoManage/delInfo', params);
-  },
-  // 修改信息
-  updateInfo: params => {
-    return axios.post('/home/infoManage/updateInfo', params);
-  },
-  // 查询
-  queryInfo: params => {
-    return axios.post('/home/infoManage/queryInfo', params);
-  },
   // 获取个人信息
   myUserInfo: params => {
     return axios.post('/home/userInfo/getUserInfo', params)
@@ -85,26 +65,6 @@ export default {
   // 重置密码
   resetPwd: params => {
     return axios.post('/home/userInfo/resetPwd', params)
-  },
-  // 添加教师信息
-  addLectureInfo: params => {
-    return axios.post('/home/lecture/addLectureInfo', params)
-  },
-  // 获取教师信息列表
-  getLectureList: params => {
-    return axios.get('/home/lecture/getLectureList', params)
-  },
-  // 修改教师信息
-  updateLectureInfo: params => {
-    return axios.post('/home/lecture/updateLectureInfo', params)
-  },
-  // 删除教师信息
-  deleteInfo: params => {
-    return axios.post('/home/lecture/deleteInfo', params)
-  },
-  // 查询教师信息
-  queryLectureInfo: params => {
-    return axios.post('/home/lecture/queryLectureInfo', params)
   },
   // 申请课程
   applyCourse: params => {
@@ -134,10 +94,6 @@ export default {
   addDetail: params => {
     return axios.post('/home/arrange/addDetail', params)
   },
-  // 修改课程详情
-  updateDetail: params => {
-    return axios.post('/home/arrange/updateDetail', params)
-  },
   // 添加参与人员
   addStu: params => {
     return axios.post('/home/arrange/addStu', params)
@@ -163,8 +119,8 @@ export default {
     return axios.post('/home/arrange/applyToCourse', params)
   },
   // 获取个人培训表
-  getPlanList: params => {
-    return axios.get('/home/personPlan/getPlanList', params)
+  getStuPlanList: params => {
+    return axios.get('/home/personPlan/getStuPlanList', params)
   },
   // 添加评价
   addEvaluate: params => {
@@ -202,10 +158,6 @@ export default {
   getCheckResult: params => {
     return axios.get('/home/examine/getCheckResult', params)
   },
-  // 获取客户才能安排表搜索栏的课程列表
-  getArrangeCourseList: params => {
-    return axios.get('/home/arrange/getArrangeCourseList', params)
-  },
   // 获取菜单列表
   getMenuList: params => {
     return axios.get('/home/role/getMenuList', params)
@@ -224,11 +176,23 @@ export default {
   },
   // 获取用户列表
   getUserList: params => {
-    return axios.get('/home/user/getUserList', params)
+    return axios.post('/home/user/getUserList', params)
   },
   // 添加用户
   addUser: params => {
     return axios.post('/home/userInfo/addUser', params)
+  },
+  // 修改用户信息
+  updateUser: params => {
+    return axios.post('/home/userInfo/updateUser', params)
+  },
+  // 删除用户
+  deleteUser: params => {
+    return axios.post('/home/userInfo/deleteUser', params)
+  },
+  // 获取所有菜单
+  getTotalMenu: params => {
+    return axios.get('/home/role/getTotalMenu', params)
   }
   /**
    * API demo

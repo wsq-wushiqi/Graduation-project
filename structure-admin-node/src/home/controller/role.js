@@ -19,12 +19,25 @@ function translateDataToTree(data) {
   return parents
 }
 module.exports = class extends Base {
+  // 获取所有菜单
+  async getTotalMenuAction() {
+    try {
+      let data = await this.model('menu').select()
+      let result = translateDataToTree(data)
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('获取菜单列表失败')
+    }
+  }
+  // 根据角色获取菜单列表
   async getMenuListAction() {
     try {
       let rid = JSON.parse(this.user.r_id)
       let menu = []
       for (let i = 0; i < rid.length; i++) {
-        let mid = await this.model('role  ').where({ r_id: rid[i] }).find()
+        let mid = await this.model('role').where({ r_id: rid[i] }).find()
         menu.push(mid.r_authority)
       }
       let menus = JSON.parse(menu)
@@ -36,6 +49,8 @@ module.exports = class extends Base {
       }
       list = Array.from(new Set(list))
       let menuList = await this.model('menu').select()
+      console.log(menuList);
+      
       let data = []
       for (let i=0; i<list.length; i++) {
         for (let j=0; j<menuList.length; j++) {
@@ -44,6 +59,8 @@ module.exports = class extends Base {
           }
         }
       }
+      console.log(data);
+      
       let result = translateDataToTree(data)
       return this.success(result)
     }

@@ -16,16 +16,22 @@
               <span>用户名：</span><span>{{ userForm.u_username }}</span>
             </el-form-item>
             <el-form-item>
-              <span>姓名：</span><span>{{ userForm.i_name}}</span>
+              <span>姓名：</span><span>{{ userForm.u_name}}</span>
             </el-form-item>
             <el-form-item>
-              <span>性别：</span><span>{{ userForm.i_sex }}</span>
+              <span>性别：</span><span>{{ userForm.u_sex }}</span>
             </el-form-item>
             <el-form-item>
               <span>部门：</span><span>{{ userForm.d_name }}</span>
             </el-form-item>
             <el-form-item>
-              <span>邮箱：</span><span>{{ userForm.i_email }}</span>
+              <span>权限：</span><span>{{ userForm.r_name }}</span>
+            </el-form-item>
+            <el-form-item>
+              <span>学历：</span><span>{{ userForm.u_education }}</span>
+            </el-form-item>
+            <el-form-item>
+              <span>邮箱：</span><span>{{ userForm.u_email }}</span>
             </el-form-item>
           </el-form>
         </div>
@@ -112,7 +118,7 @@ export default {
         // if (res.data.i_id === undefined) {
         //   this.lecturerForm = res.data
         // } else {
-          this.userForm = res.data
+          this.userForm = res.data[0]
           console.log(this.userForm);
           
           console.log(res.data);
@@ -134,19 +140,19 @@ export default {
     },
     doChange: function() {
       let params = {}
-      if (this.lecturerForm.l_id === undefined) {
+      // if (this.lecturerForm.l_id === undefined) {
+      //   params = {
+      //     id: this.userForm.i_id,
+      //     oldPwd: this.changeForm.oldPwd,
+      //     newPwd: this.changeForm.confirmPwd
+      //   }
+      // } else {
         params = {
-          id: this.userForm.i_id,
+          id: this.userForm.u_id,
           oldPwd: this.changeForm.oldPwd,
           newPwd: this.changeForm.confirmPwd
         }
-      } else {
-        params = {
-          id: this.lecturerForm.l_id,
-          oldPwd: this.changeForm.oldPwd,
-          newPwd: this.changeForm.confirmPwd
-        }
-      }
+      // }
       this.changePwd(params).then(res => {
         if (res.errno === 0) {
           this.$message.success('修改成功')

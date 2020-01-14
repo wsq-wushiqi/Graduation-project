@@ -15,18 +15,19 @@
           <el-button size="mini" @click="cancel">撤销</el-button>
           <el-button size="mini" @click="examineDlg">审核</el-button>
         </el-header>
-        <el-main>
+        <el-main class="page-main">
           <el-table
           :data="tableData"
+          height="100%"
           border
           highlight-current-row
           @row-click="rowClick">
-            <el-table-column label="选择"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
+            <el-table-column label="选择" width="50"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
             <el-table-column prop="c_name" label="课程名称"></el-table-column>
             <el-table-column prop="c_category" label="类别"></el-table-column>
             <el-table-column prop="d_name" label="开课部门"></el-table-column>
-            <el-table-column prop="c_hour" label="课时"></el-table-column>
-            <el-table-column prop="l_name" label="申请人"></el-table-column>
+            <el-table-column prop="c_hour" label="课时" width="50"></el-table-column>
+            <el-table-column prop="u_name" label="申请人"></el-table-column>
             <el-table-column prop="c_status" label="审核状态" :formatter="statusFormatter"></el-table-column>
             <el-table-column prop="c_opinion" label="审核意见"></el-table-column>
           </el-table>
@@ -69,7 +70,7 @@
           <span class="examine-span">课时：</span><span>{{ examineForm.c_hour}}</span>
         </el-form-item>
         <el-form-item class="examine-form-item">
-          <span class="examine-span">申请人：</span><span>{{ examineForm.l_name}}</span>
+          <span class="examine-span">申请人：</span><span>{{ examineForm.u_name}}</span>
         </el-form-item>
         <el-form-item class="examine-form-item">
           <span class="examine-span">审核：</span>
@@ -125,7 +126,7 @@ export default {
         c_category: '',
         c_hour: 0.00,
         d_name: '',
-        l_name: '',
+        u_name: '',
         auditStatus: '',
         opinion: ''
       },
@@ -158,10 +159,10 @@ export default {
     doApply: function() {
       if (this.applyDlgTitle === '课程申请') {
         let params = {
-          name: this.applyForm.c_name,
-          category: this.applyForm.c_category,
-          hour: this.applyForm.c_hour,
-          department: this.applyForm.d_name
+          c_name: this.applyForm.c_name,
+          c_category: this.applyForm.c_category,
+          c_hour: this.applyForm.c_hour,
+          d_id: this.applyForm.d_name
         }
         this.applyCourse(params).then(res => {
           if (res.errno === 0) {
@@ -174,12 +175,18 @@ export default {
         }).catch(error => { this.$message.error(error) })
       } else {
         const row = this.tableRadio
+        let d_id = ''
+        for (let i=0; i<this.departmentList.length; i++) {
+          if (this.applyForm.d_name === this.departmentList[i].d_name || this.applyForm.d_name === this.departmentList[i].d_id) {
+            d_id = this.departmentList[i].d_id
+          }
+        }
         let params = {
-          id: row.c_id,
-          name: this.applyForm.c_name,
-          department: this.applyForm.d_name,
-          category: this.applyForm.c_category,
-          hour: this.applyForm.c_hour
+          c_id: row.c_id,
+          c_name: this.applyForm.c_name,
+          d_id: d_id,
+          c_category: this.applyForm.c_category,
+          c_hour: this.applyForm.c_hour
         }
         this.updateCourse(params).then(res => {
           if (res.errno === 0) {
@@ -191,7 +198,6 @@ export default {
           }
         }).catch(error => { this.$message.error(error) })
       }
-      
     },
     getTableData: function() {
       this.getCourseList().then(res => {
@@ -203,6 +209,7 @@ export default {
       }).catch(error => { this.$message.error(error) })
     },
     rowClick: function(item) {
+      console.log(item);
       this.tableRadio = item
     },
     update: function() {
@@ -210,7 +217,7 @@ export default {
       if (row === null || row.length === 0) {
         this.$message.warning('请选择要修改的数据')
       } else {
-        if (row.u_username !== this.userInfo.u_username) {
+        if (row.u_id!== this.userInfo.u_id) {
           this.$message.error('非此课程的申请人，不可修改！')
         } else {
           this.applyDlgVisible = true
@@ -238,7 +245,7 @@ export default {
       if (row === null || row.length === 0) {
         this.$message.warning('请选择要撤销申请的课程')
       } else {
-        if (row.u_username !== this.userInfo.u_username) {
+        if (row.u_id !== this.userInfo.u_id) {
           this.$message.error('非此课程的申请人，不可撤销！')
         } else if (row.c_status === '2') {
           this.$message.error('审核通过的课程不可撤销')
@@ -349,6 +356,11 @@ export default {
 }
 .examine-form-item {
   margin-bottom: 5px;
+}
+.page-main {
+  /* background-color: chocolate; */
+  height: calc(100vh - 136px);
+  padding: 10px;
 }
 </style>
 <style>

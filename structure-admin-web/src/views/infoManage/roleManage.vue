@@ -83,19 +83,22 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getMenuList',
+      // 'getMenuList',
       'addRole',
       'getRoleList',
-      'updateRole'
+      'updateRole',
+      'getTotalMenu' // 获取所有菜单
     ]),
     addDlg: function() {
       this.addDlgVisible = true
       this.dlgTitle = '添加角色'
     },
     getMenu: function() {
-      this.getMenuList().then(res => {
+      this.getTotalMenu().then(res => {
         if (res.errno === 0) {
           this.menuList = res.data
+          console.log(res.data);
+          
         } else {
           this.$message.error(res.errmsg)
         }

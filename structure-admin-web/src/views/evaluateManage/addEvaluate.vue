@@ -191,12 +191,12 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getPlanList',
+      'getStuPlanList',
       'addEvaluate',
       'checkEvaluate'
     ]),
     getCourseList: function() {
-      this.getPlanList().then(res => {
+      this.getStuPlanList().then(res => {
         if (res.errno === 0) {
           this.courseList = res.data
         } else {

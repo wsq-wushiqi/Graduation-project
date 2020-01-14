@@ -25,12 +25,25 @@ module.exports = class extends Base {
       return this.fail('获取部门列表失败')
     }
   }
+  // 获取部门内的普通员工
   async getStuListAction() {
     let d_id = this.post('d_id')
     try {
-      let data = await this.model('info').where({d_id}).select()
-      console.log(data);
-      return this.success(data)
+      let result = []
+      let data = await this.model('user').where({ d_id }).select()
+      for (let i=0; i<data.length; i++) {
+        // console.log(data[i].r_id);
+        // if (data[i].r_id !== '' && data[i].r_id !== null) {
+          let rid = JSON.parse(data[i].r_id)
+          for (let j=0; j<rid.length; j++) {
+            if (rid[j] === '98d6a6f0-35d2-11ea-b6ad-4beebee6d9ee') {
+              result.push(data[i])
+            }
+          }
+        // }
+        
+      }
+      return this.success(result)
     }
     catch(e) {
       console.log(e);
