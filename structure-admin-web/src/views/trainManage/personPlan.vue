@@ -54,19 +54,19 @@ export default {
       this.getStuPlanList().then(res => {
         if (res.errno === 0) {
           this.listData = res.data
-          console.log(res.data);
-          
         } else {
           this.$message.error(res.errmsg)
         }
       }).catch(error => { this.$message.error(error) })
     },
     addEvaluate: function(item) {
+      console.log(item);
+      
       let date = new Date()
       let nyear = date.getFullYear()
       let nmonth = date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1
       let nday = date.getDate()<10 ? "0"+date.getDate() : date.getDate()
-      let rowdate = item.a_time.split('-')
+      let rowdate = item.c_date.split('-')
       if (rowdate[0] < nyear || rowdate[1] < nmonth || rowdate[2].split(' ')[0] < nday) {
         this.$router.push('/addEvaluate')
       } else {

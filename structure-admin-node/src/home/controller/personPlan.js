@@ -13,6 +13,7 @@ module.exports = class extends Base {
               let lecturer = await this.model('user').where({ u_id: stu[i].c_lecturer_id }).find()
               data.push({
                 c_name: stu[i].c_name,
+                c_id: stu[i].c_id,
                 c_category: stu[i].c_category,
                 c_date: stu[i].c_date,
                 c_hour: stu[i].c_hour,

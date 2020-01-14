@@ -17,7 +17,7 @@
             <el-form>
               <el-form-item class="detail-form-item">
                 <div class="course-form-item-left">
-                  <span class="left-span">讲师：</span><span class="left-content">{{ courseMessage.a_lecturer }}</span>
+                  <span class="left-span">讲师：</span><span class="left-content">{{ courseMessage.c_lecturer_name }}</span>
                 </div>
                 <div class="course-form-item-left">
                   <span class="right-span">类别：</span><span>{{ courseMessage.c_category }}</span>
@@ -25,10 +25,10 @@
               </el-form-item>
               <el-form-item class="detail-form-item">
                 <div class="course-form-item-left">
-                  <span class="left-span">培训时间：</span><span class="left-content">{{ courseMessage.a_time }}</span>
+                  <span class="left-span">培训时间：</span><span class="left-content">{{ courseMessage.c_date }}</span>
                 </div>
                 <div class="course-form-item-left">
-                  <span class="right-span">培训地点：</span><span>{{ courseMessage.a_place }}</span>
+                  <span class="right-span">培训地点：</span><span>{{ courseMessage.c_place }}</span>
                 </div>
               </el-form-item>
             </el-form>
@@ -209,7 +209,7 @@ export default {
         if (course === this.courseList[i].c_name) {
           this.courseMessage = this.courseList[i]
           let params = {
-            i_id: this.userInfo.i_id,
+            u_id: this.userInfo.u_id,
             c_id: this.courseMessage.c_id
           }
           this.checkEvaluate(params).then(res => {
@@ -233,11 +233,11 @@ export default {
       this.organizeTotal = parseFloat((this.organizeForm.place + this.organizeForm.discipline + this.organizeForm.boardAndLodging + this.organizeForm.other)/4.0).toFixed(2)
     },
     commit: function() {
-      let i_id = this.userInfo.i_id
+      let u_id = this.userInfo.u_id
       let c_id = this.courseMessage.c_id
       let params = {
-        i_id: this.userInfo.i_id,
-        l_id: this.courseMessage.l_id,
+        u_id: this.userInfo.u_id,
+        l_id: this.courseMessage.c_lecturer_id,
         c_id: this.courseMessage.c_id,
         courseScore: this.courseTotal,
         courseAdvise: this.courseForm.advise,

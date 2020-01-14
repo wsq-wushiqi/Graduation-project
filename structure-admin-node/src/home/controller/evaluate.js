@@ -3,7 +3,7 @@ module.exports = class extends Base {
   async addEvaluateAction() {
     let l_id = this.post('l_id')
     let c_id = this.post('c_id')
-    let i_id = this.post('i_id')
+    let u_id = this.post('u_id')
     let ce_fraction = this.post('courseScore') // 课程评分
     let ce_advise = this.post('courseAdvise') // 课程建议
     let le_fraction = this.post('lecturerScore') // 讲师评分
@@ -15,8 +15,7 @@ module.exports = class extends Base {
     let boardAndLodging = this.post('boardAndLodging') // 食宿
     let other = this.post('other') // 其他
     try {
-      
-      let u = await this.model('info').where({ i_id: i_id }).getField('i_name')
+      let u = await this.model('user').where({ u_id: u_id }).getField('u_name')
       let c1 = await this.model('course_evaluate').where({ c_id: c_id }).find()
       let l1 = await this.model('lecturer_evaluate').where({ l_id: l_id }).find()
       let o1 = await this.model('other_evaluate').where({ c_id: c_id, l_id: l_id }).find()
@@ -24,7 +23,7 @@ module.exports = class extends Base {
       let ids = ''
       if (think.isEmpty(c1)) {
         advise = u+':'+ce_advise
-        ids = i_id
+        ids = u_id
         let c2 = await this.model('course_evaluate').add({ c_id, ce_fraction:Number(ce_fraction), ce_advise: advise, ce_ids: ids })
         console.log(c2);
       } else {
@@ -32,20 +31,20 @@ module.exports = class extends Base {
         advise = c1.ce_advise+','+u+':'+ce_advise
         console.log(c1);
         
-        ids = c1.ce_ids + ',' + i_id
+        ids = c1.ce_ids + ',' + u_id
         let c3 = await this.model('course_evaluate').where({ c_id: c_id}).update({ ce_fraction: score, ce_advise: advise, ce_ids: ids })
         console.log(c3);
       }
       if (think.isEmpty(l1)) {
         advise = u+':'+le_advise
         let l2 = await this.model('lecturer_evaluate').add({ l_id, le_fraction: Number(le_fraction), le_advise: advise })
-        let grade = await this.model('lecture').where({ l_id: l_id }).update({ l_grade: Number(le_fraction) })
+        // let grade = await this.model('lecture').where({ l_id: l_id }).update({ l_grade: Number(le_fraction) })
         console.log(l2);
       } else {
         let score = (l1.le_fraction + Number(le_fraction))/2
         advise = l1.le_advise+','+u+':'+le_advise
         let l3 = await this.model('lecturer_evaluate').where({ l_id: l_id}).update({ le_fraction: score, le_advise: advise })
-        let grade = await this.model('lecture').where({ l_id: l_id }).update({ l_grade: score })
+        // let grade = await this.model('lecture').where({ l_id: l_id }).update({ l_grade: score })
         console.log(l3);
       }
       if (think.isEmpty(o1)) {
@@ -62,10 +61,6 @@ module.exports = class extends Base {
         let o3 = await this.model('other_evaluate').where({ c_id: c_id, l_id: l_id}).update({ oe_fraction: score, oe_advise: advise, place: splace, discipline: sdiscipline, boardAndLodging: sboardAndLodging, other: sother})
         console.log(o3);
       }
-      let lid = await this.model('lecture').select()
-      for (let i = 0; i < lid.length; i++) {
-        let lname = await this.model('course').where({ l_id: lid[i].l_id }).update({ l_name: lid[i].l_name})
-      }
       return this.success('提交成功')
     }
     catch(e) {
@@ -74,13 +69,13 @@ module.exports = class extends Base {
     }
   }
   async checkEvaluateAction() {
-    let i_id = this.post('i_id')
+    let u_id = this.post('u_id')
     let c_id = this.post('c_id')
     try {
       let iid = await this.model('course_evaluate').where({ c_id }).getField('ce_ids')
       let idList = (iid).toString().split(',')
       for (let i = 0; i < idList.length; i++) {
-        if (i_id === idList[i]) {
+        if (u_id === idList[i]) {
           return this.fail('此课程已经评价过')
         }
       }
@@ -101,12 +96,10 @@ module.exports = class extends Base {
           if (evaluate[i].c_id === course[j].c_id) {
             let c = course[j]
             let e = evaluate[i]
-            // console.log(c);
-            // console.log(e);
             result.push({
               c_name: c.c_name,
               c_hour: c.c_hour,
-              d_name: c.d_name,
+              c_date: c.c_date,
               l_name: c.l_name,
               ce_fraction: e.ce_fraction,
               ce_advise: e.ce_advise

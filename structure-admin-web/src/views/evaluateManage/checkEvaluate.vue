@@ -1,18 +1,17 @@
 <template>
   <div class="check-evaluate-container">
     <el-container>
-      <!-- <el-header height="45px" class="check-evaluate-header">Header</el-header> -->
       <el-main class="check-evaluate-main">
         <el-tabs v-model="activeTab" type="border-card" @tab-click="tabClick">
           <el-tab-pane label="课程评价" class="course-tab-pane" name="course">
             <el-table :data="courseTable" border>
               <el-table-column label="课程" prop="c_name"></el-table-column>
               <el-table-column label="课时" prop="c_hour"></el-table-column>
-              <el-table-column label="开课部门" prop="d_name"></el-table-column>
+              <el-table-column label="上课时间" prop="c_date"></el-table-column>
               <el-table-column label="评分" prop="ce_fraction"></el-table-column>
               <el-table-column label="意见/建议" prop="ce_advise">
                 <template slot-scope="scope">
-                  <el-button type='text' @click="clickCheck(scope.row.c_name, scope.row.ce_advise)">点击查看</el-button>
+                  <span class="table-button" @click="clickCheck(scope.row.c_name, scope.row.ce_advise)">点击查看</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -123,7 +122,7 @@ export default {
 }
 .course-tab-pane {
   height: calc(100vh - 182px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .advise-ul {
   list-style: none;
@@ -142,6 +141,13 @@ export default {
   height: 25px;
   line-height: 25px;
   border-bottom: 1px solid rgb(210,226,255);
+}
+.table-button {
+  color: rgb(85,118,189);
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+  margin: 0px;
 }
 </style>
 <style>
