@@ -13,17 +13,19 @@
           <el-button size="mini" @click="detailDlg">编辑详情</el-button>
           <el-button size="mini" @click="addStuDlg">添加人员</el-button>
           <el-button size="mini" @click="apply">加入课程</el-button>
+          <el-button size="mini" @click="outTab">导出数据</el-button>
         </el-header>
         <el-main class="table-main">
           <el-table
-          :data="tableData"
+          :data="tableData.slice((currentPage - 1)*pageSize, currentPage*pageSize)"
+          id="out-table"
           border
           highlight-current-row
-          height="100%"
+          height="calc(100vh - 178px)"
           @row-click="rowClick">
             <el-table-column label="选择" width="50px" :align="center"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
             <el-table-column prop='c_name' label="课程名称" width="100px" :align="center"></el-table-column>
-            <el-table-column prop='u_name' label="申请人" width="70px" :align="center"></el-table-column>
+            <el-table-column prop='u_name' label="申请人" width="90px" sortable :align="center"></el-table-column>
             <el-table-column prop='c_date' label="上课时间" width="200px" show-overflow-tooltip :align="center"></el-table-column>
             <el-table-column prop='c_place' label="上课地点" :align="center"></el-table-column>
             <el-table-column prop='c_number' label="已选人数" :align="center">
@@ -34,6 +36,16 @@
             <el-table-column prop="c_max_number" label="限制人数" :align="center"></el-table-column>
             <el-table-column prop='c_lecturer' label="主讲人" :formatter="lecturerFormat" :align="center"></el-table-column>
           </el-table>
+          <el-pagination
+          class="pagination-class"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          :total="tableData.length"
+          layout="total, sizes, prev, pager, next, jumper">
+          </el-pagination>
         </el-main>
       </el-container>
     </el-container>
@@ -110,6 +122,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 export default {
   data() {
     return {
@@ -146,7 +160,9 @@ export default {
       queryCourseName: '',
       lecturerList: [],
       departmentData: [],
-      center: 'center'
+      center: 'center',
+      currentPage: 1,
+      pageSize: 10
     }
   },
   mounted() {
@@ -170,15 +186,33 @@ export default {
       'applyToCourse',
       'getUserList'
     ]),
+    handleSizeChange: function(val) {
+      this.pageSize = val
+      return this.pageSize
+    },
+    handleCurrentChange: function(val) {
+      this.currentPage = val
+      return this.currentPage
+    },
     // 获取表格
     getTableData: function() {
       this.getArrangeList().then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
+          this.courseList = res.data
         } else {
           this.$message.error(res.errmsg)
         }
       }).catch(error => { this.$message.error(error) })
+    },
+    // 导出表格数据
+    outTab () {
+      let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      try {
+          FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '课程安排.xlsx')
+      } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+      return wbout
     },
     // 表格选中事件
     rowClick: function(item) {
@@ -361,7 +395,7 @@ export default {
       } else {
         let stuId = []
         let u_id = this.userInfo.u_id
-        if (row.c_stu !== '' && row.c_stu !== null) {
+        if (row.c_stu !== '' && row.c_stu !== null && row.c_stu !== '[]') {
           stuId = JSON.parse(row.c_stu)
           for (let i = 0; i < stuId.length; i++) {
             if (stuId[i] === u_id) {
@@ -434,10 +468,12 @@ export default {
 <style scoped>
 .query-header {
   line-height: 45px;
+  min-width: 410px;
 }
 .operation-header {
   line-height: 45px;
   border-bottom: 1px solid rgb(210,226,255);
+  min-width: 400px;
 }
 .detail-title {
   display: inline-block;
