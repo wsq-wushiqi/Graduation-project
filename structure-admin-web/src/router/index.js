@@ -71,6 +71,20 @@ export default new Router({
         },
         component: () => import('@/views/trainManage/lecturerPlan')
       }, {
+        path: '/checkCourse',
+        name: 'checkCourse',
+        meta: {
+          key: '1-5'
+        },
+        component: () => import('@/views/trainManage/checkCourse')
+      }, {
+        path: '/myCourseArrange',
+        name: 'myCourseArrange',
+        meta: {
+          key: '1-6'
+        },
+        component: () => import('@/views/trainManage/myCourseArrange')
+      }, {
         path: '/addEvaluate',
         name: 'addEvaluate',
         meta: {
