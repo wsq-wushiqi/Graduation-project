@@ -10,6 +10,8 @@ import store from './vuex'
 // 引入ele
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+// 引入图标
+import './assets/icon/iconfont.css'
 
 Vue.config.productionTip = false
 
