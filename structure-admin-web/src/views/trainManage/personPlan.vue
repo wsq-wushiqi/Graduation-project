@@ -60,8 +60,6 @@ export default {
       }).catch(error => { this.$message.error(error) })
     },
     addEvaluate: function(item) {
-      console.log(item);
-      
       let date = new Date()
       let nyear = date.getFullYear()
       let nmonth = date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1
