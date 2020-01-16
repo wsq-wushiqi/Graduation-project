@@ -62,7 +62,7 @@ export const applyCourse = ({ commit }, params) => {
     return response
   })
 }
-// 获取课程列表
+// 课程申请页面----获取课程列表
 export const getCourseList = ({ commit }, params) => {
   return Api.getCourseList(params).then(response => {
     return response
@@ -152,13 +152,19 @@ export const checkEvaluate = ({ commit }, params) => {
     return response
   })
 }
-// 获取课程评价表
+// 获取所有课程评价表
 export const getCourseEvaluate = ({ commit }, params) => {
   return Api.getCourseEvaluate(params).then(response => {
     return response
   })
 }
-// 获取教师评价表
+// 获取所有教师评教表
+export const getAllLecturerEvaluate = ({ commit }, params) => {
+  return Api.getAllLecturerEvaluate(params).then(response => {
+    return response
+  })
+}
+// 获取当前教师评价表
 export const getLecturerEvaluate = ({ commit }, params) => {
   return Api.getLecturerEvaluate(params).then(response => {
     return response
@@ -245,6 +251,12 @@ export const getTotalMenu = ({ commit }, params) => {
 // 获取个人成绩表
 export const getMyCheckResult = ({ commit }, params) => {
   return Api.getMyCheckResult(params).then(response => {
+    return response
+  })
+}
+// 获取所有成绩
+export const getAllCheckResult = ({ commit }, params) => {
+  return Api.getAllCheckResult(params).then(response => {
     return response
   })
 }

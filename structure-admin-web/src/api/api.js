@@ -70,9 +70,9 @@ export default {
   applyCourse: params => {
     return axios.post('/home/course/applyCourse', params)
   },
-  // 获取课程列表
+  // 课程申请页面----获取课程列表
   getCourseList: params => {
-    return axios.get('/home/course/getCourseList', params)
+    return axios.post('/home/course/getCourseList', params)
   },
   // 修改课程申请
   updateCourse: params => {
@@ -130,11 +130,15 @@ export default {
   checkEvaluate: params => {
     return axios.post('/home/evaluate/checkEvaluate', params)
   },
-  // 获取课程评价表
+  // 获取所有课程评价表
   getCourseEvaluate: params => {
     return axios.get('/home/evaluate/getCourseEvaluate', params)
   },
-  // 获取教师评价表
+  // 获取所有教师评价
+  getAllLecturerEvaluate: params => {
+    return axios.get('/home/evaluate/getAllLecturerEvaluate', params)
+  },
+  // 获取当前教师评价表
   getLecturerEvaluate: params => {
     return axios.get('/home/evaluate/getLecturerEvaluate', params)
   },
@@ -193,6 +197,10 @@ export default {
   // 获取个人成绩表
   getMyCheckResult: params => {
     return axios.get('/home/checkResult/getMyCheckResult', params)
+  },
+  // 获取所有成绩
+  getAllCheckResult: params => {
+    return axios.get('/home/checkResult/getAllCheckResult', params)
   },
   // 菜单管理----获取菜单管理页面的菜单列表
   getPageMenuList: params => {
