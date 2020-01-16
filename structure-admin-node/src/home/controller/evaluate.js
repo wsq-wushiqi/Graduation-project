@@ -166,4 +166,31 @@ module.exports = class extends Base {
       return this.fail('获取教师评价列表失败')
     }
   }
+  // 获取所有教师评价
+  async getAllLecturerEvaluateAction() {
+    try {
+      let result = []
+      let e = await this.model('lecturer_evaluate').select()
+      let u = await this.model('user').select()
+      for (let i = 0; i < e.length; i++) {
+        for (let j = 0; j < u.length; j++) {
+          if (e[i].l_id === u[j].u_id) {
+            let d_name = await this.model('department').where({ d_id: u[j].d_id }).getField('d_name')
+            result.push({
+              u_name: u[j].u_name,
+              d_name: d_name[0],
+              u_education: u[j].u_education,
+              le_fraction: e[i].le_fraction,
+              le_advise: e[i].le_advise
+            })
+          }
+        }
+      }
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('获取教师评价表失败')
+    }
+  }
 }
