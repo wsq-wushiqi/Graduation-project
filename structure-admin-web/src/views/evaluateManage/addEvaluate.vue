@@ -139,6 +139,10 @@
           <img src="../../image/commit-success.png" alt="提交成功啦~" width="80px" class="success-image">
           <span class="commit-success-span">成功提交评价！！</span>
         </div>
+        <div v-show="cannotEvaluate" class="cannot-evaluate-div">
+          <img src="../../image/干活.png" alt="不能评价~" width="128px" class="success-image">
+          <span class="commit-success-span">课程还未结束，不可评价~</span>
+        </div>
       </el-main>
     </el-container>
   </div>
@@ -183,7 +187,8 @@ export default {
       colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
       evaluateDetail: false,
       alertText: '',
-      commitSuccess: false
+      commitSuccess: false,
+      cannotEvaluate: false
     }
   },
   mounted() {
@@ -205,27 +210,48 @@ export default {
       }).catch(error => { this.$message.error(error) })
     },
     showDetail: function(course) {
-      for (let i = 0; i < this.courseList.length; i++) {
+      let item = {}
+      for (let i=0; i<this.courseList.length; i++) {
         if (course === this.courseList[i].c_name) {
-          this.courseMessage = this.courseList[i]
-          let params = {
-            u_id: this.userInfo.u_id,
-            c_id: this.courseMessage.c_id
-          }
-          this.checkEvaluate(params).then(res => {
-            if (res.errno === 0) {
-              this.detailVisible = true
-              this.evaluateDetail = false
-              this.commitSuccess = false
-            } else {
-              this.detailVisible = false
-              this.evaluateDetail = true
-              this.commitSuccess = false
-              this.alertText = '换一个吧，您已经评价过课程“'+this.courseMessage.c_name+'”啦~'
-            }
-          }).catch(error => { this.$message.error(error) })
+          item = this.courseList[i]
         }
-      } 
+      }
+      let date = new Date()
+      let nyear = date.getFullYear()
+      let nmonth = date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1
+      let nday = date.getDate()<10 ? "0"+date.getDate() : date.getDate()
+      let rowdate = item.c_date.split('-')
+      if (rowdate[0] < nyear || rowdate[1] < nmonth || rowdate[2].split(' ')[0] < nday) {
+        for (let i = 0; i < this.courseList.length; i++) {
+          if (course === this.courseList[i].c_name) {
+            this.courseMessage = this.courseList[i]
+            let params = {
+              u_id: this.userInfo.u_id,
+              c_id: this.courseMessage.c_id
+            }
+            this.checkEvaluate(params).then(res => {
+              if (res.errno === 0) {
+                this.detailVisible = true
+                this.evaluateDetail = false
+                this.commitSuccess = false
+                this.cannotEvaluate = false
+              } else {
+                this.detailVisible = false
+                this.evaluateDetail = true
+                this.commitSuccess = false
+                this.cannotEvaluate = false
+                this.alertText = '换一个吧，您已经评价过课程“'+this.courseMessage.c_name+'”啦~'
+              }
+            }).catch(error => { this.$message.error(error) })
+          }
+        }
+      } else {
+        this.cannotEvaluate = true
+        this.detailVisible = false
+        this.evaluateDetail = false
+        this.commitSuccess = false
+      }
+       
     },
     scoreChange: function() {
       this.courseTotal = parseFloat((this.courseForm.teachingMaterial + this.courseForm.trainingMode + this.courseForm.contentEnrichment + this.courseForm.pertinence + this.courseForm.practicality + this.courseForm.practice)/6.0).toFixed(2)
@@ -256,6 +282,7 @@ export default {
           this.commitSuccess = true
           this.detailVisible = false
           this.evaluateDetail = false
+          this.cannotEvaluate = false
         } else {
           this.$message.error(res.errmsg)
         }
@@ -398,8 +425,8 @@ export default {
   text-align: center;
 }
 .alert-text-div {
-  margin-top: 20px;
-  height: 150px;
+  margin-top: 30px;
+  height: 160px;
   border: 1px solid rgb(210,226,255);
   padding: 10px 0px 10px 20px;
   color: rgb(74, 70, 138);
@@ -408,9 +435,9 @@ export default {
   margin-left: 10px;
 }
 .success-div {
-  height: 150px;
-  margin-top: 80px;
-  padding: 10px 20px;
+  height: 130px;
+  margin-top: 30px;
+  padding: 30px;
   border: 1px solid rgb(210,226,255);
 }
 .commit-success-span {
@@ -420,6 +447,12 @@ export default {
 }
 .success-image {
   vertical-align: middle;
+}
+.cannot-evaluate-div {
+  height: 150px;
+  border: 1px solid rgb(210,226,255);
+  margin-top: 30px;
+  padding: 30px;
 }
 </style>
 <style>
