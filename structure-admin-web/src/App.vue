@@ -60,4 +60,8 @@
     background-color: rgb(232,240,255)!important;
     /* color: aliceblue; */
   }
+  .el-radio__input.is-checked .el-radio__inner {
+    border-color: #5576bd;
+    background: #5576bd;
+  }
 </style>
