@@ -217,6 +217,10 @@ export default {
   // 菜单管理----删除菜单
   deleteMenu: params => {
     return axios.post('/home/menu/deleteMenu', params)
+  },
+  // 我的课程安排----获取个人课程安排表
+  getMyCourseArrange: params => {
+    return axios.get('/home/arrange/getMyCourseArrange', params)
   }
   /**
    * API demo

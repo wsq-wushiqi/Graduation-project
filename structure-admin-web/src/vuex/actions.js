@@ -284,3 +284,9 @@ export const deleteMenu = ({ commit }, params) => {
     return response
   })
 }
+// 我的课程安排----获取个人课程安排
+export const getMyCourseArrange = ({ commit }, params) => {
+  return Api.getMyCourseArrange(params).then(response => {
+    return response
+  })
+}

@@ -1,6 +1,6 @@
 const Base = require('./base')
 module.exports = class extends Base {
-  // 获取课程安排表
+  // 获取所有课程安排表
   async getArrangeListAction() {
     try {
       let c = await this.model('course').where({c_status: '2'}).select()
@@ -80,6 +80,32 @@ module.exports = class extends Base {
     catch(e) {
       console.log(e);
       return this.fail('加入课程失败')
+    }
+  }
+  // 获取个人课程安排
+  async getMyCourseArrangeAction() {
+    try {
+      let c = await this.model('course').where({ c_status: '2', _complex: { u_id: this.user.u_id, c_lecturer_id: this.user.u_id, _logic: 'OR'} }).select()
+      let result = []
+      for (let i=0; i<c.length; i++) {
+        let u = await this.model('user').where({ u_id: c[i].u_id }).find()
+        result.push({
+          c_id: c[i].c_id,
+          c_name: c[i].c_name,
+          c_date: c[i].c_date,
+          c_place: c[i].c_place,
+          c_number: c[i].c_number,
+          c_max_number: c[i].c_max_number,
+          c_lecturer_id: c[i].c_lecturer_id,
+          c_stu: c[i].c_stu,
+          u_name: u.u_name
+        })
+      }
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('获取课程安排表失败')
     }
   }
 }
