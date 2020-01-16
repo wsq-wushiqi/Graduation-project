@@ -68,4 +68,13 @@
     background-color: #b9c9ec5e;
     height: 30px;
   }
+  .el-tabs__nav-scroll {
+  background-color: rgb(232,240,255);
+}
+.el-tabs :hover {
+  color: rgb(120, 111, 167)!important;
+}
+.el-tabs__item.is-active {
+  color: rgb(73, 64, 112)!important;
+}
 </style>
