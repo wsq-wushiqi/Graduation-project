@@ -164,9 +164,9 @@ export const getLecturerEvaluate = ({ commit }, params) => {
     return response
   })
 }
-// 获取组织评价表
-export const getOtherEvaluate = ({ commit }, params) => {
-  return Api.getOtherEvaluate(params).then(response => {
+// 获取教师对应的课程评价
+export const getLecturerCourseEvaluate = ({ commit }, params) => {
+  return Api.getLecturerCourseEvaluate(params).then(response => {
     return response
   })
 }
@@ -185,12 +185,6 @@ export const getCourseStu = ({ commit }, params) => {
 // 添加学生成绩
 export const editStuGeade = ({ commit }, params) => {
   return Api.editStuGeade(params).then(response => {
-    return response
-  })
-}
-// 获取成绩表
-export const getCheckResult = ({ commit }, params) => {
-  return Api.getCheckResult(params).then(response => {
     return response
   })
 }
@@ -245,6 +239,36 @@ export const deleteUser = ({ commit }, params) => {
 // 获取所有菜单
 export const getTotalMenu = ({ commit }, params) => {
   return Api.getTotalMenu(params).then(response => {
+    return response
+  })
+}
+// 获取个人成绩表
+export const getMyCheckResult = ({ commit }, params) => {
+  return Api.getMyCheckResult(params).then(response => {
+    return response
+  })
+}
+// 获取菜单管理页面的菜单列表
+export const getPageMenuList = ({ commit }, params) => {
+  return Api.getPageMenuList(params).then(response => {
+    return response
+  })
+}
+// 菜单管理----添加菜单
+export const addMenu = ({ commit }, params) => {
+  return Api.addMenu(params).then(response => {
+    return response
+  })
+}
+// 菜单管理----修改菜单
+export const updateMenu = ({ commit }, params) => {
+  return Api.updateMenu(params).then(response => {
+    return response
+  })
+}
+// 菜单管理----删除菜单
+export const deleteMenu = ({ commit }, params) => {
+  return Api.deleteMenu(params).then(response => {
     return response
   })
 }

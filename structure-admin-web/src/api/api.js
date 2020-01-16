@@ -138,9 +138,9 @@ export default {
   getLecturerEvaluate: params => {
     return axios.get('/home/evaluate/getLecturerEvaluate', params)
   },
-  // 获取组织评价表
-  getOtherEvaluate: params => {
-    return axios.get('/home/evaluate/getOtherEvaluate', params)
+  // 获取教师对应的课程评价
+  getLecturerCourseEvaluate: params => {
+    return axios.get('/home/evaluate/getLecturerCourseEvaluate', params)
   },
   // (讲师)获取我的课程表
   getMyCourse: params => {
@@ -153,10 +153,6 @@ export default {
   // 添加学生成绩
   editStuGeade: params => {
     return axios.post('/home/examine/editStuGeade', params)
-  },
-  // 获取成绩表
-  getCheckResult: params => {
-    return axios.get('/home/examine/getCheckResult', params)
   },
   // 获取菜单列表
   getMenuList: params => {
@@ -193,6 +189,26 @@ export default {
   // 获取所有菜单
   getTotalMenu: params => {
     return axios.get('/home/role/getTotalMenu', params)
+  },
+  // 获取个人成绩表
+  getMyCheckResult: params => {
+    return axios.get('/home/checkResult/getMyCheckResult', params)
+  },
+  // 菜单管理----获取菜单管理页面的菜单列表
+  getPageMenuList: params => {
+    return axios.get('/home/menu/getPageMenuList', params)
+  },
+  // 菜单管理----添加菜单
+  addMenu: params => {
+    return axios.post('/home/menu/addMenu', params)
+  },
+  // 菜单管理----修改菜单
+  updateMenu: params => {
+    return axios.post('/home/menu/updateMenu', params)
+  },
+  // 菜单管理----删除菜单
+  deleteMenu: params => {
+    return axios.post('/home/menu/deleteMenu', params)
   }
   /**
    * API demo
