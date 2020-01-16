@@ -68,6 +68,7 @@ module.exports = class extends Base {
       return this.fail('获取人员详情失败')
     }
   }
+  // 申请加入课程
   async applyToCourseAction() {
     let c_id = this.post('c_id')
     let c_stu = this.post('c_stu')
