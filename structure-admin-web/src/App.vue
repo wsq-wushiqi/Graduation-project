@@ -64,4 +64,8 @@
     border-color: #5576bd;
     background: #5576bd;
   }
+  .el-pagination {
+    background-color: #b9c9ec5e;
+    height: 30px;
+  }
 </style>
