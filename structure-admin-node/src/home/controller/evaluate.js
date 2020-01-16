@@ -1,5 +1,6 @@
 const Base = require('./base')
 module.exports = class extends Base {
+  // 添加评价
   async addEvaluateAction() {
     let l_id = this.post('l_id')
     let c_id = this.post('c_id')
@@ -38,13 +39,11 @@ module.exports = class extends Base {
       if (think.isEmpty(l1)) {
         advise = u+':'+le_advise
         let l2 = await this.model('lecturer_evaluate').add({ l_id, le_fraction: Number(le_fraction), le_advise: advise })
-        // let grade = await this.model('lecture').where({ l_id: l_id }).update({ l_grade: Number(le_fraction) })
         console.log(l2);
       } else {
         let score = (l1.le_fraction + Number(le_fraction))/2
         advise = l1.le_advise+','+u+':'+le_advise
         let l3 = await this.model('lecturer_evaluate').where({ l_id: l_id}).update({ le_fraction: score, le_advise: advise })
-        // let grade = await this.model('lecture').where({ l_id: l_id }).update({ l_grade: score })
         console.log(l3);
       }
       if (think.isEmpty(o1)) {
@@ -68,6 +67,7 @@ module.exports = class extends Base {
       return this.fail('提交评价失败')
     }
   }
+  // 检查是否已经评价过
   async checkEvaluateAction() {
     let u_id = this.post('u_id')
     let c_id = this.post('c_id')
@@ -86,6 +86,7 @@ module.exports = class extends Base {
       return this.fail('获取评价表失败')
     }
   }
+  // 获取课程评价
   async getCourseEvaluateAction() {
     try {
       let course = await this.model('course').select()
@@ -114,60 +115,55 @@ module.exports = class extends Base {
       return this.fail('获取课程评价列表失败')
     }
   }
-  async getLecturerEvaluateAction() {
+  // 获取教师对应的课程评价
+  async getLecturerCourseEvaluateAction() {
+    let u_id =  this.user.u_id
     try {
-      let lecture = await this.model('lecture').select()
-      let evaluate = await this.model('lecturer_evaluate').select()
+      let course = await this.model('course').where({ c_lecturer_id: u_id }).select()
       let result = []
-      for (let i = 0; i < lecture.length; i++) {
-        for (let j = 0; j < evaluate.length; j++) {
-          if (lecture[i].l_id === evaluate[j].l_id) {
-            let l = lecture[i]
-            let e = evaluate[j]
-            result.push({
-              l_name: l.l_name,
-              d_name: l.d_name,
-              l_education: l.l_education,
-              le_fraction: e.le_fraction,
-              le_advise: e.le_advise
-            })
-          }
-        }
+      for (let i = 0; i < course.length; i++) {
+        let cid = course[i].c_id
+        let evaluate = await this.model('course_evaluate').where({ c_id: cid }).find()
+        result.push({
+          c_id: course[i].c_id,
+          c_name: course[i].c_name,
+          c_hour: course[i].c_hour,
+          c_date:course[i].c_date,
+          ce_fraction: evaluate.ce_fraction,
+          ce_advise: evaluate.ce_advise
+        })
+      }
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('获取课程评价失败')
+    }
+  }
+  // 获取教师评价
+  async getLecturerEvaluateAction() {
+    let u_id = this.user.u_id
+    try {
+      let user = await this.model('user').where({ u_id }).find()
+      let evaluate = await this.model('lecturer_evaluate').where({ l_id: user.u_id }).find()
+      let dname = await this.model('department').where({ d_id: user.d_id }).find()
+      let result = []
+      if (!think.isEmpty(evaluate)) {
+        result.push({
+          u_id: user.u_id,
+          u_name: user.u_name,
+          d_id: user.d_id, 
+          d_name: dname.d_name,
+          u_education: user.u_education,
+          le_fraction: evaluate.le_fraction,
+          le_advise: evaluate.le_advise
+        })
       }
       return this.success(result)
     }
     catch(e) {
       console.log(e);
       return this.fail('获取教师评价列表失败')
-    }
-  }
-  async getOtherEvaluateAction() {
-    try {
-      let lecture = await this.model('lecture').select()
-      let course = await this.model('course').select()
-      let evaluate = await this.model('other_evaluate').select()
-      let result = []
-      for (let i = 0; i < evaluate.length; i++) {
-        for (let j = 0; j < course.length; j++) {
-          for (let k = 0; k < lecture.length; k++) {
-            if (evaluate[i].c_id === course[j].c_id && evaluate[i].l_id === lecture[k].l_id) {
-              // console.log(i);
-              let l = lecture[i]
-              let c = course[j]
-              let e = evaluate[k]
-              console.log(l);
-              console.log(c);
-              console.log(e);
-              
-            }
-          }
-        }
-      }
-      return this.success(result)
-    }
-    catch(e) {
-      console.log(e);
-      return this.fail('获取评价列表失败')
     }
   }
 }
