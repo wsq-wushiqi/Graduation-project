@@ -3,7 +3,7 @@
     <el-container>
       <el-header class="query-header" height="45px">
         <span>审核状态：</span>
-        <el-select v-model="auditStatus" size="small" class="query-select">
+        <el-select v-model="auditStatus" clearable size="small" class="query-select" @clear="query">
           <el-option v-for="(item, key) in auditStatusList" :key="key" :label="item.label" :value="item.value" />
         </el-select>
         <el-button size="mini" @click="query">查询</el-button>
@@ -200,7 +200,7 @@ export default {
       }
     },
     getTableData: function() {
-      this.getCourseList().then(res => {
+      this.getCourseList({ c_status: this.auditStatus }).then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
         } else {
@@ -209,7 +209,6 @@ export default {
       }).catch(error => { this.$message.error(error) })
     },
     rowClick: function(item) {
-      console.log(item);
       this.tableRadio = item
     },
     update: function() {
@@ -268,7 +267,7 @@ export default {
       }
     },
     query: function() {
-      this.$message.success('查询')
+      this.getTableData()
     },
     examineDlg: function() {
       const row = this.tableRadio

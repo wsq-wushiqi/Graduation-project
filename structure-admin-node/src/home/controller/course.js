@@ -21,15 +21,20 @@ module.exports = class extends Base {
       return this.fail('申请课程失败')
     }
   }
+  // 获取课程申请列表
   async getCourseListAction() {
+    let c_status = this.post('c_status')
     try {
-      let course = await this.model('course').select()
+      let course = []
+      if (c_status === '' || c_status === null || c_status === undefined) {
+        course = await this.model('course').select()
+      } else {
+        course = await this.model('course').where({ c_status }).select()
+      }
       let result = []
       for (let i=0; i<course.length; i++) {
         let dname = await this.model('department').where({ d_id: course[i].d_id }).find()
-        console.log(dname.d_name);
         let uname = await this.model('user').where({ u_id: course[i].u_id }).find()
-        console.log(uname.u_name);
         result.push({
           c_id: course[i].c_id,
           c_name: course[i].c_name,
@@ -43,8 +48,6 @@ module.exports = class extends Base {
           u_id: course[i].u_id
         })
       }
-      console.log(course);
-      
       return this.success(result)
     }
     catch(e) {
