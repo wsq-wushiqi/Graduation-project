@@ -352,6 +352,8 @@ export default {
     // 申请加入课程
     apply: function() {
       const row = this.tableRadio
+      console.log(row);
+      
       let flag = false
       if (row === null || row.length === 0) {
         this.$message.warning('请选择要加入的课程')
@@ -359,7 +361,7 @@ export default {
       } else {
         let stuId = []
         let u_id = this.userInfo.u_id
-        if (row.c_stu !== '') {
+        if (row.c_stu !== '' && row.c_stu !== null) {
           stuId = JSON.parse(row.c_stu)
           for (let i = 0; i < stuId.length; i++) {
             if (stuId[i] === u_id) {
