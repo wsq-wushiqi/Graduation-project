@@ -35,16 +35,7 @@ export default new Router({
           key: '7-2'
         },
         component: () => import("@/views/weeklyList/index")
-      },
-      //  {
-      //   path: '/staffInfo',
-      //   name: 'staffInfo',
-      //   meta: {
-      //     key: '1-3'
-      //   },
-      //   component: () => import("@/views/infoManage/staffInfo")
-      // },
-       {
+      }, {
         path: '/profile',
         name: 'profile',
         meta: {
@@ -58,16 +49,7 @@ export default new Router({
           key: '1-1'
         },
         component: () => import('@/views/trainManage/courseApplication')
-      },  
-      // {
-      //   path: '/lectureInfo',
-      //   name: 'lectureInfo',
-      //   meta: {
-      //     key: '2-3'
-      //   },
-      //   component: () => import('@/views/infoManage/lectureInfo')
-      // },
-       {
+      }, {
         path:'/courseArrange',
         name: 'courseArrange',
         meta: {
@@ -137,6 +119,13 @@ export default new Router({
           key: '3-3'
         },
         component: () => import('@/views/infoManage/roleManage')
+      }, {
+        path: '/menuManage',
+        name: 'menuManage',
+        meta: {
+          key: '3-4'
+        },
+        component: () => import('@/views/infoManage/menuManage')
       }]
     }
   ]
