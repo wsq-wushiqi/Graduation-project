@@ -40,17 +40,17 @@ module.exports = class extends Base {
         let mid = await this.model('role').where({ r_id: rid[i] }).find()
         menu.push(mid.r_authority)
       }
-      let menus = JSON.parse(menu)
       let list = []
-      for (let i=0; i<menus.length; i++) {
-        for (let j=0; j<menus[i].length; j++) {
-          list.push(menus[i][j])
+      for (let j = 0; j < menu.length; j++) {
+        let menus = JSON.parse(menu[j])
+        for (let i=0; i<menus.length; i++) {
+          for (let j=0; j<menus[i].length; j++) {
+            list.push(menus[i][j])
+          }
         }
       }
       list = Array.from(new Set(list))
       let menuList = await this.model('menu').select()
-      console.log(menuList);
-      
       let data = []
       for (let i=0; i<list.length; i++) {
         for (let j=0; j<menuList.length; j++) {
@@ -59,8 +59,6 @@ module.exports = class extends Base {
           }
         }
       }
-      console.log(data);
-      
       let result = translateDataToTree(data)
       return this.success(result)
     }
@@ -74,7 +72,6 @@ module.exports = class extends Base {
     let r_id = UUID.v1()
     let r_describe = this.post('r_describe')
     let r_authority = this.post('r_authority')
-    console.log(r_authority);
     try {
       let name = await this.model('role').where({ r_name }).find()
       if (think.isEmpty(name)) {
