@@ -4,12 +4,12 @@
       <el-main class="check-evaluate-main">
         <el-tabs v-model="activeTab" type="border-card" @tab-click="tabClick">
           <el-tab-pane label="课程评价" class="course-tab-pane" name="course">
-            <el-table :data="courseTable" border>
-              <el-table-column label="课程" prop="c_name"></el-table-column>
-              <el-table-column label="课时" prop="c_hour"></el-table-column>
-              <el-table-column label="上课时间" prop="c_date"></el-table-column>
-              <el-table-column label="评分" prop="ce_fraction"></el-table-column>
-              <el-table-column label="意见/建议" prop="ce_advise">
+            <el-table :data="courseTable" border height="100%">
+              <el-table-column label="课程" prop="c_name" :align="center"></el-table-column>
+              <el-table-column label="课时" prop="c_hour" :align="center"></el-table-column>
+              <el-table-column label="上课时间" prop="c_date" :align="center"></el-table-column>
+              <el-table-column label="评分" prop="ce_fraction" :align="center"></el-table-column>
+              <el-table-column label="意见/建议" prop="ce_advise" :align="center">
                 <template slot-scope="scope">
                   <span class="table-button" @click="clickCheck(scope.row.c_name, scope.row.ce_advise)">点击查看</span>
                 </template>
@@ -17,12 +17,12 @@
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="教师评价" class="course-tab-pane" name="lecturer">
-            <el-table :data="lecturerTable" border>
-              <el-table-column label="姓名" prop="u_name"></el-table-column>
-              <el-table-column label="部门" prop="d_name"></el-table-column>
-              <el-table-column label="学历" prop="u_education"></el-table-column>
-              <el-table-column label="评分" prop="le_fraction"></el-table-column>
-              <el-table-column label="学员评价" prop="le_advise">
+            <el-table :data="lecturerTable" border height="100%">
+              <el-table-column label="姓名" prop="u_name" :align="center"></el-table-column>
+              <el-table-column label="部门" prop="d_name" :align="center"></el-table-column>
+              <el-table-column label="学历" prop="u_education" :align="center"></el-table-column>
+              <el-table-column label="评分" prop="le_fraction" :align="center"></el-table-column>
+              <el-table-column label="学员评价" prop="le_advise" :align="center">
                 <template slot-scope="scope">
                   <span class="table-button" @click="clickCheck(scope.row.l_name, scope.row.le_advise)">点击查看</span>
                 </template>
@@ -58,7 +58,8 @@ export default {
       lecturerTable: [],
       adviseVisible:false,
       adviseList: [],
-      adviseTitle: ''
+      adviseTitle: '',
+      center: 'center'
     }
   },
   mounted() {
@@ -112,7 +113,7 @@ export default {
   line-height: 45px;
 }
 .check-evaluate-main {
-  height: calc(100vh - 46px);
+  /* height: calc(100vh - 46px); */
   padding: 10px;
 }
 .course-tab-pane {
@@ -146,15 +147,6 @@ export default {
 }
 </style>
 <style>
-.el-tabs__nav-scroll {
-  background-color: rgb(232,240,255);
-}
-.el-tabs :hover {
-  color: rgb(120, 111, 167)!important;
-}
-.el-tabs__item.is-active {
-  color: rgb(73, 64, 112)!important;
-}
 .advise-dialog .el-dialog__header {
   padding: 15px 0px 0px 15px;
 }

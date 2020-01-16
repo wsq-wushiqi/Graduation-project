@@ -173,6 +173,7 @@ export default {
       this.getMyCourseArrange().then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
+          this.courseList = res.data
         } else {
           this.$message.error(res.errmsg)
         }
