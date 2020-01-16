@@ -13,24 +13,34 @@
           <el-button size="mini" @click="apply">申请</el-button>
           <el-button size="mini" @click="update">修改</el-button>
           <el-button size="mini" @click="cancel">撤销</el-button>
-          <el-button size="mini" @click="examineDlg">审核</el-button>
+          <!-- <el-button size="mini" @click="examineDlg">审核</el-button> -->
         </el-header>
         <el-main class="page-main">
           <el-table
-          :data="tableData"
-          height="100%"
+          :data="tableData.slice((currentPage - 1)*pageSize, currentPage*pageSize)"
+          height="calc(100vh - 183px)"
           border
           highlight-current-row
           @row-click="rowClick">
-            <el-table-column label="选择" width="50"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
-            <el-table-column prop="c_name" label="课程名称"></el-table-column>
-            <el-table-column prop="c_category" label="类别"></el-table-column>
-            <el-table-column prop="d_name" label="开课部门"></el-table-column>
-            <el-table-column prop="c_hour" label="课时" width="50"></el-table-column>
-            <el-table-column prop="u_name" label="申请人"></el-table-column>
-            <el-table-column prop="c_status" label="审核状态" :formatter="statusFormatter"></el-table-column>
-            <el-table-column prop="c_opinion" label="审核意见"></el-table-column>
+            <el-table-column label="选择" width="50" :align="center"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
+            <el-table-column prop="c_name" label="课程名称" :align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="c_category" label="类别" :align="center"></el-table-column>
+            <el-table-column prop="d_name" label="开课部门" :align="center"></el-table-column>
+            <el-table-column prop="c_hour" label="课时" width="50" :align="center"></el-table-column>
+            <el-table-column prop="u_name" label="申请人" :align="center"></el-table-column>
+            <el-table-column prop="c_status" label="审核状态" :formatter="statusFormatter" :align="center"></el-table-column>
+            <el-table-column prop="c_opinion" label="审核意见" :align="center" show-overflow-tooltip></el-table-column>
           </el-table>
+          <el-pagination
+          class="pagination-class"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10,20,30,40,50]"
+          :page-size="pageSize"
+          :total="tableData.length"
+          layout="total, sizes, prev, pager, next, jumper">
+          </el-pagination>
         </el-main>
       </el-container>
     </el-container>
@@ -130,7 +140,10 @@ export default {
         auditStatus: '',
         opinion: ''
       },
-      departmentList: []
+      departmentList: [],
+      center: 'center',
+      currentPage: 1,
+      pageSize: 10
     }
   },
   mounted() {
@@ -151,6 +164,14 @@ export default {
       'examine',
       'getDepartmentList'
     ]),
+    handleSizeChange: function(val) {
+      this.pageSize = val
+      return this.pageSize
+    },
+    handleCurrentChange: function(val) {
+      this.currentPage = val
+      return this.currentPage
+    },
     apply: function() {
       this.applyDlgVisible = true
       this.applyDlgTitle = '课程申请'
@@ -267,6 +288,7 @@ export default {
       }
     },
     query: function() {
+      this.currentPage = 1
       this.getTableData()
     },
     examineDlg: function() {
@@ -359,7 +381,7 @@ export default {
 .page-main {
   /* background-color: chocolate; */
   height: calc(100vh - 136px);
-  padding: 10px;
+  padding: 10px 10px 0px 10px;
 }
 </style>
 <style>
