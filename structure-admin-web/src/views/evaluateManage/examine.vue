@@ -11,7 +11,7 @@
             border>
               <el-table-column type="index" label="序号" width="50px"></el-table-column>
               <el-table-column prop="d_name" label="部门"></el-table-column>
-              <el-table-column prop="i_name" label="姓名"></el-table-column>
+              <el-table-column prop="u_name" label="姓名"></el-table-column>
               <el-table-column prop="enthusiasm" label="积极性">
                 <template slot-scope="scope">
                   <span :class="[scope.row.enthusiasm >= 60 ? '' : 'bad-number']">{{ scope.row.enthusiasm }}</span>
@@ -90,7 +90,7 @@ export default {
       }],
       gradeForm: {
         c_id: '',
-        i_id: '',
+        u_id: '',
         enthusiasm: 0,
         answer: 0,
         examine: 0,
@@ -126,7 +126,6 @@ export default {
       this.getCourseStu({ c_id: this.activeTab }).then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
-          
         } else {
           this.$message.error(res.errmsg)
         }
@@ -142,13 +141,13 @@ export default {
         this.gradeForm.answer = 0
       }
       this.gradeDlgVisible = true
-      this.stuName = item.i_name
-      this.gradeForm.i_id = item.i_id
+      this.stuName = item.u_name
+      this.gradeForm.u_id = item.u_id
     },
     commitGrade: function() {
       let params = {
         c_id: this.activeTab,
-        i_id: this.gradeForm.i_id,
+        u_id: this.gradeForm.u_id,
         enthusiasm: this.gradeForm.enthusiasm,
         answer: this.gradeForm.answer,
         examine: this.gradeForm.examine,
