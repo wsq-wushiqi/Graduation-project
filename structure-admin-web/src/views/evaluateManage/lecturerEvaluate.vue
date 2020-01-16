@@ -6,9 +6,9 @@
           <el-tab-pane label="课程评价" name="course" class="tab-pane-item">
             <el-table :data="tableData" border>
               <el-table-column prop="c_name" label="课程名称" :align="center"></el-table-column>
-              <el-table-column prop="c_hour" label="课时" :align="center"></el-table-column>
-              <el-table-column prop="c_date" label="上课时间" :align="center"></el-table-column>
-              <el-table-column prop="ce_fraction" label="评分" :align="center"></el-table-column>
+              <el-table-column prop="c_hour" label="课时" sortable :align="center"></el-table-column>
+              <el-table-column prop="c_date" label="上课时间" sortable :align="center"></el-table-column>
+              <el-table-column prop="ce_fraction" label="评分" sortable :align="center"></el-table-column>
               <el-table-column prop="ce_advise" label="评价/建议" :align="center">
                 <template slot-scope="scope">
                   <span class="table-button" @click="clickCheck(scope.row.c_name, scope.row.ce_advise)">点击查看</span>
@@ -20,8 +20,8 @@
             <el-table :data="tableData" border>
               <el-table-column prop="u_name" label="教师姓名" :align="center"></el-table-column>
               <el-table-column prop="d_name" label="部门" :align="center"></el-table-column>
-              <el-table-column prop="u_education" label="学历" :align="center"></el-table-column>
-              <el-table-column prop="le_fraction" label="评分" :align="center"></el-table-column>
+              <el-table-column prop="u_education" label="学历" sortable :align="center"></el-table-column>
+              <el-table-column prop="le_fraction" label="评分" sortable :align="center"></el-table-column>
               <el-table-column prop="le_advise" label="评价/建议" :align="center">
                 <template slot-scope="scope">
                   <span class="table-button" @click="clickCheck(scope.row.u_name, scope.row.le_advise)">点击查看</span>
