@@ -99,6 +99,20 @@ export default new Router({
         },
         component: () => import('@/views/evaluateManage/checkResult')
       }, {
+        path: '/lecturerEvaluate',
+        name: 'lecturerEvaluate',
+        meta: {
+          key: '2-5'
+        },
+        component: () => import('@/views/evaluateManage/lecturerEvaluate')
+      }, {
+        path: '/checkAllResult',
+        name: 'checkAllResult',
+        meta: {
+          key: '2-6'
+        },
+        component: () => import('@/views/evaluateManage/checkAllResult')
+      }, {
         path: '/userInfo',
         name: 'userInfo',
         meta: {
