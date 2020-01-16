@@ -42,6 +42,7 @@ module.exports = class extends Base {
           c_hour: course[i].c_hour,
           c_status: course[i].c_status,
           c_opinion: course[i].c_opinion,
+          c_date: course[i].c_date,
           d_name: dname.d_name,
           u_name: uname.u_name,
           d_id: course[i].d_id,
