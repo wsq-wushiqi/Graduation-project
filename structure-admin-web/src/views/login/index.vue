@@ -79,6 +79,7 @@
   .login_contenter {
     width: 100%;
     background-position: 100% 100%;
+    background-color: #c8d1f167;
   }
   .login_contenter_bg{
     position:absolute;
