@@ -9,27 +9,27 @@
         <el-table
         :data="tableData"
         height="100%">
-          <el-table-column prop="c_name" label="课程名称" :align="center" width="85" />
-          <el-table-column prop="a_lecturer" label="讲师" :align="center" width="70" />
-          <el-table-column prop="a_time" label="时间" :align="center" show-overflow-tooltip />
-          <el-table-column prop="c_hour" label="课时" :align="center" width="70" />
+          <el-table-column prop="c_name" label="课程名称" :align="center" width="140" />
+          <el-table-column prop="c_lecturer_name" label="讲师" :align="center" width="110" />
+          <el-table-column prop="c_date" label="时间" :align="center" show-overflow-tooltip />
+          <el-table-column prop="c_hour" label="课时" :align="center" width="90" />
           <el-table-column label="成绩" :align="center">
-            <el-table-column prop="enthusiasm" label="积极性" :align="center">
+            <el-table-column prop="enthusiasm" label="积极性" :align="center" width="90">
               <template slot-scope="scope">
                 <span :class="[scope.row.enthusiasm >= 60 ? '' : 'bad-number']">{{ scope.row.enthusiasm }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="answer" label="回答问题" :align="center">
+            <el-table-column prop="answer" label="回答问题" :align="center" width="90">
               <template slot-scope="scope">
                 <span :class="[scope.row.answer >= 60 ? '' : 'bad-number']">{{ scope.row.answer }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="examine" label="考核" :align="center">
+            <el-table-column prop="examine" label="考核" :align="center" width="90">
               <template slot-scope="scope">
                 <span :class="[scope.row.examine >= 60 ? '' : 'bad-number']">{{ scope.row.examine }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="p_grade" label="最终成绩" :align="center">
+            <el-table-column prop="p_grade" label="最终成绩" :align="center" width="100">
               <template slot-scope="scope">
                 <span :class="[scope.row.p_grade >= 60 ? '' : 'bad-number']">{{ scope.row.p_grade }}</span>
               </template>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -56,12 +56,17 @@ export default {
   mounted() {
     this.getTableData()
   },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
   methods: {
     ...mapActions([
-      'getCheckResult'
+      'getMyCheckResult'
     ]),
     getTableData: function() {
-      this.getCheckResult().then(res => {
+      this.getMyCheckResult().then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
         } else {
