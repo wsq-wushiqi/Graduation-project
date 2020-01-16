@@ -8,14 +8,30 @@
           <el-table-column prop="d_name" label="员工部门"></el-table-column>
           <el-table-column prop="c_name" label="课程"></el-table-column>
           <el-table-column prop="c_hour" label="课时"></el-table-column>
-          <el-table-column prop="c_date" label="时间"></el-table-column>
+          <el-table-column prop="c_date" label="时间" sortable show-overflow-tooltip></el-table-column>
           <el-table-column prop="c_lecturer_name" label="讲师"></el-table-column>
           <el-table-column label="成绩">
-            <el-table-column prop="enthusiasm" label="积极性"></el-table-column>
-            <el-table-column prop="answer" label="回答问题"></el-table-column>
-            <el-table-column prop="examine" label="考核"></el-table-column>
+            <el-table-column prop="enthusiasm" label="积极性" sortable :align="center" width="90">
+              <template slot-scope="scope">
+                <span :class="[scope.row.enthusiasm >= 60 ? '' : 'bad-number']">{{ scope.row.enthusiasm }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="answer" label="回答问题" sortable :align="center" width="110">
+              <template slot-scope="scope">
+                <span :class="[scope.row.answer >= 60 ? '' : 'bad-number']">{{ scope.row.answer }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="examine" label="考核" sortable :align="center" width="90">
+              <template slot-scope="scope">
+                <span :class="[scope.row.examine >= 60 ? '' : 'bad-number']">{{ scope.row.examine }}</span>
+              </template>
+            </el-table-column>
           </el-table-column>
-          <el-table-column prop="p_grade" label="最终成绩"></el-table-column>
+          <el-table-column prop="p_grade" label="最终成绩" sortable :align="center" width="110">
+              <template slot-scope="scope">
+                <span :class="[scope.row.p_grade >= 60 ? '' : 'bad-number']">{{ scope.row.p_grade }}</span>
+              </template>
+            </el-table-column>
           <el-table-column prop="p_pass" label="是否通过"></el-table-column>
         </el-table>
       </el-main>
@@ -61,5 +77,8 @@ export default {
 }
 .check-all-result-main {
   height: calc(100vh - 91px);
+}
+.bad-number {
+  color: rgb(206, 49, 49);
 }
 </style>
