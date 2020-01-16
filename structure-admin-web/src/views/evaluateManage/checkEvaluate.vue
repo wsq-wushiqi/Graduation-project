@@ -18,18 +18,17 @@
           </el-tab-pane>
           <el-tab-pane label="教师评价" class="course-tab-pane" name="lecturer">
             <el-table :data="lecturerTable" border>
-              <el-table-column label="姓名" prop="l_name"></el-table-column>
+              <el-table-column label="姓名" prop="u_name"></el-table-column>
               <el-table-column label="部门" prop="d_name"></el-table-column>
-              <el-table-column label="学历" prop="l_education"></el-table-column>
+              <el-table-column label="学历" prop="u_education"></el-table-column>
               <el-table-column label="评分" prop="le_fraction"></el-table-column>
               <el-table-column label="学员评价" prop="le_advise">
                 <template slot-scope="scope">
-                  <el-button type='text' @click="clickCheck(scope.row.l_name, scope.row.le_advise)">点击查看</el-button>
+                  <span class="table-button" @click="clickCheck(scope.row.l_name, scope.row.le_advise)">点击查看</span>
                 </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>
-          <el-tab-pane label="其他评价" class="course-tab-pane" name="other">其他评价</el-tab-pane>
         </el-tabs>
       </el-main>
     </el-container>
@@ -50,7 +49,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -65,15 +64,20 @@ export default {
   mounted() {
     this.tabClick()
   },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
   methods: {
     ...mapActions([
       'getCourseEvaluate',
       'getLecturerEvaluate',
-      'getOtherEvaluate'
+      'getLecturerCourseEvaluate'
     ]),
     tabClick: function() {
       if (this.activeTab === 'course') {
-        this.getCourseEvaluate().then(res => {
+        this.getLecturerCourseEvaluate().then(res => {
           if (res.errno === 0) {
             this.courseTable = res.data
           } else {
@@ -84,15 +88,6 @@ export default {
         this.getLecturerEvaluate().then(res => {
           if (res.errno === 0) {
             this.lecturerTable = res.data
-          } else {
-            this.$message.error(res.errmsg)
-          }
-        }).catch(error => { this.$message.error(error) })
-      } else if (this.activeTab === 'other') {
-        this.getOtherEvaluate().then(res => {
-          if (res.errno === 0) {
-            console.log(res.data);
-            
           } else {
             this.$message.error(res.errmsg)
           }
@@ -117,11 +112,11 @@ export default {
   line-height: 45px;
 }
 .check-evaluate-main {
-  height: calc(100vh - 91px);
+  height: calc(100vh - 46px);
   padding: 10px;
 }
 .course-tab-pane {
-  height: calc(100vh - 182px);
+  height: calc(100vh - 137px);
   overflow-y: auto;
 }
 .advise-ul {
