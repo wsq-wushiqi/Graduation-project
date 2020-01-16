@@ -83,7 +83,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      // 'getMenuList',
       'addRole',
       'getRoleList',
       'updateRole',
@@ -97,15 +96,12 @@ export default {
       this.getTotalMenu().then(res => {
         if (res.errno === 0) {
           this.menuList = res.data
-          console.log(res.data);
-          
         } else {
           this.$message.error(res.errmsg)
         }
       }).catch(error => { this.$message.error(error) })
     },
     doAdd: function() {
-      console.log(this.addForm.r_authority);
       if (this.dlgTitle === '添加角色') {
         let params = {
           r_name: this.addForm.r_name,
@@ -155,10 +151,12 @@ export default {
       for (let i=0; i<data.length; i++) {
         let val = data[i][1]
         for (let j=0; j<this.menuList.length; j++) {
-          let menu = this.menuList[j].children
-          for (let k =0; k<menu.length; k++) {
-            if (menu[k].m_n_id === val) {
-              result.push(menu[k].m_name)
+          if (this.menuList[j].children !== undefined) {
+            let menu = this.menuList[j].children
+            for (let k =0; k<menu.length; k++) {
+              if (menu[k].m_n_id === val) {
+                result.push(menu[k].m_name)
+              }
             }
           }
         }
@@ -193,7 +191,6 @@ export default {
 
 <style scoped>
 .role-manage-container {
-  /* background-color: cornflowerblue; */
   height: calc(100vh - 46px);
 }
 .role-manage-header {
@@ -201,15 +198,12 @@ export default {
 }
 .role-manage-main {
   height: calc(100vh - 91px);
-  /* background-color: blue; */
 }
 .page-main-header {
-  /* background-color: aquamarine; */
   line-height: 45px;
   border-bottom: 1px solid rgb(210,226,255);
 }
 .add-form-span {
-  /* background-color: thistle; */
   display: inline-block;
   width: 80px;
 }
