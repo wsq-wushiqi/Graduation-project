@@ -4,8 +4,6 @@ module.exports = class extends Base {
         let {username, password} = this.post();
         const salt = 'structure';
         password = think.md5(salt + password);
-        // console.log(password,'323333333333333333333333333333333')
-        console.log(username);
         try {
             let user = await this.model('user').where({u_username: username}).find(); // 拿输入的用户名去数据库查询
             if(user.u_password && user.u_password == password) {
@@ -22,7 +20,7 @@ module.exports = class extends Base {
     }
     async queryuserAction() {
         try {
-            let userinfo = await this.model('info').where({ u_username: this.user.u_username }).find()
+            let userinfo = await this.model('user').where({ u_id: this.user.u_id }).find()
             return this.success(this.user);
         } catch(e) {
             console.log(e);
