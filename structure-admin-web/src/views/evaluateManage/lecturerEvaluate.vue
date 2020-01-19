@@ -7,7 +7,7 @@
             <el-table :data="tableData" border>
               <el-table-column prop="c_name" label="课程名称" :align="center"></el-table-column>
               <el-table-column prop="c_hour" label="课时" sortable :align="center"></el-table-column>
-              <el-table-column prop="c_date" label="上课时间" sortable :align="center"></el-table-column>
+              <el-table-column prop="c_date" label="上课时间" sortable :align="center" show-overflow-tooltip></el-table-column>
               <el-table-column prop="ce_fraction" label="评分" sortable :align="center"></el-table-column>
               <el-table-column prop="ce_advise" label="评价/建议" :align="center">
                 <template slot-scope="scope">
