@@ -87,8 +87,17 @@ module.exports = class extends Base {
     }
   }
   async getRoleListAction() {
+    let name = this.post('name')
+    console.log(name);
+    
     try {
-      let list = await this.model('role').select()
+      let sql = {}
+      if (name === '' || name === null) {
+        sql = {}
+      } else {
+        sql = { r_name: ['like', '%' + name + '%']}
+      }
+      let list = await this.model('role').where(sql).select()
       return this.success(list)
     }
     catch(e) {

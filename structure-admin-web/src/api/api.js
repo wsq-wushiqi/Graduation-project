@@ -168,7 +168,7 @@ export default {
   },
   // 获取角色列表
   getRoleList: params => {
-    return axios.get('/home/role/getRoleList', params)
+    return axios.post('/home/role/getRoleList', params)
   },
   // 修改角色
   updateRole: params => {

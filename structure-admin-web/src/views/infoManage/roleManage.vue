@@ -1,7 +1,11 @@
 <template>
   <div class="role-manage-container">
     <el-container>
-      <el-header height="45px" class="role-manage-header">Header</el-header>
+      <el-header height="45px" class="role-manage-header">
+        <span>名称：</span>
+        <el-input v-model="queryName" class="query-name" size="small" clearable @clear="query"></el-input>
+        <el-button size="small" @click="query">查询</el-button>
+      </el-header>
       <el-container>
         <el-header height="45px" class="page-main-header">
           <el-button size="mini" @click="addDlg">添加</el-button>
@@ -12,6 +16,7 @@
           :data="tableData"
           border
           highlight-current-row
+          height="100%"
           @row-click="rowClick">
             <el-table-column label="选择" width="50">
               <template slot-scope="scope">
@@ -41,7 +46,6 @@
           :props="props"
           collapse-tags
           :show-all-levels="false"
-          
           clearable
           class="add-form-input"></el-cascader>
         </el-form-item>
@@ -74,7 +78,8 @@ export default {
       },
       tableData: [],
       dlgTitle: '添加角色',
-      tableRadio: []
+      tableRadio: [],
+      queryName: ''
     }
   },
   mounted() {
@@ -137,7 +142,7 @@ export default {
       
     },
     getTableData: function() {
-      this.getRoleList().then(res => {
+      this.getRoleList({ name: this.queryName }).then(res => {
         if(res.errno === 0) {
           this.tableData = res.data
         } else {
@@ -184,6 +189,9 @@ export default {
     },
     rowClick: function(item) {
       this.tableRadio = item
+    },
+    query: function() {
+      this.getTableData()
     }
   }
 }
@@ -197,7 +205,8 @@ export default {
   line-height: 45px;
 }
 .role-manage-main {
-  height: calc(100vh - 91px);
+  height: calc(100vh - 136px);
+  padding: 10px 10px 2px 10px;
 }
 .page-main-header {
   line-height: 45px;
@@ -208,6 +217,9 @@ export default {
   width: 80px;
 }
 .add-form-input {
+  width: 200px;
+}
+.query-name {
   width: 200px;
 }
 </style>
