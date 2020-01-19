@@ -1,29 +1,39 @@
 <template>
   <div class="menu-manage-container">
     <el-container>
-      <el-header height="45px" class="menu-manage-header">
-        <el-button @click="add" size="mini">添加</el-button>
-        <el-button @click="update" size="mini">修改</el-button>
-        <el-button @click="drop" size="mini">删除</el-button>
+      <el-header height="45px" class="query-header">
+        <span>名称：</span>
+        <el-input v-model="queryName" class="query-name" size="small" clearable @clear="query"></el-input>
+        <span>路由：</span>
+        <el-input v-model="queryRouter" class="query-name" size="small" clearable @clear="query"></el-input>
+        <el-button size="small" @click="query">查询</el-button>
       </el-header>
-      <el-main class="menu-manage-main">
-        <el-table
-        :data="tableData"
-        border
-        highlight-current-row
-        @row-click="rowClick">
-          <el-table-column label="选择" width="50">
-            <template slot-scope="scope">
-              <el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio>
-            </template>
-          </el-table-column>
-          <el-table-column prop="m_n_id" label="菜单id" :align="center" width="70"></el-table-column>
-          <el-table-column prop="m_name" label="名称" :align="center"></el-table-column>
-          <el-table-column prop="m_p_id" label="上级id" :align="center" width="70"></el-table-column>
-          <el-table-column prop="m_url" label="路由" :align="center"></el-table-column>
-          <el-table-column prop="m_icon" label="图标" :align="center"></el-table-column>
-        </el-table>
-      </el-main>
+      <el-container>
+        <el-header height="45px" class="menu-manage-header">
+          <el-button @click="add" size="mini">添加</el-button>
+          <el-button @click="update" size="mini">修改</el-button>
+          <el-button @click="drop" size="mini">删除</el-button>
+        </el-header>
+        <el-main class="menu-manage-main">
+          <el-table
+          :data="tableData"
+          border
+          height="100%"
+          highlight-current-row
+          @row-click="rowClick">
+            <el-table-column label="选择" width="50">
+              <template slot-scope="scope">
+                <el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio>
+              </template>
+            </el-table-column>
+            <el-table-column prop="m_n_id" label="菜单id" :align="center" width="70"></el-table-column>
+            <el-table-column prop="m_name" label="名称" :align="center"></el-table-column>
+            <el-table-column prop="m_p_id" label="上级id" :align="center" width="70"></el-table-column>
+            <el-table-column prop="m_url" label="路由" :align="center"></el-table-column>
+            <el-table-column prop="m_icon" label="图标" :align="center"></el-table-column>
+          </el-table>
+        </el-main>
+      </el-container>
     </el-container>
     <el-dialog :visible.sync="addDlgVisible" :title="addDlgTitle" width="400px" class="add-dialog" :close-on-click-modal="false">
       <span v-if="addDlgTitle === '修改菜单'">{{ menuName }}</span>
@@ -69,7 +79,9 @@ export default {
         m_url: '',
         m_icon: ''
       },
-      tableRadio: []
+      tableRadio: [],
+      queryName: '',
+      queryRouter: ''
     }
   },
   mounted() {
@@ -83,7 +95,7 @@ export default {
       'deleteMenu' // 删除菜单
     ]),
     getTableData: function() {
-      this.getPageMenuList().then(res => {
+      this.getPageMenuList({ name: this.queryName, router: this.queryRouter }).then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
         } else {
@@ -155,6 +167,9 @@ export default {
           this.$message.info('已取消')
         })
       }
+    },
+    query: function() {
+      this.getTableData()
     }
   }
 }
@@ -169,8 +184,9 @@ export default {
   border-bottom: 1px solid rgb(210,226,255);
 }
 .menu-manage-main {
-  height: calc(100vh - 91px);
+  height: calc(100vh - 136px);
   padding: 10px;
+  overflow: hidden;
 }
 .add-form-span {
   display: inline-block;
@@ -180,7 +196,14 @@ export default {
 .add-form-input {
   width: 200px;
 }
-
+.query-header {
+  line-height: 45px;
+  min-width: 660px;
+}
+.query-name {
+  width: 200px;
+  margin-right: 20px;
+}
 </style>
 <style>
 .add-dialog .el-dialog__body {

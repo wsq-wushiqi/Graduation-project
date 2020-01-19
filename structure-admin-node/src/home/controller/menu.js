@@ -2,8 +2,21 @@ const Base = require('./base')
 module.exports = class extends Base {
   // 获取菜单列表
   async getPageMenuListAction() {
+    let name = this.post('name')
+    let router = this.post('router')
     try {
-      let list = await this.model('menu').select()
+      let sql = {}
+      let list = []
+      if ((name === '' || name === null) && (router === '' || router === null)) {
+        sql = {}
+      } else if ((name === '' || name === null) && !(router === '' || router === null)) {
+        sql = { m_url: ['like', '%' + router + '%']}
+      } else if (!(name === '' || name === null) && (router === '' || router === null)) {
+        sql = { m_name: ['like', '%' + name+ '%'] }
+      } else {
+        sql = { m_name: ['like', '%' + name+ '%'], m_url: ['like', '%' + router + '%'] }
+      }
+      list = await this.model('menu').where(sql).select()
       return this.success(list)
     }
     catch(e) {
