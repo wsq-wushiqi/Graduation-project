@@ -1,9 +1,14 @@
 <template>
   <div class="check-all-result-container">
     <el-container>
-      <el-header height="45px" class="check-all-result-header">Header</el-header>
+      <el-header height="45px" class="check-all-result-header">
+        <span>姓名：</span><el-input v-model="queryName" clearable class="name-input" size="small" @clear="query"></el-input>
+        <el-button size="small" @click="query">查询</el-button>
+      </el-header>
       <el-main class="check-all-result-main">
-        <el-table :data="tableData">
+        <el-table
+        :data="tableData"
+        height="100%">
           <el-table-column prop="u_name" label="姓名"></el-table-column>
           <el-table-column prop="d_name" label="员工部门"></el-table-column>
           <el-table-column prop="c_name" label="课程"></el-table-column>
@@ -44,7 +49,9 @@ import { mapActions } from 'vuex'
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      queryName: '',
+      center: 'center'
     }
   },
   mounted() {
@@ -62,6 +69,22 @@ export default {
           this.$message.error(res.errmsg)
         }
       }).catch(error => { this.$message.error(error) })
+    },
+    query: function() {
+      const courseName = this.queryName
+      if (courseName) {
+        return this.tableData.filter(data => { // 遍历表格数据
+          return Object.keys(data).some(key => { // 遍历key
+            let list = []
+            if (String(data[key]).toLowerCase().indexOf(courseName) > -1) { // 未找到符合项下标为-1，找到了为0
+              list.push(data)
+              this.tableData = list
+            }
+          })
+        })
+      } else {
+        this.getTableData() // 如果没有输入条件就显示所有数据
+      }
     }
   }
 }
@@ -77,8 +100,12 @@ export default {
 }
 .check-all-result-main {
   height: calc(100vh - 91px);
+  padding: 10px;
 }
 .bad-number {
   color: rgb(206, 49, 49);
+}
+.name-input {
+  width: 170px;
 }
 </style>
