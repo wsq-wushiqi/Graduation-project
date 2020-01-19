@@ -2,14 +2,21 @@ const Base = require('./base')
 module.exports = class extends Base {
   // 获取个人成绩表
   async getMyCheckResultAction() {
+    let {c_id} = this.post()
     try {
       let result = []
-      let data = await this.model('performance').where({ i_id: this.user.u_id }).select()
+      let data = []
+      if (c_id === '' || c_id === undefined) {
+        data = await this.model('performance').where({ i_id: this.user.u_id }).select()
+      } else {
+        data = await this.model('performance').where({ i_id: this.user.u_id, c_id }).select()
+      }
       for (let i = 0; i < data.length; i++) {
         let c = await this.model('course').where({ c_id: data[i].c_id }).find()
         let l = await this.model('user').where({ u_id: c.c_lecturer_id }).getField('u_name')
         result.push({
           c_id: data[i].c_id,
+          c_id: c.c_id,
           c_name: c.c_name,
           c_lecturer_name: l[0],
           c_date: c.c_date,
