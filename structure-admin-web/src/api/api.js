@@ -196,7 +196,7 @@ export default {
   },
   // 获取个人成绩表
   getMyCheckResult: params => {
-    return axios.get('/home/checkResult/getMyCheckResult', params)
+    return axios.post('/home/checkResult/getMyCheckResult', params)
   },
   // 获取所有成绩
   getAllCheckResult: params => {
@@ -204,7 +204,7 @@ export default {
   },
   // 菜单管理----获取菜单管理页面的菜单列表
   getPageMenuList: params => {
-    return axios.get('/home/menu/getPageMenuList', params)
+    return axios.post('/home/menu/getPageMenuList', params)
   },
   // 菜单管理----添加菜单
   addMenu: params => {
