@@ -2,7 +2,10 @@
   <div class="check-result-container">
     <el-container>
       <el-header height="45px" class="check-result-header">
-        <span class="query-span">课程名称：</span><el-input v-model="queryCourseName" class="query-input" size="small" clearable @clear="query"></el-input>
+        <span class="query-span">课程名称：</span>
+        <el-select v-model="queryCourseName" class="query-input" size="small" clearable @clear="query">
+          <el-option v-for="(item, key) in courseList" :key="key" :value="item.c_id" :label="item.c_name"></el-option>
+        </el-select>
         <el-button type="primary" plain size="small" @click="query">查询</el-button>
       </el-header>
       <el-main class="check-result-main">
@@ -50,11 +53,12 @@ export default {
       tableData: [],
       center: 'center',
       queryCourseName: '',
-      queryLecturer: ''
+      queryLecturer: '',
+      courseList: []
     }
   },
   mounted() {
-    this.getTableData()
+    this.getCheckResult()
   },
   computed: {
     ...mapGetters([
@@ -65,8 +69,18 @@ export default {
     ...mapActions([
       'getMyCheckResult'
     ]),
-    getTableData: function() {
+    getCheckResult: function() {
       this.getMyCheckResult().then(res => {
+        if (res.errno === 0) {
+          this.tableData = res.data
+          this.courseList = res.data
+        } else {
+          this.$message.error(res.errmsg)
+        }
+      }).catch(error => { this.$message.error(error) })
+    },
+    getTableData: function() {
+      this.getMyCheckResult({ c_id: this.queryCourseName }).then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
         } else {
@@ -75,20 +89,7 @@ export default {
       }).catch(error => { this.$message.error(error) })
     },
     query: function() {
-      const courseName = this.queryCourseName
-      if (courseName) {
-        return this.tableData.filter(data => { // 遍历表格数据
-          return Object.keys(data).some(key => { // 遍历key
-            let list = []
-            if (String(data[key]).toLowerCase().indexOf(courseName) > -1) { // 未找到符合项下标为-1，找到了为0
-              list.push(data)
-              this.tableData = list
-            }
-          })
-        })
-      } else {
-        this.getTableData() // 如果没有输入条件就显示所有数据
-      }
+      this.getTableData()
     }
   }
 }
