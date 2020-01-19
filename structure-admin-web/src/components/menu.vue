@@ -21,7 +21,7 @@
             </template>
           </el-menu-item>
         </el-submenu>
-        <el-submenu :key="item.m_n_id" v-else :index="item.m_url">
+        <el-submenu v-else :key="item.m_n_id" :index="item.m_url">
           <template slot="title">
             <i :class="item.m_icon"></i>
             <span>{{ item.m_name }}</span>
