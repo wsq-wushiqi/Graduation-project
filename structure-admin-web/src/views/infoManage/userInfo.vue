@@ -56,7 +56,7 @@
         <el-button @click="doChange">确定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="changeInfoVisible" title="修改个人资料">
+    <el-dialog :visible.sync="changeInfoVisible" title="修改个人资料" width="400px" class="change-info-dialog">
       <el-form :data="infoForm">
         <el-form-item>
           <span class="change-info-span">用户名：</span>
@@ -254,5 +254,13 @@ export default {
 }
 .change-info-input {
   width: 200px;
+}
+</style>
+<style>
+.change-info-dialog .el-dialog__body {
+  padding: 10px 30px 2px 30px;
+}
+.change-info-dialog .el-dialog__footer {
+  padding-top: 2px;
 }
 </style>
