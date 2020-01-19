@@ -75,6 +75,21 @@ module.exports = class extends Base {
       return this.fail('重置密码失败')
     }
   }
+  // 修改个人资料
+  async updateMyInfoAction() {
+    let { u_id, u_name, u_sex, u_education, u_email } = this.post()
+    try {
+      // console.log(u_id);
+      let result = await this.model('user').where({ u_id }).update({ u_name, u_sex, u_education, u_email })
+
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('修改个人资料失败')
+    }
+    
+  }
   // 新增用户
   async addUserAction() {
     let {u_name, u_username, u_education, u_sex, u_email, r_id, d_id} = this.post()

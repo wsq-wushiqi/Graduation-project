@@ -50,6 +50,12 @@ export const changePwd = ({ commit }, params) => {
     return response
   })
 }
+// 修改个人资料
+export const updateMyInfo = ({ commit }, params) => {
+  return Api.updateMyInfo(params).then(response => {
+    return response
+  })
+}
 // 重置密码
 export const resetPwd = ({ commit }, params) => {
   return Api.resetPwd(params).then(response => {

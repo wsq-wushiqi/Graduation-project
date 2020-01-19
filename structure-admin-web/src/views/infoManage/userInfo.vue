@@ -8,7 +8,8 @@
       <el-main>
         <div class="info-img">
           <img height="80px" align="center" src="../../image/头像 女孩.png" alt="头像">
-          <el-button class="info-button" size="small" icon="el-icon-check" type="primary" plain @click="change">修改密码</el-button>
+          <el-button class="info-button" size="small" icon="el-icon-fork-spoon" type="primary" plain @click="changeInfo">修改资料</el-button>
+          <el-button class="pwd-button" size="small" icon="el-icon-lock" type="primary" plain @click="change">修改密码</el-button>
         </div>
         <div class="info-div">
           <el-form>
@@ -55,6 +56,36 @@
         <el-button @click="doChange">确定</el-button>
       </div>
     </el-dialog>
+    <el-dialog :visible.sync="changeInfoVisible" title="修改个人资料">
+      <el-form :data="infoForm">
+        <el-form-item>
+          <span class="change-info-span">用户名：</span>
+          <el-input v-model="infoForm.u_username" disabled class="change-info-input"></el-input>
+        </el-form-item>
+        <el-form-item prop="u_name">
+          <span class="change-info-span">姓名：</span>
+          <el-input v-model="infoForm.u_name" class="change-info-input"></el-input>
+        </el-form-item>
+        <el-form-item prop="u_sex">
+          <span class="change-info-span">性别：</span>
+          <el-radio-group v-model="infoForm.u_sex">
+            <el-radio v-for="(item, key) in sexList" :key="key" :label="item.label" :value="item.label"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item prop="u_name">
+          <span class="change-info-span">学历：</span>
+          <el-input v-model="infoForm.u_education" class="change-info-input"></el-input>
+        </el-form-item>
+        <el-form-item prop="u_name">
+          <span class="change-info-span">邮箱：</span>
+          <el-input v-model="infoForm.u_email" class="change-info-input"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="changeInfoVisible = false">取消</el-button>
+        <el-button @click="doChangeInfo">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -80,7 +111,6 @@ export default {
     }
     return {
       userForm: {
-        // i_age: '',
         d_name: '',
         r_name: '',
         u_education: '',
@@ -90,12 +120,6 @@ export default {
         u_sex: '',
         u_username: ''
       },
-      // lecturerForm: {
-      //   d_name: '',
-      //   l_education: '',
-      //   l_name: '',
-      //   u_username: ''
-      // },
       changeDlgVisible: false,
       changeForm: {
         oldPwd: '',
@@ -106,57 +130,72 @@ export default {
         oldPwd: [{ required: true, message: '*请输入原密码', trigger: 'blur'}],
         newPwd: [{ validator: newPwdValidate, trigger: 'blur'}],
         confirmPwd: [{ validator: confirmPwdValidate, trigger: 'blur'}]
-      }
+      },
+      infoForm: {
+        u_name: '',
+        u_username: '',
+        u_sex: '',
+        u_education: '',
+        u_email: ''
+      },
+      changeInfoVisible: false,
+      sexList: [{
+        label: '男'
+      }, {
+        label: '女'
+      }]
     }
   },
   mounted() {
-    // const params = {
-    //   username: this.userInfo.u_username
-    // }
-    this.myUserInfo().then(res => {
-      if (res.errno === 0) {
-        // if (res.data.i_id === undefined) {
-        //   this.lecturerForm = res.data
-        // } else {
-          this.userForm = res.data[0]
-          console.log(this.userForm);
-          
-          console.log(res.data);
-          
-        // }
-      }
-    })
-    // this.userForm = this.userInfo
-    // console.log();
-    
+    this.userInfoData()
   },
   methods: {
     ...mapActions([
       'myUserInfo',
-      'changePwd'
+      'changePwd', // 修改密码
+      'updateMyInfo' // 修改个人资料
     ]),
+    // 获取用户资料
+    userInfoData: function() {
+      this.myUserInfo().then(res => {
+        if (res.errno === 0) {
+          this.userForm = res.data[0]
+        }
+      })
+    },
+    // 打开修改密码对话框
     change:function() {
       this.changeDlgVisible = true
     },
+    // 修改密码
     doChange: function() {
       let params = {}
-      // if (this.lecturerForm.l_id === undefined) {
-      //   params = {
-      //     id: this.userForm.i_id,
-      //     oldPwd: this.changeForm.oldPwd,
-      //     newPwd: this.changeForm.confirmPwd
-      //   }
-      // } else {
-        params = {
-          id: this.userForm.u_id,
-          oldPwd: this.changeForm.oldPwd,
-          newPwd: this.changeForm.confirmPwd
-        }
-      // }
+      params = {
+        id: this.userForm.u_id,
+        oldPwd: this.changeForm.oldPwd,
+        newPwd: this.changeForm.confirmPwd
+      }
       this.changePwd(params).then(res => {
         if (res.errno === 0) {
           this.$message.success('修改成功')
           this.changeDlgVisible = false
+        } else {
+          this.$message.error(res.errmsg)
+        }
+      }).catch(error => { this.$message.error(error) })
+    },
+    // 打开修改个人资料对话框
+    changeInfo: function() {
+      this.changeInfoVisible = true
+      this.infoForm = Object.assign({}, this.userForm)
+    },
+    // 修改个人资料
+    doChangeInfo: function() {
+      this.updateMyInfo(this.infoForm).then(res => {
+        if (res.errno === 0) {
+          this.changeInfoVisible = false
+          this.$message.success('修改资料成功')
+          this.userInfoData()
         } else {
           this.$message.error(res.errmsg)
         }
@@ -196,11 +235,24 @@ export default {
 }
 .info-img {
   width: 130px;
+  height: 200px;
   float: left;
   padding: 10px;
 }
 .info-button {
   margin-top: 20px;
   padding: 5px 10px;
+}
+.pwd-button {
+  padding: 5px 10px;
+  margin-top: 15px;
+  margin-left: 0px;
+}
+.change-info-span {
+  display: inline-block;
+  width: 60px;
+}
+.change-info-input {
+  width: 200px;
 }
 </style>

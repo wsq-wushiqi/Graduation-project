@@ -62,6 +62,10 @@ export default {
   changePwd: params => {
     return axios.post('/home/userInfo/changePwd', params)
   },
+  // 修改个人资料
+  updateMyInfo: params => {
+    return axios.post('/home/userInfo/updateMyInfo', params)
+  },
   // 重置密码
   resetPwd: params => {
     return axios.post('/home/userInfo/resetPwd', params)
