@@ -1,7 +1,15 @@
 <template>
   <div class="privilege-manage-container">
     <el-container>
-      <el-header height="45px" class="privilege-manage-header">Header</el-header>
+      <el-header height="45px" class="privilege-manage-header">
+        <span>姓名：</span>
+        <el-input v-model="queryName" class="query-name" size="small" clearable @clear="query"></el-input>
+        <span>部门：</span>
+        <el-select v-model="queryDepartment" size="small" clearable @clear="query">
+          <el-option v-for="(item, key) in departmentList" :key="key" :label="item.d_name" :value="item.d_id"></el-option>
+        </el-select>
+        <el-button size="small" @click="query">查询</el-button>
+      </el-header>
       <el-container>
         <el-header height="45px" class="page-header">
           <el-button size="mini" @click="add">添加</el-button>
@@ -20,7 +28,7 @@
               highlight-current-row
               @row-click="rowClick">
                 <el-table-column label="选择" width="50"><template slot-scope="scope" :align="center"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
-                <el-table-column type="index" label="序号" :align="center"></el-table-column>
+                <el-table-column type="index" label="序号" :align="center" width="50"></el-table-column>
                 <el-table-column prop="u_name" label="姓名" :align="center"></el-table-column>
                 <el-table-column prop="u_username" label="用户名" :align="center"></el-table-column>
                 <el-table-column prop="d_id" label="部门" :formatter="departmentFormat" :align="center" show-overflow-tooltip></el-table-column>
@@ -108,7 +116,9 @@ export default {
       leftRoleList: [],
       formRule: {},
       usernameDisable: false,
-      center: 'center'
+      center: 'center',
+      queryName: '',
+      queryDepartment: ''
     }
   },
   mounted() {
@@ -215,7 +225,7 @@ export default {
     },
     // 获取表格数据
     getTableData: function(id) {
-      this.getUserList({ r_id: id }).then(res => {
+      this.getUserList({ r_id: id, name: this.queryName, department: this.queryDepartment }).then(res => {
         if (res.errno === 0) {
           this.tableData = res.data
         } else {
@@ -325,6 +335,9 @@ export default {
           this.$message.info('已取消')
         })
       }
+    },
+    query: function() {
+      this.getTableData(this.activeTab)
     }
   }
 }
@@ -366,6 +379,9 @@ export default {
 }
 .main-tab-pane {
   background-color: rgb(141, 165, 117);
+}
+.query-name {
+  width: 200px;
 }
 </style>
 <style>

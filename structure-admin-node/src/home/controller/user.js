@@ -38,12 +38,24 @@ module.exports = class extends Base {
     // 获取用户列表
     async getUserListAction() {
         let r_id = this.post('r_id')
+        let name = this.post('name')
+        let department = this.post('department')
         try {
+            let sql = {}
+            if ((name === '' || name === null) && (department === '' || department === null)) {
+                sql = {}
+            } else if (!(name === '' || name === null) && (department === '' || department === null)) {
+                sql = { u_name: ['like', '%' + name + '%'] }
+            } else if ((name === '' || name === null) && !(department === '' || department === null)) {
+                sql = { d_id: department }
+            } else {
+                sql = { u_name: ['like', '%' + name + '%'], d_id: department }
+            }
             let result = []
             if (r_id === 'all') {
-                result = await this.model('user').select()
+                result = await this.model('user').where(sql).select()
             } else {
-                let data = await this.model('user').select()
+                let data = await this.model('user').where(sql).select()
                 for (let i=0; i<data.length; i++) {
                     let rid = JSON.parse(data[i].r_id)
                     for (let j=0; j<rid.length; j++) {
