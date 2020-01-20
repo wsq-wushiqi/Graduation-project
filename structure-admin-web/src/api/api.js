@@ -225,6 +225,10 @@ export default {
   // 我的课程安排----获取个人课程安排表
   getMyCourseArrange: params => {
     return axios.get('/home/arrange/getMyCourseArrange', params)
+  },
+  // 文件上传
+  fileUpload: params => {
+    return axios.post('/home/files/fileUpload', params, {headers: {'Content-Type':'multipart/form-data'}})
   }
   /**
    * API demo

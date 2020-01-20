@@ -154,6 +154,13 @@ export default new Router({
           key: '3-4'
         },
         component: () => import('@/views/infoManage/menuManage')
+      }, {
+        path: '/fileManage',
+        name: 'fileManage',
+        meta: {
+          key: '4_1'
+        },
+        component: () => import('@/views/files/fileManage')
       }]
     }
   ]

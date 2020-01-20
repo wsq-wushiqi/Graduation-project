@@ -296,3 +296,9 @@ export const getMyCourseArrange = ({ commit }, params) => {
     return response
   })
 }
+// 文件上传
+export const fileUpload = ({ commit }, params) => {
+  return Api.fileUpload(params).then(response => {
+    return response
+  })
+}
