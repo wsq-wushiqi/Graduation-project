@@ -18,7 +18,7 @@
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                  <router-link to="/profile">个人中心</router-link>
+                  <router-link to="/userInfo">个人中心</router-link>
                 </el-dropdown-item>
                 <el-dropdown-item divided>
                   <span style="display:block" @click="signOut()">退出登录</span>
