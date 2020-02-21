@@ -10,8 +10,8 @@
       </el-header>
       <el-container>
         <el-header class="operation-header" height="45px">
-          <el-button size="mini" @click="detailDlg">编辑详情</el-button>
-          <el-button size="mini" @click="addStuDlg">添加人员</el-button>
+          <el-button size="mini" icon="el-icon-brush" @click="detailDlg">编辑详情</el-button>
+          <el-button size="mini" icon="bs-xinzengguanliyuan" @click="addStuDlg">添加人员</el-button>
         </el-header>
         <el-main class="table-main">
           <el-table

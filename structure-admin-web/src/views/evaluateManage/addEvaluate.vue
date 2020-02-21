@@ -10,7 +10,7 @@
           <el-select v-model="course" size="small">
             <el-option v-for="(item, key) in courseList" :key="key" :label="item.c_name" :value="item.c_name"></el-option>
           </el-select>
-          <el-button size="small" @click="showDetail(course)">开始</el-button>
+          <el-button size="small" type="primary" plain icon="el-icon-magic-stick" @click="showDetail(course)">开始</el-button>
         </div>
         <div v-show="detailVisible" class="detail-div">
           <span>课程详细信息</span>

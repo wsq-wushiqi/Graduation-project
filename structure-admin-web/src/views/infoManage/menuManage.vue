@@ -10,9 +10,9 @@
       </el-header>
       <el-container>
         <el-header height="45px" class="menu-manage-header">
-          <el-button @click="add" size="mini">添加</el-button>
-          <el-button @click="update" size="mini">修改</el-button>
-          <el-button @click="drop" size="mini">删除</el-button>
+          <el-button @click="add" icon="bs-xinzengcaidan" size="mini">添加</el-button>
+          <el-button @click="update" icon="el-icon-edit" size="mini">修改</el-button>
+          <el-button @click="drop" icon="bs-shanchu_huaban" size="mini">删除</el-button>
         </el-header>
         <el-main class="menu-manage-main">
           <el-table

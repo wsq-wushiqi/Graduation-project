@@ -10,9 +10,9 @@
       </el-header>
       <el-container>
         <el-header class="operation-header" height="45px">
-          <el-button size="mini" @click="apply">申请</el-button>
-          <el-button size="mini" @click="update">修改</el-button>
-          <el-button size="mini" @click="cancel">撤销</el-button>
+          <el-button size="mini" icon="el-icon-position" @click="apply">申请</el-button>
+          <el-button size="mini" icon="el-icon-set-up" @click="update">修改</el-button>
+          <el-button size="mini" icon="el-icon-remove-outline" @click="cancel">撤销</el-button>
           <!-- <el-button size="mini" @click="examineDlg">审核</el-button> -->
         </el-header>
         <el-main class="page-main">

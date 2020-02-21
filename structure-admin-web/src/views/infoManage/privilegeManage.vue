@@ -12,11 +12,11 @@
       </el-header>
       <el-container>
         <el-header height="45px" class="page-header">
-          <el-button size="mini" @click="add">添加</el-button>
-          <el-button size="mini" @click="update">修改</el-button>
-          <el-button size="mini" @click="drop">删除</el-button>
-          <el-button size="mini" @click="reset">重置密码</el-button>
-          <el-button size="mini" @click="outTab">导出数据</el-button>
+          <el-button size="mini" icon="bs-tianjia_huaban" @click="add">添加</el-button>
+          <el-button size="mini" icon="bs-bianji_huaban" @click="update">修改</el-button>
+          <el-button size="mini" icon="bs-shanchu_huaban1" @click="drop">删除</el-button>
+          <el-button size="mini" icon="bs-zhongzhimima" @click="reset">重置密码</el-button>
+          <el-button size="mini" icon="bs-daochu" @click="outTab">导出数据</el-button>
         </el-header>
         <el-main class="privilege-manage-main">
           <el-tabs v-model="activeTab" type="border-card" @tab-click="tabClick">

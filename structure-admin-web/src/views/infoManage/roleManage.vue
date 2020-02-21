@@ -8,8 +8,8 @@
       </el-header>
       <el-container>
         <el-header height="45px" class="page-main-header">
-          <el-button size="mini" @click="addDlg">添加</el-button>
-          <el-button size="mini" @click="updateDlg">修改</el-button>
+          <el-button size="mini" icon="bs-xinzengguanliyuan" @click="addDlg">添加</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="updateDlg">修改</el-button>
         </el-header>
         <el-main class="role-manage-main">
           <el-table
