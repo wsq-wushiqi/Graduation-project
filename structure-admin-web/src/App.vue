@@ -95,4 +95,17 @@
   border-color: rgba(85, 118, 189, 0.478);
   background-color: rgb(232,240,254);
 }
+.el-button {
+  font-size: 15px;
+}
+.el-button--text {
+  color: rgb(118, 104, 184);
+}
+.el-button--text:hover,.el-button--text:focus {
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+.el-button--small {
+  padding: 7.5px 12px;
+}
 </style>
