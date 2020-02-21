@@ -42,11 +42,11 @@ module.exports = class extends Base {
         let department = this.post('department')
         try {
             let sql = {}
-            if ((name === '' || name === null) && (department === '' || department === null)) {
+            if ((name === '' || name === null || name === undefined) && (department === '' || department === null || department === undefined)) {
                 sql = {}
-            } else if (!(name === '' || name === null) && (department === '' || department === null)) {
+            } else if (!(name === '' || name === null || name === undefined) && (department === '' || department === null || department === undefined)) {
                 sql = { u_name: ['like', '%' + name + '%'] }
-            } else if ((name === '' || name === null) && !(department === '' || department === null)) {
+            } else if ((name === '' || name === null || name === undefined) && !(department === '' || department === null || department === undefined)) {
                 sql = { d_id: department }
             } else {
                 sql = { u_name: ['like', '%' + name + '%'], d_id: department }
