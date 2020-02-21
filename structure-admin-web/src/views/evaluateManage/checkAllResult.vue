@@ -3,7 +3,7 @@
     <el-container>
       <el-header height="45px" class="check-all-result-header">
         <span>姓名：</span><el-input v-model="queryName" clearable class="name-input" size="small" @clear="query"></el-input>
-        <el-button size="small" @click="query">查询</el-button>
+        <el-button type="primary" plain size="small" icon="el-icon-search" @click="query">查询</el-button>
       </el-header>
       <el-main class="check-all-result-main">
         <el-table

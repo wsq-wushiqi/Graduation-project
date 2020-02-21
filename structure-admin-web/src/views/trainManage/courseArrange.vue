@@ -6,7 +6,7 @@
         <el-select v-model="queryCourseName" size="small" clearable @clear="query">
           <el-option v-for="(item, key) in courseList" :key="key" :label="item.c_name" :value="item.c_name"></el-option>
         </el-select>
-        <el-button size="small" type="primary" plain @click="query">查询</el-button>
+        <el-button type="primary" plain size="small" icon="el-icon-search" @click="query">查询</el-button>
       </el-header>
       <el-container>
         <el-header class="operation-header" height="45px">

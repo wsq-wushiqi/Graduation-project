@@ -6,7 +6,7 @@
         <el-select v-model="auditStatus" clearable size="small" class="query-select" @clear="query">
           <el-option v-for="(item, key) in auditStatusList" :key="key" :label="item.label" :value="item.value" />
         </el-select>
-        <el-button size="mini" @click="query">查询</el-button>
+        <el-button type="primary" plain size="small" icon="el-icon-search" @click="query">查询</el-button>
       </el-header>
       <el-container>
         <el-header class="operation-header" height="45px">

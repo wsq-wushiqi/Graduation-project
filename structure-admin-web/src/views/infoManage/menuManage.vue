@@ -6,7 +6,7 @@
         <el-input v-model="queryName" class="query-name" size="small" clearable @clear="query"></el-input>
         <span>路由：</span>
         <el-input v-model="queryRouter" class="query-name" size="small" clearable @clear="query"></el-input>
-        <el-button size="small" @click="query">查询</el-button>
+        <el-button type="primary" plain size="small" icon="el-icon-search" @click="query">查询</el-button>
       </el-header>
       <el-container>
         <el-header height="45px" class="menu-manage-header">

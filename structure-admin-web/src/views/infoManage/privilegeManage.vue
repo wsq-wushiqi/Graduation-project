@@ -8,7 +8,7 @@
         <el-select v-model="queryDepartment" size="small" clearable @clear="query">
           <el-option v-for="(item, key) in departmentList" :key="key" :label="item.d_name" :value="item.d_id"></el-option>
         </el-select>
-        <el-button size="small" @click="query">查询</el-button>
+        <el-button type="primary" plain size="small" icon="el-icon-search" @click="query">查询</el-button>
       </el-header>
       <el-container>
         <el-header height="45px" class="page-header">
