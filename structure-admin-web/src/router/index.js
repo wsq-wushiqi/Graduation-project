@@ -22,27 +22,6 @@ export default new Router({
       },
       component: () => import("@/views/home"),
       children: [{
-        path: '/writeWeekly',
-        name: 'writeWeekly',
-        meta: {
-          key: '1-1'
-        },
-        component: () => import("@/views/writeWeekly/index")
-      }, {
-        path: '/weeklyList',
-        name: 'weeklyList',
-        meta: {
-          key: '7-2'
-        },
-        component: () => import("@/views/weeklyList/index")
-      }, {
-        path: '/profile',
-        name: 'profile',
-        meta: {
-          key: '7-4'
-        },
-        component: () => import("@/views/infoManage/profile")
-      }, {
         path: '/courseApplication',
         name: 'courseApplication',
         meta: {

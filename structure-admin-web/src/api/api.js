@@ -48,12 +48,6 @@ export default {
   logout: params => {
     return axios.post("/home/user/logout", params);
   },
-  addWeekly: params => {
-    return axios.post("/home/weekly/addWeekly", params);
-  },
-  test: params => {
-    return axios.get("/home/weekly/test", params);
-  },
   // 获取个人信息
   myUserInfo: params => {
     return axios.post('/home/userInfo/getUserInfo', params)

@@ -20,18 +20,6 @@ export const logout = ({ commit }, params) => {
     return response;
   })
 }
-// add weekly
-export const addWeekly = ({ commit }, params) => {
-  return Api.addWeekly(params).then(response => {
-    return response;
-  })
-}
-// test
-export const test = ({ commit }, params) => {
-  return Api.test(params).then(response => {
-    return response;
-  })
-}
 // 删除信息
 export const delInfo = ({ commit }, params) => {
   return Api.delInfo(params).then(response => {
