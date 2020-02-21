@@ -10,10 +10,10 @@
       </el-header>
       <el-container>
         <el-header class="operation-header" height="45px">
-          <el-button size="mini" @click="detailDlg">编辑详情</el-button>
-          <el-button size="mini" @click="addStuDlg">添加人员</el-button>
-          <el-button size="mini" @click="apply">加入课程</el-button>
-          <el-button size="mini" @click="outTab">导出数据</el-button>
+          <el-button v-if="btnShow" size="mini" icon="bs-bianji_huaban" @click="detailDlg">编辑详情</el-button>
+          <el-button v-if="btnShow" size="mini" icon="bs-yonghuguanli" @click="addStuDlg">添加人员</el-button>
+          <el-button size="mini" icon="el-icon-shopping-cart-full" @click="apply">加入课程</el-button>
+          <el-button size="mini" icon="bs-yulancaidan" @click="outTab">导出数据</el-button>
         </el-header>
         <el-main class="table-main">
           <el-table
@@ -162,13 +162,22 @@ export default {
       departmentData: [],
       center: 'center',
       currentPage: 1,
-      pageSize: 10
+      pageSize: 10,
+      btnShow: true // 编辑详情、添加人员按钮是否显示
     }
   },
   mounted() {
     this.getTableData()
     this.departmentList()
     this.getLecturer()
+    // console.log(this.userInfo);
+    let r_id = JSON.parse(this.userInfo.r_id)
+    // console.log(r_id);
+    if (r_id.length === 1) {
+      if (r_id[0] === '98d6a6f0-35d2-11ea-b6ad-4beebee6d9ee') {
+        this.btnShow = false
+      }
+    }
   },
   computed: {
     ...mapGetters([
@@ -387,7 +396,6 @@ export default {
     apply: function() {
       const row = this.tableRadio
       console.log(row);
-      
       let flag = false
       if (row === null || row.length === 0) {
         this.$message.warning('请选择要加入的课程')
@@ -395,21 +403,26 @@ export default {
       } else {
         let stuId = []
         let u_id = this.userInfo.u_id
-        if (row.c_stu !== '' && row.c_stu !== null && row.c_stu !== '[]') {
-          stuId = JSON.parse(row.c_stu)
-          for (let i = 0; i < stuId.length; i++) {
-            if (stuId[i] === u_id) {
-              this.$message.error('申请失败，您已经加入此课程')
-              flag = false
-              break
-            }
-             else {
-              flag = true
-            }
-          }
+        if (row.c_date === null && row.c_place === null) {
+          this.$message.warning('此课程未安排，无法加入')
         } else {
-          flag = true
+          if (row.c_stu !== '' && row.c_stu !== null && row.c_stu !== '[]') {
+            stuId = JSON.parse(row.c_stu)
+            for (let i = 0; i < stuId.length; i++) {
+              if (stuId[i] === u_id) {
+                this.$message.error('申请失败，您已经加入此课程')
+                flag = false
+                break
+              }
+              else {
+                flag = true
+              }
+            }
+          } else {
+            flag = true
+          }
         }
+        
         if (flag) {
           stuId.push(u_id)
           let params = {
