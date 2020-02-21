@@ -77,4 +77,22 @@
 .el-tabs__item.is-active {
   color: rgb(73, 64, 112)!important;
 }
+.el-button--primary.is-plain {
+  color: #5576bd;
+  background-color: rgb(232,240,254);
+  border-color: rgba(85, 118, 189, 0.478);
+}
+.el-button--primary.is-plain:focus, .el-button--primary.is-plain:hover {
+  background-color: #5576bd;
+  color: rgb(255, 255, 255);
+  border-color: #5576bd;
+}
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: rgba(85, 118, 189, 0.478);
+}
+.el-button:focus, .el-button:hover {
+  color: #5576bd;
+  border-color: rgba(85, 118, 189, 0.478);
+  background-color: rgb(232,240,254);
+}
 </style>
