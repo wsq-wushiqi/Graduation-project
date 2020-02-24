@@ -201,7 +201,11 @@ export default {
       'checkEvaluate'
     ]),
     getCourseList: function() {
-      this.getStuPlanList().then(res => {
+      this.getStuPlanList({
+        params: {
+          state: '02'
+        }
+      }).then(res => {
         if (res.errno === 0) {
           this.courseList = res.data
         } else {
