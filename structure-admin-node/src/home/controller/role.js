@@ -92,7 +92,7 @@ module.exports = class extends Base {
     
     try {
       let sql = {}
-      if (name === '' || name === null) {
+      if (name === '' || name === null || name === undefined) {
         sql = {}
       } else {
         sql = { r_name: ['like', '%' + name + '%']}
