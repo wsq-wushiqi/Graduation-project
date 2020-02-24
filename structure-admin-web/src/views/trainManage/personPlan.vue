@@ -1,7 +1,13 @@
 <template>
   <div class="person-plan-container">
     <el-container>
-      <el-header height="50px" class="person-plan-header"><span>我的课程</span></el-header>
+      <el-header height="50px" class="person-plan-header">
+        <span>课程状态:</span>
+        <el-select v-model="state" size="small">
+          <el-option v-for="(item, key) in stateList" :key="key" :label="item.name" :value="item.value"></el-option>
+        </el-select>
+        <el-button icon="el-icon-search" size="small" type="primary" plain @click="query">查询</el-button>
+      </el-header>
       <el-main class="person-plan-main">
         <el-card class="box-card" shadow="hover" v-for="(item, key) in listData" :key="key">
           <div slot="header" class="clearfix">
@@ -40,7 +46,15 @@ export default {
   data() {
     return {
       listData: [],
-      evaluateVisible: false
+      evaluateVisible: false,
+      state: '00',
+      stateList: [{
+        name: '未开始',
+        value: '00'
+      }, {
+        name: '已结束',
+        value: '02'
+      }]
     }
   },
   mounted() {
@@ -51,7 +65,11 @@ export default {
       'getStuPlanList'
     ]),
     getData: function() {
-      this.getStuPlanList().then(res => {
+      this.getStuPlanList({
+        params: {
+          state: this.state
+        }
+      }).then(res => {
         if (res.errno === 0) {
           this.listData = res.data
         } else {
@@ -70,6 +88,10 @@ export default {
       } else {
         this.$message.error('课程"' + item.c_name + '"未结束，不能评价')
       }
+    },
+    query: function() {
+      console.log(this.state);
+      this.getData()
     }
   }
 }
