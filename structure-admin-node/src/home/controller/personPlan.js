@@ -14,20 +14,6 @@ module.exports = class extends Base {
           for (let j = 0; j < stuid.length; j++) {
             if (stuid[j] === this.user.u_id) {
               let lecturer = await this.model('user').where({ u_id: stu[i].c_lecturer_id }).find()
-              // data.push({
-              //   c_name: stu[i].c_name,
-              //   c_id: stu[i].c_id,
-              //   c_category: stu[i].c_category,
-              //   c_date: stu[i].c_date,
-              //   c_hour: stu[i].c_hour,
-              //   c_place: stu[i].c_place,
-              //   c_lecturer_id: stu[i].c_lecturer_id,
-              //   c_lecturer_name: lecturer.u_name,
-              // })
-              // console.log(stu[i].c_date);
-                            
-              console.log(Date.parse(stu[i].c_date));
-              console.log(Date.parse(new Date()));
               if (state === '00' ) {
                 if (Date.parse(stu[i].c_date) > Date.parse(new Date())) {
                   let date = stu[i].c_date.substring(0,10) + ' ' + stu[i].c_date.substring(11, 20)
