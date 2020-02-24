@@ -97,7 +97,9 @@ export default {
     },
     clickCheck: function(title, item) {
       this.adviseVisible = true
-      this.adviseList = item.split(',')
+      if (item !== undefined) {
+        this.adviseList = item.split(',')
+      }
       this.adviseTitle = title
     }
   }
