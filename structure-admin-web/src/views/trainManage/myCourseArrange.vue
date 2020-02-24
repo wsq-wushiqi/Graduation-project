@@ -12,9 +12,11 @@
         <el-header class="operation-header" height="45px">
           <el-button size="mini" icon="el-icon-brush" @click="detailDlg">编辑详情</el-button>
           <el-button size="mini" icon="bs-xinzengguanliyuan" @click="addStuDlg">添加人员</el-button>
+          <el-button size="mini" icon="bs-daochu" @click="outTab">导出数据</el-button>
         </el-header>
         <el-main class="table-main">
           <el-table
+          id="out-table"
           :data="tableData"
           border
           highlight-current-row
@@ -109,6 +111,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 export default {
   data() {
     return {
@@ -380,6 +384,15 @@ export default {
           return this.departmentData[i].d_name
         }
       }
+    },
+    // 导出表格数据
+    outTab () {
+      let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      try {
+        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '课程安排.xlsx')
+      } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+      return wbout
     }
   }
 }

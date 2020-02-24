@@ -13,7 +13,7 @@
           <el-button v-if="btnShow" size="mini" icon="bs-bianji_huaban" @click="detailDlg">编辑详情</el-button>
           <el-button v-if="btnShow" size="mini" icon="bs-yonghuguanli" @click="addStuDlg">添加人员</el-button>
           <el-button size="mini" icon="el-icon-shopping-cart-full" @click="apply">加入课程</el-button>
-          <el-button size="mini" icon="bs-yulancaidan" @click="outTab">导出数据</el-button>
+          <el-button size="mini" icon="bs-daochu" @click="outTab">导出数据</el-button>
         </el-header>
         <el-main class="table-main">
           <el-table
@@ -50,7 +50,7 @@
       </el-container>
     </el-container>
     <!-- 添加/修改课程详情 -->
-    <el-dialog :visible.sync="detailDlgVisible" :title="detailTitle" class="detail-dialog" :close-on-click-modal="false">
+    <el-dialog :visible.sync="detailDlgVisible" :title="detailTitle" class="detail-dialog" width="470px" :close-on-click-modal="false">
       <span class="detail-title">{{ courseName }}</span>
       <el-form :model="detailForm" :rules="formRule" ref="detailForm" class="detail-form">
         <el-form-item prop="a_time">
@@ -62,14 +62,15 @@
           class="detail-input"
           size="small"
           format="yyyy-MM-dd HH:mm"
-          value-format="yyyy-MM-dd HH:mm"></el-date-picker>
+          value-format="yyyy-MM-dd HH:mm"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item prop="a_place">
           <span class="detail-span">上课地点：</span><el-input v-model="detailForm.c_place" class="detail-input" size="small"></el-input>
         </el-form-item>
         <el-form-item prop="a_lecturer">
           <span class="detail-span">主讲人：</span>
-          <el-select v-model="detailForm.c_lecturer_id">
+          <el-select v-model="detailForm.c_lecturer_id" size="small">
             <el-option v-for="(item, key) in lecturerList" :key="key" :label="item.u_name" :value="item.u_id"></el-option>
           </el-select>
         </el-form-item>
@@ -83,7 +84,7 @@
       </div>
     </el-dialog>
     <!-- 添加参与培训人员 -->
-    <el-dialog :visible.sync="addStuVisible" title="添加培训人员" :close-on-click-modal="false" class="add-stu-dialog" width="400px">
+    <el-dialog :visible.sync="addStuVisible" title="添加培训人员" :close-on-click-modal="false" class="add-stu-dialog" width="450px">
       <span class="add-stu-title">{{ courseName }}</span>
       <div class="add-stu-tree-div">
         <el-tree
@@ -473,7 +474,18 @@ export default {
           return this.departmentData[i].d_name
         }
       }
-    }
+    },
+    // // 上课时间格式化显示
+    // cDateFormat: function(row, column) {
+    //   if (row.c_date !== null && row.c_date !== '') {
+    //     let showData = ''
+    //     // showData = row.c_date.substring(0,10) + ' ' + row.c_date.substring(11, 19)
+    //     showData = typeof(row.c_date)
+    //     return showData
+    //   } else {
+    //     return ''
+    //   }
+    // }
   }
 }
 </script>
@@ -518,7 +530,7 @@ export default {
 }
 .add-stu-tree-div {
   height: 93%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .check-title {
   width: 100%;
@@ -546,8 +558,9 @@ export default {
   padding-bottom: 2px;
 }
 .add-stu-dialog .el-dialog__body {
-  height: calc(100vh - 270px);
+  height: calc(100vh - 400px);
   padding: 1px 35px 2px 35px;
+  overflow: auto;
 }
 .add-stu-tree .el-tree-node:focus>.el-tree-node__content {
   background-color: rgb(210,226,255);
