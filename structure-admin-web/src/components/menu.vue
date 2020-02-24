@@ -60,7 +60,7 @@ import { mapActions } from 'vuex';
       labelChange: function() {
         console.log(this.label);
       },
-      getMenu: function() {
+      getMenu: function() { // 从后台获取菜单列表
         this.getMenuList().then(res => {
           if(res.errno === 0) {
             this.menuList = res.data
