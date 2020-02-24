@@ -5,6 +5,9 @@
       <h1>{{systemName}}</h1>
     </div>
     <div class="login_contenter">
+      <div class="container-image">
+        <img src="../../image/背景.jpg" alt="" width="700px" >
+      </div>
       <div class="content_box">
         <div class="content_box_form">
           <h1>登&nbsp;&nbsp;录</h1>
@@ -69,17 +72,14 @@
     padding: 14px 0 14px 10%;
   }
 
-  .login_icon {
-    display: block;
-    width: 334px;
-    height: 72px;
-    display: inline-block;
-  }
-
   .login_contenter {
     width: 100%;
+    height: calc(100vh - 200px);
     background-position: 100% 100%;
-    background-color: #c8d1f167;
+    /* background-color: #c6cff067; */
+    background-color: rgb(232,236,248);
+    /* background-color: rgb(143, 143, 98); */
+    float: right;
   }
   .login_contenter_bg{
     position:absolute;
@@ -88,13 +88,21 @@
     height: 490px;
   }
   .content_box {
-    width: 805px;
+    /* width: 805px; */
+    width: 350px;
     height: 480px;
     padding: 50px 0px;
-    margin: 0 auto;
     box-sizing: border-box;
+    float: right;
+    margin-right: 100px;
+    /* background-color: #55aaff; */
   }
-
+  .container-image {
+    /* background-color: #22366d; */
+    width: calc(100vh - 360px);
+    margin: 20px 80px;
+    float: left;
+  }
   .content_box_img_bg{
     position:absolute;
   }
@@ -106,7 +114,7 @@
     vertical-align: top;
     text-align: center;
     background-color: #ffffff;
-    float: right;
+    /* float: right; */
     padding: 20px;
     margin-top: 2px;
   }
