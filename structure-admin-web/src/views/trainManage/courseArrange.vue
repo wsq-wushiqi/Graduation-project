@@ -17,12 +17,12 @@
         </el-header>
         <el-main class="table-main">
           <el-table
-          :data="tableData.slice((currentPage - 1)*pageSize, currentPage*pageSize)"
-          id="out-table"
-          border
-          highlight-current-row
-          height="calc(100vh - 178px)"
-          @row-click="rowClick">
+            :data="tableData.slice((currentPage - 1)*pageSize, currentPage*pageSize)"
+            id="out-table"
+            border
+            highlight-current-row
+            height="calc(100vh - 178px)"
+            @row-click="rowClick">
             <el-table-column label="选择" width="50px" :align="center"><template slot-scope="scope"><el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio></template></el-table-column>
             <el-table-column prop='c_name' label="课程名称" width="100px" :align="center"></el-table-column>
             <el-table-column prop='u_name' label="申请人" width="90px" sortable :align="center"></el-table-column>
@@ -96,7 +96,7 @@
           node-key='value'
           :props="defaultProps"
           :default-checked-keys="defaultCheck"
-          @node-click="stuNodeClick">
+          >
         </el-tree>
       </div>
       <div slot="footer">
@@ -324,20 +324,24 @@ export default {
           stu.push(data[i].i_id)
         }
       }
-      let params = {
-        c_id: row.c_id,
-        c_stu: JSON.stringify(stu),
-        c_number: stu.length
-      }
-      this.addStu(params).then(res => {
-        if (res.errno === 0) {
-          this.$message.success('添加培训人员成功')
-          this.addStuVisible = false
-          this.getTableData()
-        } else {
-          this.$message.error(res.errmsg)
+      if (stu.length > row.c_max_number) {
+        this.$message.error('添加失败，添加的人数超出限制')
+      } else {
+        let params = {
+          c_id: row.c_id,
+          c_stu: JSON.stringify(stu),
+          c_number: stu.length
         }
-      }).catch(error => { this.$message.error(error) })
+        this.addStu(params).then(res => {
+          if (res.errno === 0) {
+            this.$message.success('添加培训人员成功')
+            this.addStuVisible = false
+            this.getTableData()
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      }
     },
     // 获取参加培训人员的具体信息
     checkStu: function(item) {
@@ -389,14 +393,9 @@ export default {
         }
       }).catch(error => { this.$message.error(error) })
     },
-    // 添加学生列表点击事件
-    stuNodeClick: function(item) {
-      const d_id = item.value
-    },
     // 申请加入课程
     apply: function() {
       const row = this.tableRadio
-      console.log(row);
       let flag = false
       if (row === null || row.length === 0) {
         this.$message.warning('请选择要加入的课程')
@@ -409,21 +408,25 @@ export default {
         } else {
           if (row.c_stu !== '' && row.c_stu !== null && row.c_stu !== '[]') {
             stuId = JSON.parse(row.c_stu)
-            for (let i = 0; i < stuId.length; i++) {
-              if (stuId[i] === u_id) {
-                this.$message.error('申请失败，您已经加入此课程')
-                flag = false
-                break
-              }
-              else {
-                flag = true
+            if (stuId.length >= row.c_max_number) {
+              flag = false
+              this.$message.error('加入失败，该课程已达人数限制')
+            } else {
+              for (let i = 0; i < stuId.length; i++) {
+                if (stuId[i] === u_id) {
+                  this.$message.error('申请失败，您已经加入此课程')
+                  flag = false
+                  break
+                }
+                else {
+                  flag = true
+                }
               }
             }
           } else {
             flag = true
           }
         }
-        
         if (flag) {
           stuId.push(u_id)
           let params = {
