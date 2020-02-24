@@ -288,24 +288,28 @@ export default {
       if (row.length === 0) {
         _this.$message.warning('请选择要添加培训人员的课程')
       } else {
-        _this.addStuVisible = true
-        _this.defaultCheck = []
-        _this.courseName = row.c_name
-        let defaultCheck = []
-        let rowStu = JSON.parse(row.c_stu)
-        if (rowStu !== null) {
-          setTimeout(() => {
-            _this.$refs['stutree'].setCheckedNodes([])
-            for (let i = 0; i < rowStu.length; i++) {
-              defaultCheck.push(rowStu[i])
-            }
-            _this.defaultCheck = Array.from(new Set(defaultCheck))
-          }, 50);
+        if (row.c_date === null && row.c_place === null) {
+          this.$message.warning('此课程未安排，无法添加')
         } else {
-          setTimeout(() => {
-            _this.$refs['stutree'].setCheckedNodes([])
-          }, 50);
+          _this.addStuVisible = true
           _this.defaultCheck = []
+          _this.courseName = row.c_name
+          let defaultCheck = []
+          let rowStu = JSON.parse(row.c_stu)
+          if (rowStu !== null) {
+            setTimeout(() => {
+              _this.$refs['stutree'].setCheckedNodes([])
+              for (let i = 0; i < rowStu.length; i++) {
+                defaultCheck.push(rowStu[i])
+              }
+              _this.defaultCheck = Array.from(new Set(defaultCheck))
+            }, 50);
+          } else {
+            setTimeout(() => {
+              _this.$refs['stutree'].setCheckedNodes([])
+            }, 50);
+            _this.defaultCheck = []
+          }
         }
       }
     },
