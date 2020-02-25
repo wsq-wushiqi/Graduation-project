@@ -247,24 +247,28 @@ export default {
       if (row.length === 0) {
         _this.$message.warning('请选择要添加培训人员的课程')
       } else {
-        _this.addStuVisible = true
-        _this.defaultCheck = []
-        _this.courseName = row.c_name
-        let defaultCheck = []
-        let rowStu = JSON.parse(row.c_stu)
-        if (rowStu !== null) {
-          setTimeout(() => {
-            _this.$refs['stutree'].setCheckedNodes([])
-            for (let i = 0; i < rowStu.length; i++) {
-              defaultCheck.push(rowStu[i])
-            }
-            _this.defaultCheck = Array.from(new Set(defaultCheck))
-          }, 50);
+        if (row.c_date === null && row.c_place === null) {
+          _this.$message.warning('此课程未安排，无法添加人员')
         } else {
-          setTimeout(() => {
-            _this.$refs['stutree'].setCheckedNodes([])
-          }, 50);
+          _this.addStuVisible = true
           _this.defaultCheck = []
+          _this.courseName = row.c_name
+          let defaultCheck = []
+          let rowStu = JSON.parse(row.c_stu)
+          if (rowStu !== null) {
+            setTimeout(() => {
+              _this.$refs['stutree'].setCheckedNodes([])
+              for (let i = 0; i < rowStu.length; i++) {
+                defaultCheck.push(rowStu[i])
+              }
+              _this.defaultCheck = Array.from(new Set(defaultCheck))
+            }, 50);
+          } else {
+            setTimeout(() => {
+              _this.$refs['stutree'].setCheckedNodes([])
+            }, 50);
+            _this.defaultCheck = []
+          }
         }
       }
     },
@@ -283,20 +287,24 @@ export default {
           stu.push(data[i].i_id)
         }
       }
-      let params = {
-        c_id: row.c_id,
-        c_stu: JSON.stringify(stu),
-        c_number: stu.length
-      }
-      this.addStu(params).then(res => {
-        if (res.errno === 0) {
-          this.$message.success('添加培训人员成功')
-          this.addStuVisible = false
-          this.getTableData()
-        } else {
-          this.$message.error(res.errmsg)
+      if (stu.length > row.c_max_number) {
+        this.$message.error('添加人数超出限制')
+      } else {
+        let params = {
+          c_id: row.c_id,
+          c_stu: JSON.stringify(stu),
+          c_number: stu.length
         }
-      }).catch(error => { this.$message.error(error) })
+        this.addStu(params).then(res => {
+          if (res.errno === 0) {
+            this.$message.success('添加培训人员成功')
+            this.addStuVisible = false
+            this.getTableData()
+          } else {
+            this.$message.error(res.errmsg)
+          }
+        }).catch(error => { this.$message.error(error) })
+      }
     },
     // 获取参加培训人员的具体信息
     checkStu: function(item) {
