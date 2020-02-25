@@ -42,7 +42,7 @@
     methods: {
       ...mapActions([
         "login",
-        "getUserInfo",
+        // "getUserInfo",
       ]),
       submit(){
         var username =  this.username;

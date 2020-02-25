@@ -5,7 +5,7 @@
         <span class="header-span">个人资料</span>
         <div class="header-border"></div>
       </el-header>
-      <el-main>
+      <el-main v-if="userForm.u_username !== undefined">
         <div class="info-img">
           <img v-if="userForm.u_sex === '女'" height="80px" align="center" src="../../image/头像 女孩.png" alt="头像">
           <img v-else height="80px" align="center" src="../../image/头像 男孩.png" alt="头像">

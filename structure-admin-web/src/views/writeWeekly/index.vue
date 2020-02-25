@@ -27,7 +27,7 @@
     },
     methods: {
       ...mapActions([
-        "getUserInfo",
+        // "getUserInfo",
         "addWeekly",
         "test"
       ]),
