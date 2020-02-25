@@ -7,7 +7,8 @@
       </el-header>
       <el-main>
         <div class="info-img">
-          <img height="80px" align="center" src="../../image/头像 女孩.png" alt="头像">
+          <img v-if="userForm.u_sex === '女'" height="80px" align="center" src="../../image/头像 女孩.png" alt="头像">
+          <img v-else height="80px" align="center" src="../../image/头像 男孩.png" alt="头像">
           <el-button class="info-button" size="small" icon="el-icon-fork-spoon" type="primary" plain @click="changeInfo">修改资料</el-button>
           <el-button class="pwd-button" size="small" icon="el-icon-lock" type="primary" plain @click="change">修改密码</el-button>
         </div>
@@ -38,17 +39,17 @@
         </div>
       </el-main>
     </el-container>
-    <el-dialog :visible.sync="changeDlgVisible" title="修改密码">
-      <span>{{ userInfo.u_username }}</span>
+    <el-dialog :visible.sync="changeDlgVisible" title="修改密码" width="400px" class="changpwd-dialog" :close-on-click-modal="false">
+      <span class="username-span">{{ userInfo.u_username }}</span>
       <el-form :model="changeForm" ref="changeForm" :rules="formRule">
         <el-form-item prop="oldPwd">
-          <span>原密码：</span><el-input v-model="changeForm.oldPwd"></el-input>
+          <span class="pwd-span">原密码：</span><el-input v-model="changeForm.oldPwd" class="pwd-input"></el-input>
         </el-form-item>
         <el-form-item prop="newPwd">
-          <span>新密码：</span><el-input v-model="changeForm.newPwd"></el-input>
+          <span class="pwd-span">新密码：</span><el-input v-model="changeForm.newPwd" class="pwd-input"></el-input>
         </el-form-item>
         <el-form-item prop="confirmPwd">
-          <span>确认密码：</span><el-input v-model="changeForm.confirmPwd"></el-input>
+          <span class="pwd-span">确认密码：</span><el-input v-model="changeForm.confirmPwd" class="pwd-input"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -56,7 +57,7 @@
         <el-button @click="doChange">确定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="changeInfoVisible" title="修改个人资料" width="400px" class="change-info-dialog">
+    <el-dialog :visible.sync="changeInfoVisible" title="修改个人资料" width="400px" class="change-info-dialog" :close-on-click-modal="false">
       <el-form :data="infoForm">
         <el-form-item>
           <span class="change-info-span">用户名：</span>
@@ -255,6 +256,21 @@ export default {
 .change-info-input {
   width: 200px;
 }
+.username-span {
+  display: inline-block;
+  margin-bottom: 12px;
+  width: 100%;
+  text-align: center;
+  font-size: 23px;
+}
+.pwd-input {
+  width: 60%;
+}
+.pwd-span {
+  display: inline-block;
+  text-align: right;
+  width: 30%;
+}
 </style>
 <style>
 .change-info-dialog .el-dialog__body {
@@ -262,5 +278,8 @@ export default {
 }
 .change-info-dialog .el-dialog__footer {
   padding-top: 2px;
+}
+.changpwd-dialog .el-dialog__body {
+  padding: 5px 30px 2px 30px;
 }
 </style>
