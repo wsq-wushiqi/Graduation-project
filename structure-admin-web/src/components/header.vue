@@ -11,9 +11,9 @@
           <el-row type="flex" justify="end">
             <el-dropdown>
               <div class="header-user-name">
-                <img height="30px" align="center" src="../image/头像 女孩.png" alt="头像">
+                <img v-if="userInfo.u_sex === '女'" height="30px" align="center" src="../image/头像 女孩.png" alt="头像">
+                <img v-else height="30px" align="center" src="../image/头像 男孩.png" alt="头像">
                 <span v-if="userInfo">{{userInfo.u_username}}</span>
-                
                 <i class="el-icon-caret-bottom el-icon--right"></i>
               </div>
               <el-dropdown-menu slot="dropdown">
@@ -48,7 +48,6 @@
       
     },
     mounted() {
-      
     },
      methods: {
        ...mapActions([
