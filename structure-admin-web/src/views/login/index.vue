@@ -4,18 +4,17 @@
     <div class="loginHeader">
       <h1>{{systemName}}</h1>
     </div>
-    <div class="login_contenter">
-      <div class="container-image">
-        <img src="../../image/背景.jpg" alt="" width="700px" >
-      </div>
+    <div class="login-container">
       <div class="content_box">
         <div class="content_box_form">
           <h1>登&nbsp;&nbsp;录</h1>
           <p class="form_content" >
-            <input minlength="6" maxlength="30" type="text" name="username" placeholder="用户名/手机/邮箱" v-model="username" />
+            <el-input placeholder="用户名" v-model="username" prefix-icon="el-icon-user" />
           </p>
           <p class="form_content" >
-            <input minlength="6" maxlength="16" type="password" placeholder="密码" @keyup.enter="submit"  v-model="password" />
+            <el-input :type="passwordType" placeholder="密码" prefix-icon="el-icon-lock" @keyup.enter="submit" v-model="password" >
+              <i slot="suffix" style="width: 20px; margin-top: 11px;" :title="pwdTitle" :class="passwordType === 'password' ? 'el-icon-more' : 'el-icon-view'" @click="showPwd" />
+            </el-input>
           </p>
           <button class="loginBtn" @click="submit">登录</button>
         </div>
@@ -32,6 +31,8 @@
       return {
         username: "",
         password: "",
+        passwordType: 'password',
+        pwdTitle: '查看密码'
       };
     },
     computed: {
@@ -41,9 +42,17 @@
     },
     methods: {
       ...mapActions([
-        "login",
-        // "getUserInfo",
+        "login"
       ]),
+      showPwd() {
+        if (this.passwordType === 'password') {
+          this.passwordType = ''
+          this.pwdTitle = "隐藏密码"
+        } else {
+          this.passwordType = 'password'
+          this.pwdTitle = "显示密码"
+        }
+      },
       submit(){
         var username =  this.username;
         var password = this.password;
@@ -68,40 +77,24 @@
 
 <style scoped>
   .loginHeader {
-    height: 60px;
+    height: 50px;
     padding: 14px 0 14px 10%;
   }
-
-  .login_contenter {
+  .login-container {
     width: 100%;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 78px);
     background-position: 100% 100%;
-    /* background-color: #c6cff067; */
-    background-color: rgb(232,236,248);
-    /* background-color: rgb(143, 143, 98); */
+    background-image: url('../../image/金属.jpg');
+    background-repeat:no-repeat;
     float: right;
-  }
-  .login_contenter_bg{
-    position:absolute;
-    z-index: -100;
-    width: 100%;
-    height: 490px;
   }
   .content_box {
-    /* width: 805px; */
-    width: 350px;
-    height: 480px;
-    padding: 50px 0px;
+    width: 100%;
+    height: 100%;
+    padding: 10% 0px;
     box-sizing: border-box;
     float: right;
-    margin-right: 100px;
-    /* background-color: #55aaff; */
-  }
-  .container-image {
-    /* background-color: #22366d; */
-    width: calc(100vh - 360px);
-    margin: 20px 80px;
-    float: left;
+    text-align: center;
   }
   .content_box_img_bg{
     position:absolute;
@@ -109,14 +102,13 @@
   .content_box_form {
     box-sizing: border-box;
     display: inline-block;
-    width: 320px;
-    height: 380px;
+    width: 370px;
+    height: 350px;
     vertical-align: top;
     text-align: center;
     background-color: #ffffff;
-    /* float: right; */
     padding: 20px;
-    margin-top: 2px;
+    box-shadow: 0 0 30px rgb(84, 84, 94);
   }
   .clear {
     clear: both;
