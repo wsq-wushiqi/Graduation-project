@@ -21,7 +21,8 @@ export default new Router({
         key: '1'
       },
       component: () => import("@/views/home"),
-      children: [{
+      children: [
+        {
         path: '/courseApplication',
         name: 'courseApplication',
         meta: {
@@ -42,13 +43,6 @@ export default new Router({
           key: '1-3'
         },
         component: () => import('@/views/trainManage/personPlan')
-      // }, {
-      //   path: '/lecturerPlan',
-      //   name: 'lecturerPlan',
-      //   meta: {
-      //     key: '1-4'
-      //   },
-      //   component: () => import('@/views/trainManage/lecturerPlan')
       }, {
         path: '/checkCourse',
         name: 'checkCourse',
