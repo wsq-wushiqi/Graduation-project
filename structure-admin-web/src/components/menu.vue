@@ -2,8 +2,6 @@
   <div class="menu">
      <el-menu
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       background-color="rgb(255,255,255)"
       text-color="rgb(28,41,89)"
       router = router
@@ -51,15 +49,6 @@ import { mapActions } from 'vuex';
       ...mapActions([
         'getMenuList'
       ]),
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      labelChange: function() {
-        console.log(this.label);
-      },
       getMenu: function() { // 从后台获取菜单列表
         this.getMenuList().then(res => {
           if(res.errno === 0) {
@@ -85,9 +74,7 @@ import { mapActions } from 'vuex';
     }
     & :hover {
     }
-    
   }
-  
 </style>
 <style>
 .el-menu-item:hover{
