@@ -10,6 +10,7 @@
         <el-header height="45px" class="page-main-header">
           <el-button size="mini" icon="bs-xinzengguanliyuan" @click="addDlg">添加</el-button>
           <el-button size="mini" icon="el-icon-edit" @click="updateDlg">修改</el-button>
+          <el-button size="mini" icon="el-icon-delete" @click="dropRole">删除</el-button>
         </el-header>
         <el-main class="role-manage-main">
           <el-table
@@ -17,20 +18,22 @@
           border
           highlight-current-row
           height="100%"
-          @row-click="rowClick">
+          @row-click="rowClick"
+          @header-dragend="headerDragend">
             <el-table-column label="选择" width="50">
               <template slot-scope="scope">
                 <el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio>
               </template>
             </el-table-column>
             <el-table-column prop="r_name" label="名称" width="80"></el-table-column>
-            <el-table-column prop="r_authority" label="权限" :formatter="authorityFormat"></el-table-column>
+            <el-table-column prop="r_authority" label="权限" :formatter="authorityFormat" show-overflow-tooltip></el-table-column>
             <el-table-column prop="r_describe" label="描述"></el-table-column>
           </el-table>
         </el-main>
       </el-container>
     </el-container>
-    <el-dialog :visible.sync="addDlgVisible" :title="dlgTitle" :close-on-click-modal="false">
+    <!-- 添加、修改角色对话框 -->
+    <el-dialog :visible.sync="addDlgVisible" :title="dlgTitle" :close-on-click-modal="false" width="400px">
       <el-form :model="addForm">
         <el-form-item>
           <span class="add-form-span">角色名称：</span><el-input v-model="addForm.r_name" placeholder="请输入角色名称" class="add-form-input"></el-input>
@@ -91,12 +94,15 @@ export default {
       'addRole',
       'getRoleList',
       'updateRole',
+      'deleteRole', // 删除角色
       'getTotalMenu' // 获取所有菜单
     ]),
+    // 打开添加角色对话框
     addDlg: function() {
       this.addDlgVisible = true
       this.dlgTitle = '添加角色'
     },
+    // 获取菜单列表
     getMenu: function() {
       this.getTotalMenu().then(res => {
         if (res.errno === 0) {
@@ -106,6 +112,7 @@ export default {
         }
       }).catch(error => { this.$message.error(error) })
     },
+    // 添加角色
     doAdd: function() {
       if (this.dlgTitle === '添加角色') {
         let params = {
@@ -141,6 +148,7 @@ export default {
       }
       
     },
+    // 获取表格数据
     getTableData: function() {
       this.getRoleList({ name: this.queryName }).then(res => {
         if(res.errno === 0) {
@@ -150,6 +158,7 @@ export default {
         }
       }).catch(error => { this.$message.error(error) })
     },
+    // 表格权限列格式化显示
     authorityFormat: function(row, column) {
       let data = JSON.parse(row.r_authority)
       let result = []
@@ -176,6 +185,7 @@ export default {
       }
       return value
     },
+    // 打开修改角色信息对话框
     updateDlg: function() {
       const row = this.tableRadio
       if (row.length === 0) {
@@ -192,6 +202,43 @@ export default {
     },
     query: function() {
       this.getTableData()
+    },
+    // 表格列宽改变触发事件
+    headerDragend: function(newWidth, oldWidth, column) {
+      let totalWidth = document.body.clientWidth
+      if (column.label === '选择' && newWidth > 100) {
+        column.width = 100
+      } else if (column.label === '名称') {
+        if (newWidth > totalWidth * 0.3) {
+          column.width = totalWidth * 0.3
+          column.showOverflowTooltip = false // 列宽足够时不需要show-overflow-tooltip
+        } else {
+          column.showOverflowTooltip = true
+        }
+      }
+    },
+    // 删除角色
+    dropRole: function() {
+      const row = this.tableRadio
+      if (row.length === 0) {
+        this.$message.warning('请选择要删除的用户')
+      } else {
+        const label = row.r_name
+        this.$confirm('此操作不可恢复，你确定要删除用户"' + label +  '"吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.deleteRole({r_id: row.r_id}).then(res => {
+            if (res.errno === 0) {
+              this.$message.success('成功删除角色"' + label + '"')
+              this.getTableData()
+            }
+          }).catch(error => { this.$message.error(res.errmsg) })
+        }).catch(() => {
+          this.$message.info('已取消')
+        })
+      }
     }
   }
 }

@@ -212,6 +212,12 @@ export const updateRole = ({ commit }, params) => {
     return response
   })
 }
+// 删除角色
+export const deleteRole = ({ commit }, params) => {
+  return Api.deleteRole(params).then(response => {
+    return response
+  })
+}
 // 获取用户列表
 export const getUserList = ({ commit }, params) => {
   return Api.getUserList(params).then(response => {

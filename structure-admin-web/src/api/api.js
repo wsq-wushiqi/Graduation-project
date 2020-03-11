@@ -172,6 +172,10 @@ export default {
   updateRole: params => {
     return axios.post('/home/role/updateRole', params)
   },
+  // 删除角色
+  deleteRole:params => {
+    return axios.post('/home/role/deleteRole', params)
+  },
   // 获取用户列表
   getUserList: params => {
     return axios.post('/home/user/getUserList', params)

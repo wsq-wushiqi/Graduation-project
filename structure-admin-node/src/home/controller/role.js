@@ -88,8 +88,6 @@ module.exports = class extends Base {
   }
   async getRoleListAction() {
     let name = this.post('name')
-    console.log(name);
-    
     try {
       let sql = {}
       if (name === '' || name === null || name === undefined) {
@@ -117,6 +115,17 @@ module.exports = class extends Base {
     catch(e) {
       console.log(e);
       return this.fail('修改失败')
+    }
+  }
+  async deleteRoleAction() {
+    let r_id = this.post('r_id')
+    try {
+      let result = await this.model('role').where({ r_id }).delete()
+      return this.success(result)
+    }
+    catch(e) {
+      console.log(e);
+      return this.fail('删除失败')
     }
   }
 }
