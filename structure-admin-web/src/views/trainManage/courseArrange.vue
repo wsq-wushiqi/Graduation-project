@@ -536,7 +536,7 @@ export default {
   font-size: 25px;
 }
 .add-stu-tree-div {
-  height: 93%;
+  height: 88%;
   overflow-y: auto;
 }
 .check-title {
