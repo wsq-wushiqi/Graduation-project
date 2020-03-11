@@ -36,7 +36,6 @@
         </el-card>
       </el-main>
     </el-container>
-    <el-dialog :visible.sync="evaluateVisible"></el-dialog>
   </div>
 </template>
 
@@ -46,7 +45,6 @@ export default {
   data() {
     return {
       listData: [],
-      evaluateVisible: false,
       state: '00',
       stateList: [{
         name: '未开始',
@@ -90,7 +88,6 @@ export default {
       }
     },
     query: function() {
-      console.log(this.state);
       this.getData()
     }
   }
