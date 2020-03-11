@@ -4,7 +4,7 @@
       <el-row type="flex" justify="center">
         <el-col :span="12">
           <div class="header-logo">
-            XXX后台管理
+            企业员工培训管理
           </div>
         </el-col>
         <el-col :span="11">
